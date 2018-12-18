@@ -9,6 +9,13 @@
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
   gtag('config', 'UA-131010415-1');
+
+  function trackDownload(type, url) {
+    gtag('event', type, {
+      'event_category' : 'download',
+      'event_label' : url
+    });
+  }
 </script>
 
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
@@ -39,9 +46,23 @@
         <tr>
           <th scope="row">0.13.0-incubating</th>
           <td>18 Dec 2018</td>
-          <td><a href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.13.0-incubating/apache-druid-0.13.0-incubating-src.tar.gz">source</a> (<a href="https://www.apache.org/dist/incubator/druid/0.13.0-incubating/apache-druid-0.13.0-incubating-src.tar.gz.sha512">sha512</a> <a href="https://www.apache.org/dist/incubator/druid/0.13.0-incubating/apache-druid-0.13.0-incubating-src.tar.gz.asc">pgp</a>)</td>
-          <td><a href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.13.0-incubating/apache-druid-0.13.0-incubating-bin.tar.gz">binary</a> (<a href="https://www.apache.org/dist/incubator/druid/0.13.0-incubating/apache-druid-0.13.0-incubating-bin.tar.gz.sha512">sha512</a> <a href="https://www.apache.org/dist/incubator/druid/0.13.0-incubating/apache-druid-0.13.0-incubating-bin.tar.gz.asc">pgp</a>)</td>
-          <td><a href="https://github.com/apache/incubator-druid/releases/tag/druid-0.13.0-incubating">Release notes</a></td>
+          <td>
+            <a href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.13.0-incubating/apache-druid-0.13.0-incubating-src.tar.gz" onclick="trackDownload('click', 'https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.13.0-incubating/apache-druid-0.13.0-incubating-src.tar.gz');">source</a>
+
+            (<a href="https://www.apache.org/dist/incubator/druid/0.13.0-incubating/apache-druid-0.13.0-incubating-src.tar.gz.sha512" onclick="trackDownload('click', 'https://www.apache.org/dist/incubator/druid/0.13.0-incubating/apache-druid-0.13.0-incubating-src.tar.gz.sha512');">sha512</a>
+
+            <a href="https://www.apache.org/dist/incubator/druid/0.13.0-incubating/apache-druid-0.13.0-incubating-src.tar.gz.asc" onclick="trackDownload('click', 'https://www.apache.org/dist/incubator/druid/0.13.0-incubating/apache-druid-0.13.0-incubating-src.tar.gz.asc');">pgp</a>)
+          </td>
+          <td>
+            <a href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.13.0-incubating/apache-druid-0.13.0-incubating-bin.tar.gz" onclick="trackDownload('click', 'https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.13.0-incubating/apache-druid-0.13.0-incubating-bin.tar.gz');">binary</a>
+
+            (<a href="https://www.apache.org/dist/incubator/druid/0.13.0-incubating/apache-druid-0.13.0-incubating-bin.tar.gz.sha512" onclick="trackDownload('click', 'https://www.apache.org/dist/incubator/druid/0.13.0-incubating/apache-druid-0.13.0-incubating-bin.tar.gz.sha512');">sha512</a>
+
+            <a href="https://www.apache.org/dist/incubator/druid/0.13.0-incubating/apache-druid-0.13.0-incubating-bin.tar.gz.asc" onclick="trackDownload('click', 'https://www.apache.org/dist/incubator/druid/0.13.0-incubating/apache-druid-0.13.0-incubating-bin.tar.gz.asc');">pgp</a>)
+          </td>
+          <td>
+            <a href="https://github.com/apache/incubator-druid/releases/tag/druid-0.13.0-incubating">Release notes</a>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -57,6 +78,7 @@
 <div class="container">
   <div class="text-center">
     <p><i>Disclaimer:</i> Apache Druid is an effort undergoing incubation at <a href="https://www.apache.org/">The Apache Software Foundation (ASF)</a>, sponsored by the <a href="https://incubator.apache.org/">Apache Incubator</a>. Incubation is required of all newly accepted projects until a further review indicates that the infrastructure, communications, and decision making process have stabilized in a manner consistent with other successful ASF projects. While incubation status is not necessarily a reflection of the completeness or stability of the code, it does indicate that the project has yet to be fully endorsed by the ASF.</p>
+  </div>
 </div>
 </footer>
 
