@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>	
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Apache Druid">
+<meta name="keywords" content="druid,kafka,database,analytics,streaming,real-time,real time,apache,open source">
+<meta name="author" content="Apache Software Foundation">
+
+<title>Druid | Frequently Asked Questions</title>
+
+<link rel="alternate" type="application/atom+xml" href="/feed">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+<link href='//fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="/css/bootstrap-pure.css?v=1.0">
+<link rel="stylesheet" href="/css/main.css?v=1.0">
+<link rel="stylesheet" href="/css/header.css?v=1.0">
+<link rel="stylesheet" href="/css/footer.css?v=1.0">
+<link rel="stylesheet" href="/css/syntax.css?v=1.0">
+<link rel="stylesheet" href="/css/docs.css?v=1.0">
+
+<script>
+  (function() {
+    var cx = '000162378814775985090:molvbm0vggm';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+
+  </head>
+  <body>	
+    <!-- Start page_header include -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+
+<div class="top-navigator">
+  <div class="container">
+    <div class="left-cont">
+      <a class="logo" href="/"><span class="druid-logo"></span></a>
+    </div>
+    <div class="right-cont">
+      <ul class="links">
+        <li class=""><a href="/technology">Technology</a></li>
+        <li class=""><a href="/use-cases">Use Cases</a></li>
+        <li class=""><a href="/druid-powered">Powered By</a></li>
+        <li class=""><a href="/docs/latest/design/">Docs</a></li>
+        <li class=""><a href="https://druid.apache.org/community/">Community</a></li>
+        <li class=" button-link"><a href="/downloads.html">Download</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="action-button menu-icon">
+    <span class="fa fa-bars"></span> MENU
+  </div>
+  <div class="action-button menu-icon-close">
+    <span class="fa fa-times"></span> MENU
+  </div>
+</div>
+
+<script type="text/javascript">
+  var $menu = $('.right-cont');
+  var $menuIcon = $('.menu-icon');
+  var $menuIconClose = $('.menu-icon-close');
+
+  function showMenu() {
+    $menu.fadeIn(100);
+    $menuIcon.fadeOut(100);
+    $menuIconClose.fadeIn(100);
+  }
+
+  $menuIcon.click(showMenu);
+
+  function hideMenu() {
+    $menu.fadeOut(100);
+    $menuIconClose.fadeOut(100);
+    $menuIcon.fadeIn(100);
+  }
+
+  $menuIconClose.click(hideMenu);
+
+  $(window).resize(function() {
+    if ($(window).width() >= 840) {
+      $menu.fadeIn(100);
+      $menuIcon.fadeOut(100);
+      $menuIconClose.fadeOut(100);
+    }
+    else {
+      $menu.fadeOut(100);
+      $menuIcon.fadeIn(100);
+      $menuIconClose.fadeOut(100);
+    }
+  });
+</script>
+
+<!-- Stop page_header include -->
+
+
+    <div class="druid-header">
+  <div class="container">
+    <h1>Frequently Asked Questions</h1>
+    <h4>Don't see your question here? <a href='/community'>Ask us</a></h4>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-10 col-md-offset-1">
+      <h3 id="is-druid-a-data-warehouse-when-should-i-use-druid-over-redshift-bigquery-snowflake">Is Druid a data warehouse? When should I use Druid over Redshift/BigQuery/Snowflake?</h3>
+
+<p>Apache Druid (incubating) is a new type of database to power real-time analytic workloads for
+event-driven data, and isn’t a traditional data warehouse.  Although Druid
+incorporates architecture ideas from data warehouses such as column-oriented
+storage, Druid also incorporates designs from search systems and timeseries
+databases. Druid&#39;s architecture is designed to handle many use cases that
+traditional data warehouses cannot.</p>
+
+<p>Druid offers the following advantages over traditional data warehouses:</p>
+
+<ul>
+<li>Low latency streaming ingest, and direct integration with messages buses such as
+Apache Kafka.</li>
+<li>Time-based partitioning, which enables performant time-based
+queries.</li>
+<li>Fast search and filter, for fast ad-hoc slice and dice.</li>
+<li>Minimal schema design, and native support for semi-structured and nested data.</li>
+</ul>
+
+<p>Consider using Druid over a data warehouse if you have streaming data, and
+require low-latency ingest as well as low-latency queries. Also consider Druid
+if you need ad-hoc analytics. Druid is great for slice and dice and drill
+downs. Druid is also often used over a data warehouse to power interactive
+applications, where support for high concurrency queries is required.</p>
+
+<h3 id="is-druid-a-sql-on-hadoop-solution-when-should-i-use-druid-over-presto-hive">Is Druid a SQL-on-Hadoop solution? When should I use Druid over Presto/Hive?</h3>
+
+<p>Druid supports SQL and can load data from Hadoop, but is not a SQL-on-Hadoop
+system. Modern SQL-on-Hadoop solutions are used for the same use cases as data
+warehouses, except they are designed for architectures where compute and
+storage are separated systems, and data is loaded from storage into the compute
+layer as needed by queries.</p>
+
+<p>The previous section on Druid vs data warehouses also applies to Druid versus
+SQL-on-Hadoop solutions.</p>
+
+<h3 id="is-druid-a-log-aggregation-log-search-system-when-should-i-use-druid-over-elastic-splunk">Is Druid a log aggregation/log search system? When should I use Druid over Elastic/Splunk?</h3>
+
+<p>Druid uses inverted indexes (in particular, compressed bitmaps) for fast searching and filtering, but it is not generally considered a search system.
+While Druid contains many features commonly found in search systems, such as the ability to stream in structured and semi-structured data and the ability to search and filter the data, Druid isn’t commonly used to ingest text logs and run full text search queries over the text logs.
+However, Druid is often used to ingest and analyze semi-structured data such as JSON.</p>
+
+<p>Druid at its core is an analytics engine and as such, it can support numerical aggregations, groupBys (including multi-dimensional groupBys), and other analytic workloads faster and more efficiently than search systems.</p>
+
+<h3 id="is-druid-a-timeseries-database-when-should-i-use-druid-over-influxdb-opentsdb-prometheus">Is Druid a timeseries database? When should I use Druid over InfluxDB/OpenTSDB/Prometheus?</h3>
+
+<p>Druid does share some characteristics with timeseries databases, but also
+combines ideas from analytic databases and search systems.  Like in timeseries
+databases, Druid is optimized for data where a timestamp is present.  Druid
+partitions data by time, and queries that include a time filter will be
+significantly faster than those that do not.  Aggregating metrics and filtering
+on dimensions (which are roughly equivalent to TSDBs&#39; tags) are also very fast when a
+time filter is present.  However, because Druid incorporates many architectural designs
+from analytics databases and search systems, it can significantly
+outperformance TSDBs when grouping, searching, and filtering on tags that are
+not time, or when computing complex metrics such as histograms and quantiles.</p>
+
+<h3 id="how-is-druid-deployed">How is Druid deployed?</h3>
+
+<p>Druid can be deployed on commodity hardware in any *NIX based environment.
+A Druid cluster consists of several different processes, each designed to do a small set of things very well (ingestion, querying, coordination, etc).
+Many of these processes can be co-located and deployed together on the same hardware as described <a href="/docs/latest/tutorials/quickstart">here</a>.</p>
+
+<p>Druid was initially created in the cloud, and runs well in AWS, GCP, Azure, and other cloud environments.</p>
+
+<h3 id="where-does-druid-fit-in-my-existing-hadoop-based-data-stack">Where does Druid fit in my existing Hadoop-based data stack?</h3>
+
+<p>Druid typically connects to a source of raw data such as a message bus such as Apache Kafka, or a filesystem such as HDFS.
+Druid ingests an optimized, column-oriented, indexed copy of your data and serves analytics workloads on top of it.</p>
+
+<p>A common streaming data oriented setup involving Druid looks like this:
+Raw data → Kafka → Stream processor (optional, typically for ETL) → Kafka (optional) → Druid → Application/user</p>
+
+<p>A common batch/static file oriented setup involving Druid looks like this:
+Raw data → Kafka (optional) → HDFS → ETL process (optional) → Druid → Application/user</p>
+
+<p>The same Druid cluster can serve both the streaming and batch path.</p>
+
+<h3 id="is-druid-in-memory">Is Druid in-memory?</h3>
+
+<p>The earliest iterations of Druid didn’t allow for data to be paged in from
+and out to disk, so it was often called an “in-memory” database. As Druid
+evolved, this limitation was removed. To provide a balance between hardware
+cost and query performance, Druid leverages memory-mapping to page data between
+disk and memory and extend the amount of data a single node can load up to the
+size of its disks.</p>
+
+<p>Individual Historicals can be configured with the maximum amount of data
+they should be given.  Coupled with the Coordinator’s ability to assign data to
+different “tiers” based on different query requirements, Druid is essentially a
+system that can be configured across a wide spectrum of performance
+requirements. All data can be in memory and processed, or data can be heavily
+over-committed compared to the amount of memory available. Druid can also
+support complex configurations, such as configuring the most recent month of
+data in memory, while everything else is over-committed.</p>
+
+    </div>
+  </div>
+</div>
+
+    
+    <!-- Start page_footer include -->
+<footer class="druid-footer">
+<div class="container">
+  <div class="text-center">
+    <p>
+    <a href="/technology">Technology</a>&ensp;·&ensp;
+    <a href="/use-cases">Use Cases</a>&ensp;·&ensp;
+    <a href="/druid-powered">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/docs/latest">Docs</a>&ensp;·&ensp;
+    <a href="https://druid.apache.org/community/">Community</a>&ensp;·&ensp;
+    <a href="/downloads.html">Download</a>&ensp;·&ensp;
+    <a href="/faq">FAQ</a>
+    </p>
+  </div>
+  <div class="text-center">
+    <a title="Join the user group" href="https://groups.google.com/forum/#!forum/druid-user" target="_blank"><span class="fa fa-comments"></span></a>&ensp;·&ensp;
+    <a title="Follow Druid" href="https://twitter.com/druidio" target="_blank"><span class="fab fa-twitter"></span></a>&ensp;·&ensp;
+    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid//apache-druid--bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
+    <a title="GitHub" href="https://github.com/apache/incubator-druid" target="_blank"><span class="fab fa-github"></span></a>
+  </div>
+  <div class="text-center license">
+    Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+  </div>
+</div>
+</footer>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-40280432-1', 'auto');
+  ga('set', 'anonymizeIp', true);
+  ga('send', 'pageview');
+
+</script>
+<script>
+  function trackDownload(type, url) {
+    ga('send', 'event', 'download', type, url);
+  }
+</script>
+<script src="//code.jquery.com/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/assets/js/druid.js"></script>
+<!-- stop page_footer include -->
+
+    
+  </body>
+</html>
