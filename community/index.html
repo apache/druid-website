@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+  <head>	
     <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="Apache Druid">
@@ -9,7 +9,6 @@
 
 <title>Druid | Apache Druid (incubating) Community</title>
 
-<link rel="canonical" href="https://druid.apache.org/community/" />
 <link rel="alternate" type="application/atom+xml" href="/feed">
 <link rel="shortcut icon" href="/img/favicon.png">
 
@@ -24,15 +23,22 @@
 <link rel="stylesheet" href="/css/syntax.css?v=1.0">
 <link rel="stylesheet" href="/css/docs.css?v=1.0">
 
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-131010415-1"></script>
 <script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'UA-131010415-1');
+  (function() {
+    var cx = '000162378814775985090:molvbm0vggm';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
 </script>
+
+
   </head>
-  <body>
+  <body>	
     <!-- Start page_header include -->
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 
@@ -43,12 +49,12 @@
     </div>
     <div class="right-cont">
       <ul class="links">
-        <li class=""><a href="http://druid.io/technology">Technology</a></li>
+        <li class=""><a href="/technology">Technology</a></li>
         <li class=""><a href="/use-cases">Use Cases</a></li>
-        <li class=""><a href="http://druid.io/druid-powered">Powered By</a></li>
-        <li class=""><a href="http://druid.io/docs/latest/design/">Docs</a></li>
+        <li class=""><a href="/druid-powered">Powered By</a></li>
+        <li class=""><a href="/docs/latest/design/">Docs</a></li>
         <li class=" active"><a href="/community/">Community</a></li>
-        <li class=" button-link"><a href="http://druid.io/downloads.html">Download</a></li>
+        <li class=" button-link"><a href="/downloads.html">Download</a></li>
       </ul>
     </div>
   </div>
@@ -150,9 +156,9 @@ into, or adding features you need, are both immensely helpful.</p>
 for new developers.</p>
 
 <p>There are plenty of ways to help outside writing Druid code. <em>Code review of pull requests</em>
-(even if you are not a committer), feature suggestions, reporting bugs, <a href="http://druid.io/docs/0.14.2-incubating/">documentation</a>
+(even if you are not a committer), feature suggestions, reporting bugs, <a href="/docs//">documentation</a>
 and usability feedback all matter immensely. Another big way to help is
-through <a href="http://druid.io/docs/latest/development/libraries.html">client libraries</a>, which are
+through <a href="/docs/latest/development/libraries.html">client libraries</a>, which are
 avaialble in a variety of languages. If you develop a new one, we&#39;ll be happy
 to include it in the list.</p>
 
@@ -165,7 +171,7 @@ exception is major architectural changes or API changes, and/or changes to</p>
 
 <ul>
 <li>HTTP requests and responses (e. g. a new HTTP endpoint)</li>
-<li><a href="http://druid.io/docs/latest/development/modules.html">Interfaces for extensions</a></li>
+<li><a href="/docs/latest/development/modules.html">Interfaces for extensions</a></li>
 <li>Server configuration (e. g. altering the behavior of a config property)</li>
 <li>Emitted metrics</li>
 <li>Other major changes, judged by the discretion of Druid committers</li>
@@ -181,7 +187,7 @@ possible.</p>
 
 <p>For code contributions, we require that you agree to a Contributor License
 Agreement (CLA) before we can accept your code. You can find our CLA on and
-sign it directly on our <a href="http://druid.io/community/cla.html">CLA page</a></p>
+sign it directly on our <a href="/community/cla.html">CLA page</a></p>
 
 <h3 id="committers">Committers</h3>
 
@@ -370,19 +376,19 @@ mailing lists, websites, social media channels, etc.</li>
   </div>
 </div>
 
-
+    
     <!-- Start page_footer include -->
 <footer class="druid-footer">
 <div class="container">
   <div class="text-center">
     <p>
-    <a href="http://druid.io/technology">Technology</a>&ensp;·&ensp;
+    <a href="/technology">Technology</a>&ensp;·&ensp;
     <a href="/use-cases">Use Cases</a>&ensp;·&ensp;
-    <a href="http://druid.io/druid-powered">Powered by Druid</a>&ensp;·&ensp;
-    <a href="http://druid.io/docs/latest">Docs</a>&ensp;·&ensp;
+    <a href="/druid-powered">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/docs/latest">Docs</a>&ensp;·&ensp;
     <a href="/community/">Community</a>&ensp;·&ensp;
-    <a href="http://druid.io/downloads.html">Download</a>&ensp;·&ensp;
-    <a href="http://druid.io/faq">FAQ</a>
+    <a href="/downloads.html">Download</a>&ensp;·&ensp;
+    <a href="/faq">FAQ</a>
     </p>
   </div>
   <div class="text-center">
@@ -397,6 +403,13 @@ mailing lists, websites, social media channels, etc.</li>
 </div>
 </footer>
 
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-131010415-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-131010415-1');
+</script>
 <script>
   function trackDownload(type, url) {
     ga('send', 'event', 'download', type, url);
@@ -407,6 +420,6 @@ mailing lists, websites, social media channels, etc.</li>
 <script src="/assets/js/druid.js"></script>
 <!-- stop page_footer include -->
 
-
+    
   </body>
 </html>
