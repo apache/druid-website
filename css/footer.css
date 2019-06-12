@@ -1,11 +1,12 @@
 footer {
-  line-height: 1.8em; }
+  line-height: 1.4em; }
   footer a:hover {
     color: #4460de; }
   footer .license {
     margin-top: 12px;
     font-size: 11px;
-    color: #aaa; }
+    color: #aaa;
+    line-height: 1.4em; }
     footer .license a:hover {
       text-decoration: underline; }
 
