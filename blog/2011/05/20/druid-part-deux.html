@@ -137,22 +137,22 @@
         <h1>Druid, Part Deux: Three Principles for Fast, Distributed OLAP</h1>
         <p class="text-muted">by <span class="author text-uppercase">Eric Tschetter</span> · May 20, 2011</p>
 
-        <p>In a <a href="http://druid.io/blog/2011/04/30/introducing-druid.html">previous blog
+        <p>In a <a href="/blog/2011/04/30/introducing-druid.html">previous blog
 post</a> we introduced the
 distributed indexing and query processing infrastructure we call Druid. In that
 post, we characterized the performance and scaling challenges that motivated us
 to build this system in the first place. Here, we discuss three design
 principles underpinning its architecture.</p>
 
-<p><strong>1. Partial Aggregates + In-Memory + Indexes =&gt; Fast Queries</strong> </p>
+<p><strong>1. Partial Aggregates + In-Memory + Indexes =&gt; Fast Queries</strong></p>
 
 <p>We work with two representations of our data: <em>alpha</em> represents the raw,
 unaggregated event logs, while <em>beta</em> is its partially aggregated derivative.
 This <em>beta</em> is the basis against which all further queries are evaluated:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>2011-01-01T01:00:00Z  ultratrimfast.com  google.com  Male    USA  1800  25  15.70 
-2011-01-01T01:00:00Z  bieberfever.com    google.com  Male    USA  2912  42  29.18 
-2011-01-01T02:00:00Z  ultratrimfast.com  google.com  Male    UK   1953  17  17.31 
-2011-01-01T02:00:00Z  bieberfever.com    google.com  Male    UK   3194  170 34.01 
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>2011-01-01T01:00:00Z  ultratrimfast.com  google.com  Male    USA  1800  25  15.70
+2011-01-01T01:00:00Z  bieberfever.com    google.com  Male    USA  2912  42  29.18
+2011-01-01T02:00:00Z  ultratrimfast.com  google.com  Male    UK   1953  17  17.31
+2011-01-01T02:00:00Z  bieberfever.com    google.com  Male    UK   3194  170 34.01
 </code></pre></div>
 <p>This is the most compact representation that preserves the finest grain of data,
 while enabling on-the-fly computation of all O(2^n) possible dimensional
@@ -168,7 +168,7 @@ calculation (using AND &amp; OR operations) of rows matching a search query. The
 inverted index enables us to scan a limited subset of rows to compute final
 query results – and these scans are themselves distributed, as we discuss next.</p>
 
-<p><strong>2. Distributed Data + Parallelizable Queries =&gt; Horizontal Scalability</strong> </p>
+<p><strong>2. Distributed Data + Parallelizable Queries =&gt; Horizontal Scalability</strong></p>
 
 <p>Druid’s performance depends on having memory — lots of it. We achieve the requisite
 memory scale by dynamically distributing data across a cluster of nodes. As the
@@ -200,13 +200,13 @@ dramatically improves performance.</p>
 <ul>
 <li>Segments are read-only, so they can simultaneously serve multiple servers. If
 we have a hotspot in a particular index, we can replicate that index to
-multiple servers and load balance across them.<br></li>
+multiple servers and load balance across them.</li>
 <li>We can provide tiered classes of service for our data, with servers occupying
-different points in the “query latency vs. data size” spectrum </li>
+different points in the “query latency vs. data size” spectrum</li>
 <li>Our clusters can span data center boundaries</li>
 </ul>
 
-<p><strong>3. Real-Time Analytics: Immutable Past, Append-Only Future</strong> </p>
+<p><strong>3. Real-Time Analytics: Immutable Past, Append-Only Future</strong></p>
 
 <p>Our system for real-time analytics is centered, naturally, on time. Because past events
 happen once and never change, they need not be re-writable. We need only be
@@ -225,7 +225,7 @@ for addressing segments, rather than loading them all into memory. This
 provides access to long-range data while maintaining the high-performance that
 our customers expect for near-term data.</p>
 
-<h2 id="summary">Summary##</h2>
+<h2 id="summary">Summary</h2>
 
 <p>Druid’s power resides in providing users fast, arbitrarily deep
 exploration of large-scale transaction data. Queries over billions of rows,

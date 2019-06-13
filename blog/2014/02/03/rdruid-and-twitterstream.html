@@ -134,7 +134,7 @@
         <h1>RDruid and Twitterstream</h1>
         <p class="text-muted">by <span class="author text-uppercase">Igal Levy</span> · February  3, 2014</p>
 
-        <p>What if you could combine a statistical analysis language with the power of an analytics database for instant insights into realtime data? You&#39;d be able to draw conclusions from analyzing data streams at the speed of now. That&#39;s what combining the prowess of a <a href="http://druid.io">Druid database</a> with the power of <a href="http://www.r-project.org">R</a> can do.</p>
+        <p>What if you could combine a statistical analysis language with the power of an analytics database for instant insights into realtime data? You&#39;d be able to draw conclusions from analyzing data streams at the speed of now. That&#39;s what combining the prowess of a <a href="">Druid database</a> with the power of <a href="http://www.r-project.org">R</a> can do.</p>
 
 <p>In this blog, we&#39;ll look at how to bring streamed realtime data into R using nothing more than a laptop, an Internet connection, and open-source applications. And we&#39;ll do it with <em>only one</em> Druid node.</p>
 
@@ -149,7 +149,7 @@ We also recommend using <a href="http://www.rstudio.com/">RStudio</a> as the R I
 
 <h2 id="set-up-the-twitterstream">Set Up the Twitterstream</h2>
 
-<p>First, register with the Twitter API. Log in at the <a href="https://dev.twitter.com/apps/new">Twitter developer&#39;s site</a> (you can use your normal Twitter credentials) and fill out the form for creating an application; use any website and callback URL to complete the form. </p>
+<p>First, register with the Twitter API. Log in at the <a href="https://dev.twitter.com/apps/new">Twitter developer&#39;s site</a> (you can use your normal Twitter credentials) and fill out the form for creating an application; use any website and callback URL to complete the form.</p>
 
 <p>Make note of the API credentials that are then generated. Later you&#39;ll need to enter them when prompted by the Twitter-example startup script, or save them in a <code>twitter4j.properties</code> file (nicer if you ever restart the server). If using a properties file, save it under <code>$DRUID_HOME/examples/twitter</code>. The file should contains the following (using your real keys):</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>oauth.consumerKey=&lt;yourTwitterConsumerKey&gt;
@@ -162,7 +162,7 @@ oauth.accessTokenSecret=&lt;yourTwitterAccessTokenSecret&gt;
 <p>From the Druid home directory, start the Druid Realtime node:</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>$DRUID_HOME/run_example_server.sh
 </code></pre></div>
-<p>When prompted, you&#39;ll choose the &quot;twitter&quot; example. If you&#39;re using the properties file, the server should start right up. Otherwise, you&#39;ll have to answer the prompts with the credentials you obtained from Twitter. </p>
+<p>When prompted, you&#39;ll choose the &quot;twitter&quot; example. If you&#39;re using the properties file, the server should start right up. Otherwise, you&#39;ll have to answer the prompts with the credentials you obtained from Twitter.</p>
 
 <p>After the Realtime node starts successfully, you should see &quot;Connected_to_Twitter&quot; printed, as well as messages similar to the following:</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>2014-01-13 19:35:59,646 INFO [chief-twitterstream] druid.examples.twitter.TwitterSpritzerFirehoseFactory - nextRow() has returned 1,000 InputRows
@@ -187,7 +187,7 @@ library(ggplot2)
 </code></pre></div>
 <h2 id="querying-the-realtime-node">Querying the Realtime Node</h2>
 
-<p><a href="http://druid.io/docs/latest/Tutorial:-All-About-Queries.html">Druid queries</a> are in the format of JSON objects, but in R they&#39;ll have a different format. Let&#39;s look at this with a simple query that will give the time range of the Twitter data currently in our Druid node:</p>
+<p><a href="/docs/latest/Tutorial:-All-About-Queries.html">Druid queries</a> are in the format of JSON objects, but in R they&#39;ll have a different format. Let&#39;s look at this with a simple query that will give the time range of the Twitter data currently in our Druid node:</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>&gt; druid.query.timeBoundary(druid, dataSource=&quot;twitterstream&quot;, intervals=interval(ymd(20140101), ymd(20141231)), verbose=&quot;true&quot;)
 </code></pre></div>
 <p>Let&#39;s break this query down:</p>
@@ -231,21 +231,21 @@ Content-Length: 151
 &lt; Transfer-Encoding: chunked
 * Server Jetty(8.1.11.v20130520) is not blacklisted
 &lt; Server: Jetty(8.1.11.v20130520)
-&lt; 
+&lt;
 * Connection #2 to host localhost left intact
-                  minTime                   maxTime 
-&quot;2014-01-25 00:52:00 UTC&quot; &quot;2014-01-25 01:35:00 UTC&quot; 
+                  minTime                   maxTime
+&quot;2014-01-25 00:52:00 UTC&quot; &quot;2014-01-25 01:35:00 UTC&quot;
 </code></pre></div>
 <p>At the very end comes the response to our query, a minTime and maxTime, the boundaries to our data set.</p>
 
 <h3 id="more-complex-queries">More Complex Queries</h3>
 
 <p>Now lets look at some real Twitter data. Say we are interested in the number of tweets per language during that time period. We need to do an aggregation via a groupBy query (see RDruid help in RStudio):</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>druid.query.groupBy(druid, dataSource=&quot;twitterstream&quot;, 
-                    interval(ymd(&quot;2014-01-01&quot;), ymd(&quot;2015-01-01&quot;)), 
-                    granularity=granularity(&quot;P1D&quot;), 
-                    aggregations = (tweets = sum(metric(&quot;tweets&quot;))), 
-                    dimensions = &quot;lang&quot;, 
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>druid.query.groupBy(druid, dataSource=&quot;twitterstream&quot;,
+                    interval(ymd(&quot;2014-01-01&quot;), ymd(&quot;2015-01-01&quot;)),
+                    granularity=granularity(&quot;P1D&quot;),
+                    aggregations = (tweets = sum(metric(&quot;tweets&quot;))),
+                    dimensions = &quot;lang&quot;,
                     verbose=&quot;true&quot;)
 </code></pre></div>
 <p>We see some new arguments in this query:</p>
@@ -306,7 +306,7 @@ Content-Length: 489
 &lt; Transfer-Encoding: chunked
 * Server Jetty(8.1.11.v20130520) is not blacklisted
 &lt; Server: Jetty(8.1.11.v20130520)
-&lt; 
+&lt;
 * Connection #3 to host localhost left intact
     timestamp tweets  lang
 1  2014-01-25   6476    ar
@@ -359,12 +359,12 @@ Content-Length: 489
 <div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>ggplot(major_tweet_langs, aes(x=lang, y=tweets)) + geom_bar(stat=&quot;identity&quot;)
 </code></pre></div>
 <p>You can refine this query with more aggregations and post aggregations (math within the results). For example, to find out how many rows in Druid the data for each of those languages takes, use:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>druid.query.groupBy(druid, dataSource=&quot;twitterstream&quot;, 
-                    interval(ymd(&quot;2014-01-01&quot;), ymd(&quot;2015-01-01&quot;)), 
-                    granularity=granularity(&quot;all&quot;), 
-                    aggregations = list(rows = druid.count(), 
-                                        tweets = sum(metric(&quot;tweets&quot;))), 
-                    dimensions = &quot;lang&quot;, 
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>druid.query.groupBy(druid, dataSource=&quot;twitterstream&quot;,
+                    interval(ymd(&quot;2014-01-01&quot;), ymd(&quot;2015-01-01&quot;)),
+                    granularity=granularity(&quot;all&quot;),
+                    aggregations = list(rows = druid.count(),
+                                        tweets = sum(metric(&quot;tweets&quot;))),
+                    dimensions = &quot;lang&quot;,
                     verbose=&quot;true&quot;)
 </code></pre></div>
 <h2 id="metrics-and-dimensions">Metrics and Dimensions</h2>
@@ -380,10 +380,10 @@ Content-Length: 489
 </ul>
 
 <p>Some interesting analyses on current events could be done using these dimensions and metrics. For example, you could filter on specific hashtags for events that happen to be spiking at the time:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>druid.query.groupBy(druid, dataSource=&quot;twitterstream&quot;, 
-                interval(ymd(&quot;2014-01-01&quot;), ymd(&quot;2015-01-01&quot;)), 
-                granularity=granularity(&quot;P1D&quot;), 
-                aggregations = (tweets = sum(metric(&quot;tweets&quot;))), 
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>druid.query.groupBy(druid, dataSource=&quot;twitterstream&quot;,
+                interval(ymd(&quot;2014-01-01&quot;), ymd(&quot;2015-01-01&quot;)),
+                granularity=granularity(&quot;P1D&quot;),
+                aggregations = (tweets = sum(metric(&quot;tweets&quot;))),
                 filter =
                     dimension(&quot;first_hashtag&quot;) %~% &quot;academyawards&quot; |
                     dimension(&quot;first_hashtag&quot;) %~% &quot;oscars&quot;,
@@ -391,7 +391,7 @@ Content-Length: 489
 </code></pre></div>
 <p>See the <a href="https://github.com/metamx/RDruid/wiki/Examples">RDruid wiki</a> for more examples.</p>
 
-<p>The point to remember is that this data is being streamed into Druid and brought into R via RDruid in realtime. For example, with an R script the data could be continuously queried, updated, and analyzed. </p>
+<p>The point to remember is that this data is being streamed into Druid and brought into R via RDruid in realtime. For example, with an R script the data could be continuously queried, updated, and analyzed.</p>
 
       </div>
     </div>
