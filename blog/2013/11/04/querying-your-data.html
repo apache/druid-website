@@ -181,7 +181,7 @@ com.metamx.druid.http.ComputeMain
 </code></pre></div>
 <h1 id="querying-your-data">Querying Your Data</h1>
 
-<p>Now that we have a complete cluster setup on localhost, we need to load data. To do so, refer to <a href="http://druid.io/blog/2013/08/30/loading-data.html">Loading Your Data</a>. Having done that, its time to query our data!</p>
+<p>Now that we have a complete cluster setup on localhost, we need to load data. To do so, refer to <a href="/blog/2013/08/30/loading-data.html">Loading Your Data</a>. Having done that, its time to query our data!</p>
 
 <h2 id="querying-different-nodes">Querying Different Nodes</h2>
 
@@ -258,7 +258,7 @@ com.metamx.druid.http.ComputeMain
 
 <h2 id="querying-against-the-realtime-spec">Querying Against the realtime.spec</h2>
 
-<p>How are we to know what queries we can run? Although <a href="http://druid.io/docs/latest/Querying.html">Querying</a> is a helpful index, to get a handle on querying our data we need to look at our Realtime node&#39;s realtime.spec file:</p>
+<p>How are we to know what queries we can run? Although <a href="/docs/latest/Querying.html">Querying</a> is a helpful index, to get a handle on querying our data we need to look at our Realtime node&#39;s realtime.spec file:</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">[{</span>
   <span class="nt">&quot;schema&quot;</span> <span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span><span class="s2">&quot;druidtest&quot;</span><span class="p">,</span>
                <span class="nt">&quot;aggregators&quot;</span><span class="p">:[</span> <span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;count&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="s2">&quot;impressions&quot;</span><span class="p">},</span>
@@ -295,7 +295,7 @@ com.metamx.druid.http.ComputeMain
 
 <h3 id="aggregations">aggregations</h3>
 
-<p>Note the <a href="http://druid.io/docs/latest/Aggregations.html">aggregations</a> in our query:</p>
+<p>Note the <a href="/docs/latest/Aggregations.html">aggregations</a> in our query:</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span>    <span class="s2">&quot;aggregations&quot;</span><span class="err">:</span> <span class="p">[</span>
         <span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;count&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;rows&quot;</span><span class="p">},</span>
         <span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;longSum&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;imps&quot;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span><span class="p">:</span> <span class="s2">&quot;impressions&quot;</span><span class="p">},</span>
@@ -308,7 +308,7 @@ com.metamx.druid.http.ComputeMain
 </code></pre></div>
 <h3 id="dimensions">dimensions</h3>
 
-<p>Lets look back at our actual records (from <a href="http://druid.io/blog/2013/08/30/loading-data.html">Loading Your Data</a>:</p>
+<p>Lets look back at our actual records (from <a href="/blog/2013/08/30/loading-data.html">Loading Your Data</a>:</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span><span class="nt">&quot;utcdt&quot;</span><span class="p">:</span> <span class="s2">&quot;2010-01-01T01:01:01&quot;</span><span class="p">,</span> <span class="nt">&quot;wp&quot;</span><span class="p">:</span> <span class="mi">1000</span><span class="p">,</span> <span class="nt">&quot;gender&quot;</span><span class="p">:</span> <span class="s2">&quot;male&quot;</span><span class="p">,</span> <span class="nt">&quot;age&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">}</span>
 <span class="p">{</span><span class="nt">&quot;utcdt&quot;</span><span class="p">:</span> <span class="s2">&quot;2010-01-01T01:01:02&quot;</span><span class="p">,</span> <span class="nt">&quot;wp&quot;</span><span class="p">:</span> <span class="mi">2000</span><span class="p">,</span> <span class="nt">&quot;gender&quot;</span><span class="p">:</span> <span class="s2">&quot;female&quot;</span><span class="p">,</span> <span class="nt">&quot;age&quot;</span><span class="p">:</span> <span class="mi">50</span><span class="p">}</span>
 <span class="p">{</span><span class="nt">&quot;utcdt&quot;</span><span class="p">:</span> <span class="s2">&quot;2010-01-01T01:01:03&quot;</span><span class="p">,</span> <span class="nt">&quot;wp&quot;</span><span class="p">:</span> <span class="mi">3000</span><span class="p">,</span> <span class="nt">&quot;gender&quot;</span><span class="p">:</span> <span class="s2">&quot;male&quot;</span><span class="p">,</span> <span class="nt">&quot;age&quot;</span><span class="p">:</span> <span class="mi">20</span><span class="p">}</span>
@@ -408,11 +408,11 @@ com.metamx.druid.http.ComputeMain
   <span class="p">}</span>
 <span class="p">}</span> <span class="p">]</span>
 </code></pre></div>
-<p>Check out <a href="http://druid.io/docs/latest/Filters.html">Filters</a> for more.</p>
+<p>Check out <a href="/docs/latest/Filters.html">Filters</a> for more.</p>
 
 <h2 id="learn-more">Learn More</h2>
 
-<p>Finally, you can learn more about querying at <a href="http://druid.io/docs/latest/Querying.html">Querying</a>!</p>
+<p>Finally, you can learn more about querying at <a href="/docs/latest/Querying.html">Querying</a>!</p>
 
       </div>
     </div>
