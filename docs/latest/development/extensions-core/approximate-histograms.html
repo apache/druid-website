@@ -239,11 +239,6 @@ query.</p>
 <td>Restrict the approximation to the given range. The values outside this range will be aggregated into two centroids. Counts of values outside this range are still maintained.</td>
 <td>-INF/+INF</td>
 </tr>
-<tr>
-<td><code>finalizeAsBase64Binary</code></td>
-<td>If true, the finalized aggregator value will be a Base64-encoded byte array containing the serialized form of the histogram. If false, the finalized aggregator value will be a JSON representation of the histogram.</td>
-<td>false</td>
-</tr>
 </tbody></table>
 
 <h2 id="fixed-buckets-histogram">Fixed Buckets Histogram</h2>
@@ -301,11 +296,6 @@ query.</p>
 <td><code>outlierHandlingMode</code></td>
 <td>Specifies how values outside of [lowerLimit, upperLimit] will be handled. Supported modes are &quot;ignore&quot;, &quot;overflow&quot;, and &quot;clip&quot;. See <a href="#outlier-handling-modes">outlier handling modes</a> for more details.</td>
 <td>No default, must be specified</td>
-</tr>
-<tr>
-<td><code>finalizeAsBase64Binary</code></td>
-<td>If true, the finalized aggregator value will be a Base64-encoded byte array containing the <a href="#serialization-formats">serialized form</a> of the histogram. If false, the finalized aggregator value will be a JSON representation of the histogram.</td>
-<td>false</td>
 </tr>
 </tbody></table>
 

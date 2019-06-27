@@ -211,7 +211,7 @@ amounts of data in parallel.</p>
 </tr>
 <tr>
 <td>batchSize</td>
-<td>The maximum number of rows buffered before being returned to the client. Default is <code>20480</code></td>
+<td>How many rows buffered before return to client. Default is <code>20480</code></td>
 <td>no</td>
 </tr>
 <tr>
@@ -355,9 +355,9 @@ the query context (see the Query Context Properties section).</p>
 In legacy mode you can expect the following behavior changes:</p>
 
 <ul>
-<li>The <code>__time</code> column is returned as <code>&quot;timestamp&quot;</code> rather than <code>&quot;__time&quot;</code>. This will take precedence over any other column
-you may have that is named <code>&quot;timestamp&quot;</code>.</li>
-<li>The <code>__time</code> column is included in the list of columns even if you do not specifically ask for it.</li>
+<li>The <strong>time column is returned as &quot;timestamp&quot; rather than &quot;</strong>time&quot;. This will take precedence over any other column
+you may have that is named &quot;timestamp&quot;.</li>
+<li>The __time column is included in the list of columns even if you do not specifically ask for it.</li>
 <li>Timestamps are returned as ISO8601 time strings rather than integers (milliseconds since 1970-01-01 00:00:00 UTC).</li>
 </ul>
 

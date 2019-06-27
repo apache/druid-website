@@ -146,12 +146,12 @@
   ~ under the License.
   -->
 
-<p>&lt;!-- 
-    The format of the tables that describe the functions and operators 
-    should not be changed without updating the script create-sql-function-doc 
-    in web-console/script/create-sql-function-doc, because the script detects
-    patterns in this markdown file and parse it to TypeScript file for web console
-   --&gt;</p>
+<!--
+  The format of the tables that describe the functions and operators
+  should not be changed without updating the script create-sql-function-doc
+  in web-console/script/create-sql-function-doc, because the script detects
+  patterns in this markdown file and parse it to TypeScript file for web console
+-->
 
 <h1 id="sql">SQL</h1>
 
@@ -165,6 +165,9 @@ parser and planner based on <a href="https://calcite.apache.org/">Apache Calcite
 queries on the query Broker (the first process you query), which are then passed down to data processes as native Druid
 queries. Other than the (slight) overhead of translating SQL on the Broker, there isn&#39;t an additional performance
 penalty versus native queries.</p>
+
+<p>To enable Druid SQL, make sure you have set <code>druid.sql.enable = true</code> either in your common.runtime.properties or your
+Broker&#39;s runtime.properties.</p>
 
 <h2 id="query-syntax">Query syntax</h2>
 
@@ -292,30 +295,6 @@ possible for two aggregators in the same SQL query to have different filters.</p
 <tr>
 <td><code>BLOOM_FILTER(expr, numEntries)</code></td>
 <td>Computes a bloom filter from values produced by <code>expr</code>, with <code>numEntries</code> maximum number of distinct values before false positve rate increases. See <a href="../development/extensions-core/bloom-filter.html">bloom filter extension</a> documentation for additional details.</td>
-</tr>
-<tr>
-<td><code>VAR_POP(expr)</code></td>
-<td>Computes variance population of <code>expr</code>. See <a href="../development/extensions-core/stats.html">stats extension</a> documentation for additional details.</td>
-</tr>
-<tr>
-<td><code>VAR_SAMP(expr)</code></td>
-<td>Computes variance sample of <code>expr</code>. See <a href="../development/extensions-core/stats.html">stats extension</a> documentation for additional details.</td>
-</tr>
-<tr>
-<td><code>VARIANCE(expr)</code></td>
-<td>Computes variance sample of <code>expr</code>. See <a href="../development/extensions-core/stats.html">stats extension</a> documentation for additional details.</td>
-</tr>
-<tr>
-<td><code>STDDEV_POP(expr)</code></td>
-<td>Computes standard deviation population of <code>expr</code>. See <a href="../development/extensions-core/stats.html">stats extension</a> documentation for additional details.</td>
-</tr>
-<tr>
-<td><code>STDDEV_SAMP(expr)</code></td>
-<td>Computes standard deviation sample of <code>expr</code>. See <a href="../development/extensions-core/stats.html">stats extension</a> documentation for additional details.</td>
-</tr>
-<tr>
-<td><code>STDDEV(expr)</code></td>
-<td>Computes standard deviation sample of <code>expr</code>. See <a href="../development/extensions-core/stats.html">stats extension</a> documentation for additional details.</td>
 </tr>
 </tbody></table>
 
@@ -571,10 +550,6 @@ context parameter &quot;sqlTimeZone&quot; to the name of another time zone, like
 the connection time zone, some functions also accept time zones as parameters. These parameters always take precedence
 over the connection time zone.</p>
 
-<p>Literal timestamps in the connection time zone can be written using <code>TIMESTAMP &#39;2000-01-01 00:00:00&#39;</code> syntax. The
-simplest way to write literal timestamps in other time zones is to use TIME_PARSE, like
-<code>TIME_PARSE(&#39;2000-02-01 00:00:00&#39;, NULL, &#39;America/Los_Angeles&#39;)</code>.</p>
-
 <table><thead>
 <tr>
 <th>Function</th>
@@ -636,10 +611,6 @@ simplest way to write literal timestamps in other time zones is to use TIME_PARS
 <tr>
 <td><code>TIMESTAMPADD(&lt;unit&gt;, &lt;count&gt;, &lt;timestamp&gt;)</code></td>
 <td>Equivalent to <code>timestamp + count * INTERVAL &#39;1&#39; UNIT</code>.</td>
-</tr>
-<tr>
-<td><code>TIMESTAMPDIFF(&lt;unit&gt;, &lt;timestamp1&gt;, &lt;timestamp2&gt;)</code></td>
-<td>Returns the (signed) number of <code>unit</code> between <code>timestamp1</code> and <code>timestamp2</code>. Unit can be SECOND, MINUTE, HOUR, DAY, WEEK, MONTH, QUARTER, or YEAR.</td>
 </tr>
 <tr>
 <td><code>timestamp_expr { + &amp;#124; - } &lt;interval_expr&gt;</code></td>
@@ -807,12 +778,11 @@ simplest way to write literal timestamps in other time zones is to use TIME_PARS
 
 <p>Druid natively supports five basic column types: &quot;long&quot; (64 bit signed int), &quot;float&quot; (32 bit float), &quot;double&quot; (64 bit
 float) &quot;string&quot; (UTF-8 encoded strings), and &quot;complex&quot; (catch-all for more exotic data types like hyperUnique and
-approxHistogram columns).</p>
+approxHistogram columns). Timestamps (including the <code>__time</code> column) are stored as longs, with the value being the
+number of milliseconds since 1 January 1970 UTC.</p>
 
-<p>Timestamps (including the <code>__time</code> column) are treated by Druid as longs, with the value being the number of
-milliseconds since 1970-01-01 00:00:00 UTC, not counting leap seconds. Therefore, timestamps in Druid do not carry any
-timezone information, but only carry information about the exact moment in time they represent. See the
-<a href="#time-functions">Time functions</a> section for more information about timestamp handling.</p>
+<p>At runtime, Druid may widen 32-bit floats to 64-bit for certain operators, like SUM aggregators. The reverse will not
+happen: 64-bit floats are not be narrowed to 32-bit.</p>
 
 <p>Druid generally treats NULLs and empty strings interchangeably, rather than according to the SQL standard. As such,
 Druid SQL only has partial support for NULLs. For example, the expressions <code>col IS NULL</code> and <code>col = &#39;&#39;</code> are equivalent,
@@ -824,7 +794,7 @@ datasource, then it will be treated as zero for rows from those segments.</p>
 
 <p>For mathematical operations, Druid SQL will use integer math if all operands involved in an expression are integers.
 Otherwise, Druid will switch to floating point math. You can force this to happen by casting one of your operands
-to FLOAT. At runtime, Druid may widen 32-bit floats to 64-bit for certain operators, like SUM aggregators.</p>
+to FLOAT.</p>
 
 <p>The following table describes how SQL types map onto Druid types during query runtime. Casts between two SQL types
 that have the same Druid runtime type will have no effect, other than exceptions noted in the table. Casts between two
@@ -1423,7 +1393,7 @@ datasource &quot;foo&quot;, use the query:</p>
 </code></pre></div>
 <h3 id="servers-table">SERVERS table</h3>
 
-<p>Servers table lists all discovered servers in the cluster.</p>
+<p>Servers table lists all data servers(any server that hosts a segment). It includes both Historicals and Peons.</p>
 
 <table><thead>
 <tr>
@@ -1455,22 +1425,22 @@ datasource &quot;foo&quot;, use the query:</p>
 <tr>
 <td>server_type</td>
 <td>STRING</td>
-<td>Type of Druid service. Possible values include: COORDINATOR, OVERLORD,  BROKER, ROUTER, HISTORICAL, MIDDLE_MANAGER or PEON.</td>
+<td>Type of Druid service. Possible values include: Historical, realtime and indexer_executor(Peon).</td>
 </tr>
 <tr>
 <td>tier</td>
 <td>STRING</td>
-<td>Distribution tier see <a href="#../configuration/index.html#Historical-General-Configuration">druid.server.tier</a>. Only valid for HISTORICAL type, for other types it&#39;s null</td>
+<td>Distribution tier see <a href="#../configuration/index.html#Historical-General-Configuration">druid.server.tier</a></td>
 </tr>
 <tr>
 <td>current_size</td>
 <td>LONG</td>
-<td>Current size of segments in bytes on this server. Only valid for HISTORICAL type, for other types it&#39;s 0</td>
+<td>Current size of segments in bytes on this server</td>
 </tr>
 <tr>
 <td>max_size</td>
 <td>LONG</td>
-<td>Max size in bytes this server recommends to assign to segments see <a href="#../configuration/index.html#Historical-General-Configuration">druid.server.maxSize</a>. Only valid for HISTORICAL type, for other types it&#39;s 0</td>
+<td>Max size in bytes this server recommends to assign to segments see <a href="#../configuration/index.html#Historical-General-Configuration">druid.server.maxSize</a></td>
 </tr>
 </tbody></table>
 
@@ -1500,19 +1470,19 @@ datasource &quot;foo&quot;, use the query:</p>
 </tr>
 </tbody></table>
 
-<p>JOIN between &quot;servers&quot; and &quot;segments&quot; can be used to query the number of segments for a specific datasource, 
+<p>JOIN between &quot;servers&quot; and &quot;segments&quot; can be used to query the number of segments for a specific datasource,
 grouped by server, example query:</p>
-<div class="highlight"><pre><code class="language-sql" data-lang="sql"><span></span><span class="k">SELECT</span> <span class="k">count</span><span class="p">(</span><span class="n">segments</span><span class="p">.</span><span class="n">segment_id</span><span class="p">)</span> <span class="k">as</span> <span class="n">num_segments</span> <span class="k">from</span> <span class="n">sys</span><span class="p">.</span><span class="n">segments</span> <span class="k">as</span> <span class="n">segments</span> 
-<span class="k">INNER</span> <span class="k">JOIN</span> <span class="n">sys</span><span class="p">.</span><span class="n">server_segments</span> <span class="k">as</span> <span class="n">server_segments</span> 
-<span class="k">ON</span> <span class="n">segments</span><span class="p">.</span><span class="n">segment_id</span>  <span class="o">=</span> <span class="n">server_segments</span><span class="p">.</span><span class="n">segment_id</span> 
-<span class="k">INNER</span> <span class="k">JOIN</span> <span class="n">sys</span><span class="p">.</span><span class="n">servers</span> <span class="k">as</span> <span class="n">servers</span> 
+<div class="highlight"><pre><code class="language-sql" data-lang="sql"><span></span><span class="k">SELECT</span> <span class="k">count</span><span class="p">(</span><span class="n">segments</span><span class="p">.</span><span class="n">segment_id</span><span class="p">)</span> <span class="k">as</span> <span class="n">num_segments</span> <span class="k">from</span> <span class="n">sys</span><span class="p">.</span><span class="n">segments</span> <span class="k">as</span> <span class="n">segments</span>
+<span class="k">INNER</span> <span class="k">JOIN</span> <span class="n">sys</span><span class="p">.</span><span class="n">server_segments</span> <span class="k">as</span> <span class="n">server_segments</span>
+<span class="k">ON</span> <span class="n">segments</span><span class="p">.</span><span class="n">segment_id</span>  <span class="o">=</span> <span class="n">server_segments</span><span class="p">.</span><span class="n">segment_id</span>
+<span class="k">INNER</span> <span class="k">JOIN</span> <span class="n">sys</span><span class="p">.</span><span class="n">servers</span> <span class="k">as</span> <span class="n">servers</span>
 <span class="k">ON</span> <span class="n">servers</span><span class="p">.</span><span class="n">server</span> <span class="o">=</span> <span class="n">server_segments</span><span class="p">.</span><span class="n">server</span>
-<span class="k">WHERE</span> <span class="n">segments</span><span class="p">.</span><span class="n">datasource</span> <span class="o">=</span> <span class="s1">&#39;wikipedia&#39;</span> 
+<span class="k">WHERE</span> <span class="n">segments</span><span class="p">.</span><span class="n">datasource</span> <span class="o">=</span> <span class="s1">&#39;wikipedia&#39;</span>
 <span class="k">GROUP</span> <span class="k">BY</span> <span class="n">servers</span><span class="p">.</span><span class="n">server</span><span class="p">;</span>
 </code></pre></div>
 <h3 id="tasks-table">TASKS table</h3>
 
-<p>The tasks table provides information about active and recently-completed indexing tasks. For more information 
+<p>The tasks table provides information about active and recently-completed indexing tasks. For more information
 check out <a href="#../ingestion/tasks.html">ingestion tasks</a></p>
 
 <table><thead>
@@ -1608,7 +1578,7 @@ check out <a href="#../ingestion/tasks.html">ingestion tasks</a></p>
 <tr>
 <td><code>druid.sql.enable</code></td>
 <td>Whether to enable SQL at all, including background metadata fetching. If false, this overrides all other SQL-related properties and disables SQL metadata, serving, and planning completely.</td>
-<td>true</td>
+<td>false</td>
 </tr>
 <tr>
 <td><code>druid.sql.avatica.enable</code></td>

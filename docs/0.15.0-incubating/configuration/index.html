@@ -1440,6 +1440,16 @@ The below table shows some important configurations for S3. See <a href="../deve
 </tr>
 </thead><tbody>
 <tr>
+<td><code>druid.s3.accessKey</code></td>
+<td>The access key to use to access S3.</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>druid.s3.secretKey</code></td>
+<td>The secret key to use to access S3.</td>
+<td>none</td>
+</tr>
+<tr>
 <td><code>druid.storage.bucket</code></td>
 <td>S3 bucket name.</td>
 <td>none</td>
@@ -1463,21 +1473,6 @@ The below table shows some important configurations for S3. See <a href="../deve
 <td><code>druid.storage.archiveBaseKey</code></td>
 <td>S3 object key prefix for archiving.</td>
 <td>none</td>
-</tr>
-<tr>
-<td><code>druid.storage.sse.type</code></td>
-<td>Server-side encryption type. Should be one of <code>s3</code>, <code>kms</code>, and <code>custom</code>. See the below <a href="../development/extensions-core/s3.html#server-side-encryption">Server-side encryption section</a> for more details.</td>
-<td>None</td>
-</tr>
-<tr>
-<td><code>druid.storage.sse.kms.keyId</code></td>
-<td>AWS KMS key ID. This is used only when <code>druid.storage.sse.type</code> is <code>kms</code> and can be empty to use the default key ID.</td>
-<td>None</td>
-</tr>
-<tr>
-<td><code>druid.storage.sse.custom.base64EncodedKey</code></td>
-<td>Base64-encoded key. Should be specified if <code>druid.storage.sse.type</code> is <code>custom</code>.</td>
-<td>None</td>
 </tr>
 <tr>
 <td><code>druid.storage.useS3aSchema</code></td>
@@ -2213,6 +2208,11 @@ Support for 64-bit floating point columns was released in Druid 0.11.0, so if yo
 <td>yes</td>
 </tr>
 <tr>
+<td><code>keepSegmentGranularity</code></td>
+<td>Set <a href="../ingestion/compaction.html">keepSegmentGranularity</a> to true for compactionTask.</td>
+<td>no (default = true)</td>
+</tr>
+<tr>
 <td><code>taskPriority</code></td>
 <td><a href="../ingestion/tasks.html#task-priorities">Priority</a> of compaction task.</td>
 <td>no (default = 25)</td>
@@ -2521,47 +2521,6 @@ If you see this problem, it&#39;s recommended to set <code>skipOffsetFromLatest<
 <td><code>druid.indexer.autoscale.workerPort</code></td>
 <td>The port that MiddleManagers will run on.</td>
 <td>8080</td>
-</tr>
-</tbody></table>
-
-<h5 id="supervisors">Supervisors</h5>
-
-<table><thead>
-<tr>
-<th>Property</th>
-<th>Description</th>
-<th>Default</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><code>druid.supervisor.healthinessThreshold</code></td>
-<td>The number of successful runs before an unhealthy supervisor is again considered healthy.</td>
-<td>3</td>
-</tr>
-<tr>
-<td><code>druid.supervisor.unhealthinessThreshold</code></td>
-<td>The number of failed runs before the supervisor is considered unhealthy.</td>
-<td>3</td>
-</tr>
-<tr>
-<td><code>druid.supervisor.taskHealthinessThreshold</code></td>
-<td>The number of consecutive task successes before an unhealthy supervisor is again considered healthy.</td>
-<td>3</td>
-</tr>
-<tr>
-<td><code>druid.supervisor.taskUnhealthinessThreshold</code></td>
-<td>The number of consecutive task failures before the supervisor is considered unhealthy.</td>
-<td>3</td>
-</tr>
-<tr>
-<td><code>druid.supervisor.storeStackTrace</code></td>
-<td>Whether full stack traces of supervisor exceptions should be stored and returned by the supervisor <code>/status</code> endpoint.</td>
-<td>false</td>
-</tr>
-<tr>
-<td><code>druid.supervisor.maxStoredExceptionEvents</code></td>
-<td>The maximum number of exception events that can be returned through the supervisor <code>/status</code> endpoint.</td>
-<td><code>max(healthinessThreshold, unhealthinessThreshold)</code></td>
 </tr>
 </tbody></table>
 
@@ -3699,7 +3658,7 @@ line.</p>
 <tr>
 <td><code>druid.sql.enable</code></td>
 <td>Whether to enable SQL at all, including background metadata fetching. If false, this overrides all other SQL-related properties and disables SQL metadata, serving, and planning completely.</td>
-<td>true</td>
+<td>false</td>
 </tr>
 <tr>
 <td><code>druid.sql.avatica.enable</code></td>

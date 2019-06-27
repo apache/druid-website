@@ -507,12 +507,6 @@ s3n://billy-bucket/the/data/is/here/y=2012/m=06/d=01/H=23
 <td>The maximum number of parse exceptions that can occur before the task halts ingestion and fails. Overrides <code>ignoreInvalidRows</code> if <code>maxParseExceptions</code> is defined.</td>
 <td>unlimited</td>
 </tr>
-<tr>
-<td>useYarnRMJobStatusFallback</td>
-<td>Boolean</td>
-<td>If the Hadoop jobs created by the indexing task are unable to retrieve their completion status from the JobHistory server, and this parameter is true, the indexing task will try to fetch the application status from <code>http://&lt;yarn-rm-address&gt;/ws/v1/cluster/apps/&lt;application-id&gt;</code>, where <code>&lt;yarn-rm-address&gt;</code> is the value of <code>yarn.resourcemanager.webapp.address</code> in your Hadoop configuration. This flag is intended as a fallback for cases where an indexing task&#39;s jobs succeed, but the JobHistory server is unavailable, causing the indexing task to fail because it cannot determine the job statuses.</td>
-<td>no (default = true)</td>
-</tr>
 </tbody></table>
 
 <h3 id="jobproperties-field-of-tuningconfig">jobProperties field of TuningConfig</h3>
