@@ -7,7 +7,7 @@
 <meta name="keywords" content="druid,kafka,database,analytics,streaming,real-time,real time,apache,open source">
 <meta name="author" content="Apache Software Foundation">
 
-<title>Druid | Querying</title>
+<title>Druid | Native queries</title>
 
 <link rel="alternate" type="application/atom+xml" href="/feed">
 <link rel="shortcut icon" href="/img/favicon.png">
@@ -146,26 +146,33 @@
   ~ under the License.
   -->
 
-<h1 id="querying">Querying</h1>
+<h1 id="native-queries">Native queries</h1>
 
-<p>Apache Druid (incubating) queries are made using an HTTP REST style request to queryable processes (<a href="../design/broker.html">Broker</a>,
-<a href="../design/historical.html">Historical</a>. <a href="../design/peons.html">Peons</a>) that are running stream ingestion tasks can also accept queries. The
-query is expressed in JSON and each of these process types expose the same
-REST query interface. For normal Druid operations, queries should be issued to the Broker processes. Queries can be posted
-to the queryable processes like this -</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span> curl -X POST <span class="s1">&#39;&lt;queryable_host&gt;:&lt;port&gt;/druid/v2/?pretty&#39;</span> -H <span class="s1">&#39;Content-Type:application/json&#39;</span> -H <span class="s1">&#39;Accept:application/json&#39;</span> -d @&lt;query_json_file&gt;
+<div class="note info">
+Apache Druid (incubating) supports two query languages: [Druid SQL](sql.html) and native queries, which SQL queries
+are planned into, and which end users can also issue directly. This document describes the native query language.
+</div>
+
+<p>Native queries in Druid are JSON objects and are typically issued to the Broker or Router processes. Queries can be
+posted like this:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>curl -X POST <span class="s1">&#39;&lt;queryable_host&gt;:&lt;port&gt;/druid/v2/?pretty&#39;</span> -H <span class="s1">&#39;Content-Type:application/json&#39;</span> -H <span class="s1">&#39;Accept:application/json&#39;</span> -d @&lt;query_json_file&gt;
 </code></pre></div>
 <p>Druid&#39;s native query language is JSON over HTTP, although many members of the community have contributed different 
-<a href="../development/libraries.html">client libraries</a> in other languages to query Druid. </p>
+<a href="/libraries.html">client libraries</a> in other languages to query Druid.</p>
 
 <p>The Content-Type/Accept Headers can also take &#39;application/x-jackson-smile&#39;.</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span> curl -X POST <span class="s1">&#39;&lt;queryable_host&gt;:&lt;port&gt;/druid/v2/?pretty&#39;</span> -H <span class="s1">&#39;Content-Type:application/json&#39;</span> -H <span class="s1">&#39;Accept:application/x-jackson-smile&#39;</span> -d @&lt;query_json_file&gt;
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>curl -X POST <span class="s1">&#39;&lt;queryable_host&gt;:&lt;port&gt;/druid/v2/?pretty&#39;</span> -H <span class="s1">&#39;Content-Type:application/json&#39;</span> -H <span class="s1">&#39;Accept:application/x-jackson-smile&#39;</span> -d @&lt;query_json_file&gt;
 </code></pre></div>
 <p>Note: If Accept header is not provided, it defaults to value of &#39;Content-Type&#39; header.</p>
 
 <p>Druid&#39;s native query is relatively low level, mapping closely to how computations are performed internally. Druid queries 
 are designed to be lightweight and complete very quickly. This means that for more complex analysis, or to build 
 more complex visualizations, multiple Druid queries may be required.</p>
+
+<p>Even though queries are typically made to Brokers or Routers, they can also be accepted by
+<a href="../design/historical.html">Historical</a> processes and by <a href="../design/peons.html">Peons (task JVMs)</a>) that are running
+stream ingestion tasks. This may be valuable if you want to query results for specific segments that are served by
+specific processes.</p>
 
 <h2 id="available-queries">Available Queries</h2>
 
@@ -274,6 +281,10 @@ endpoint can be used on the Broker or Router to cancel the query.</p>
 <td>The query was denied due to security policy. Either the user was not recognized, or the user was recognized but does not have access to the requested resource.</td>
 </tr>
 <tr>
+<td><code>Unsupported operation</code></td>
+<td>The query attempted to perform an unsupported operation. This may occur when using undocumented features or when using an incompletely implemented extension.</td>
+</tr>
+<tr>
 <td><code>Unknown exception</code></td>
 <td>Some other exception occurred. Check errorMessage and errorClass for details, although keep in mind that the contents of those fields are free-form and may change from release to release.</td>
 </tr>
@@ -307,7 +318,7 @@ endpoint can be used on the Broker or Router to cancel the query.</p>
   <div class="text-center">
     <a title="Join the user group" href="https://groups.google.com/forum/#!forum/druid-user" target="_blank"><span class="fa fa-comments"></span></a>&ensp;·&ensp;
     <a title="Follow Druid" href="https://twitter.com/druidio" target="_blank"><span class="fab fa-twitter"></span></a>&ensp;·&ensp;
-    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.14.2-incubating/apache-druid-0.14.2-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
+    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.15.0-incubating/apache-druid-0.15.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
     <a title="GitHub" href="https://github.com/apache/incubator-druid" target="_blank"><span class="fab fa-github"></span></a>
   </div>
   <div class="text-center license">

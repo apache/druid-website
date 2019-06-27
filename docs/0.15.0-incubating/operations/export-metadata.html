@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Apache Druid">
+<meta name="keywords" content="druid,kafka,database,analytics,streaming,real-time,real time,apache,open source">
+<meta name="author" content="Apache Software Foundation">
+
+<title>Druid | Export Metadata Tool</title>
+
+<link rel="alternate" type="application/atom+xml" href="/feed">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+<link href='//fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="/css/bootstrap-pure.css?v=1.1">
+<link rel="stylesheet" href="/css/base.css?v=1.1">
+<link rel="stylesheet" href="/css/header.css?v=1.1">
+<link rel="stylesheet" href="/css/footer.css?v=1.1">
+<link rel="stylesheet" href="/css/syntax.css?v=1.1">
+<link rel="stylesheet" href="/css/docs.css?v=1.1">
+
+<script>
+  (function() {
+    var cx = '000162378814775985090:molvbm0vggm';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+
+  </head>
+
+  <body>
+    <!-- Start page_header include -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+
+<div class="top-navigator">
+  <div class="container">
+    <div class="left-cont">
+      <a class="logo" href="/"><span class="druid-logo"></span></a>
+    </div>
+    <div class="right-cont">
+      <ul class="links">
+        <li class=""><a href="/technology">Technology</a></li>
+        <li class=""><a href="/use-cases">Use Cases</a></li>
+        <li class=""><a href="/druid-powered">Powered By</a></li>
+        <li class=""><a href="/docs/latest/design/">Docs</a></li>
+        <li class=""><a href="/community/">Community</a></li>
+        <li class="header-dropdown">
+          <a>Apache</a>
+          <div class="header-dropdown-menu">
+            <a href="https://www.apache.org/" target="_blank">Foundation</a>
+            <a href="https://www.apache.org/events/current-event" target="_blank">Events</a>
+            <a href="https://www.apache.org/licenses/" target="_blank">License</a>
+            <a href="https://www.apache.org/foundation/thanks.html" target="_blank">Thanks</a>
+            <a href="https://www.apache.org/security/" target="_blank">Security</a>
+            <a href="https://www.apache.org/foundation/sponsorship.html" target="_blank">Sponsorship</a>
+          </div>
+        </li>
+        <li class=" button-link"><a href="/downloads.html">Download</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="action-button menu-icon">
+    <span class="fa fa-bars"></span> MENU
+  </div>
+  <div class="action-button menu-icon-close">
+    <span class="fa fa-times"></span> MENU
+  </div>
+</div>
+
+<script type="text/javascript">
+  var $menu = $('.right-cont');
+  var $menuIcon = $('.menu-icon');
+  var $menuIconClose = $('.menu-icon-close');
+
+  function showMenu() {
+    $menu.fadeIn(100);
+    $menuIcon.fadeOut(100);
+    $menuIconClose.fadeIn(100);
+  }
+
+  $menuIcon.click(showMenu);
+
+  function hideMenu() {
+    $menu.fadeOut(100);
+    $menuIconClose.fadeOut(100);
+    $menuIcon.fadeIn(100);
+  }
+
+  $menuIconClose.click(hideMenu);
+
+  $(window).resize(function() {
+    if ($(window).width() >= 840) {
+      $menu.fadeIn(100);
+      $menuIcon.fadeOut(100);
+      $menuIconClose.fadeOut(100);
+    }
+    else {
+      $menu.fadeOut(100);
+      $menuIcon.fadeIn(100);
+      $menuIconClose.fadeOut(100);
+    }
+  });
+</script>
+
+<!-- Stop page_header include -->
+
+
+    <div class="container doc-container">
+      
+      
+
+      
+
+      <div class="row">
+        <div class="col-md-9 doc-content">
+          <p>
+            <a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
+          </p>
+          <!--
+  ~ Licensed to the Apache Software Foundation (ASF) under one
+  ~ or more contributor license agreements.  See the NOTICE file
+  ~ distributed with this work for additional information
+  ~ regarding copyright ownership.  The ASF licenses this file
+  ~ to you under the Apache License, Version 2.0 (the
+  ~ "License"); you may not use this file except in compliance
+  ~ with the License.  You may obtain a copy of the License at
+  ~
+  ~   http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing,
+  ~ software distributed under the License is distributed on an
+  ~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  ~ KIND, either express or implied.  See the License for the
+  ~ specific language governing permissions and limitations
+  ~ under the License.
+  -->
+
+<h1 id="export-metadata-tool">Export Metadata Tool</h1>
+
+<p>Druid includes an <code>export-metadata</code> tool for assisting with migration of cluster metadata and deep storage.</p>
+
+<p>This tool exports the contents of the following Druid metadata tables:
+- segments
+- rules
+- config
+- datasource
+- supervisors</p>
+
+<p>Additionally, the tool can rewrite the local deep storage location descriptors in the rows of the segments table 
+to point to new deep storage locations (S3, HDFS, and local rewrite paths are supported).</p>
+
+<p>The tool has the following limitations:
+- Only exporting from Derby metadata is currently supported
+- If rewriting load specs for deep storage migration, only migrating from local deep storage is currently supported.</p>
+
+<h2 id="export-metadata-options"><code>export-metadata</code> Options</h2>
+
+<p>The <code>export-metadata</code> tool provides the following options:</p>
+
+<h3 id="connection-properties">Connection Properties</h3>
+
+<p><code>--connectURI</code>: The URI of the Derby database, e.g. <code>jdbc:derby://localhost:1527/var/druid/metadata.db;create=true</code>
+<code>--user</code>: Username
+<code>--password</code>: Password
+<code>--base</code>: corresponds to the value of <code>druid.metadata.storage.tables.base</code> in the configuration, <code>druid</code> by default.</p>
+
+<h3 id="output-path">Output Path</h3>
+
+<p><code>--output-path</code>, <code>-o</code>: The output directory of the tool. CSV files for the Druid segments, rules, config, datasource, and supervisors tables will be written to this directory.</p>
+
+<h3 id="export-format-options">Export Format Options</h3>
+
+<p><code>--use-hex-blobs</code>, <code>-x</code>: If set, export BLOB payload columns as hexadecimal strings. This needs to be set if importing back into Derby. Default is false.</p>
+
+<p><code>--booleans-as-strings</code>, <code>-t</code>: If set, write boolean values as &quot;true&quot; or &quot;false&quot; instead of &quot;1&quot; and &quot;0&quot;. This needs to be set if importing back into Derby. Default is false.</p>
+
+<h3 id="deep-storage-migration">Deep Storage Migration</h3>
+
+<h4 id="migration-to-s3-deep-storage">Migration to S3 Deep Storage</h4>
+
+<p>By setting the options below, the tool will rewrite the segment load specs to point to a new S3 deep storage location.</p>
+
+<p>This helps users migrate segments stored in local deep storage to S3.</p>
+
+<p><code>--s3bucket</code>, <code>-b</code>: The S3 bucket that will hold the migrated segments
+<code>--s3baseKey</code>, <code>-k</code>: The base S3 key where the migrated segments will be stored</p>
+
+<p>When copying the local deep storage segments to S3, the rewrite performed by this tool requires that the directory structure of the segments be unchanged.</p>
+
+<p>For example, if the cluster had the following local deep storage configuration:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>druid.storage.type=local
+druid.storage.storageDirectory=/druid/segments
+</code></pre></div>
+<p>If the target S3 bucket was <code>migration</code>, with a base key of <code>example</code>, the contents of <code>s3://migration/example/</code> must be identical to that of <code>/druid/segments</code> on the old local filesystem.</p>
+
+<h4 id="migration-to-hdfs-deep-storage">Migration to HDFS Deep Storage</h4>
+
+<p>By setting the options below, the tool will rewrite the segment load specs to point to a new HDFS deep storage location.</p>
+
+<p>This helps users migrate segments stored in local deep storage to HDFS.</p>
+
+<p><code>--hadoopStorageDirectory</code>, <code>-h</code>: The HDFS path that will hold the migrated segments</p>
+
+<p>When copying the local deep storage segments to HDFS, the rewrite performed by this tool requires that the directory structure of the segments be unchanged, with the exception of directory names containing colons (<code>:</code>).</p>
+
+<p>For example, if the cluster had the following local deep storage configuration:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>druid.storage.type=local
+druid.storage.storageDirectory=/druid/segments
+</code></pre></div>
+<p>If the target hadoopStorageDirectory was <code>/migration/example</code>, the contents of <code>hdfs:///migration/example/</code> must be identical to that of <code>/druid/segments</code> on the old local filesystem.</p>
+
+<p>Additionally, the segments paths in local deep storage contain colons(<code>:</code>) in their names, e.g.:</p>
+
+<p><code>wikipedia/2016-06-27T02:00:00.000Z_2016-06-27T03:00:00.000Z/2019-05-03T21:57:15.950Z/1/index.zip</code></p>
+
+<p>HDFS cannot store files containing colons, and this tool expects the colons to be replaced with underscores (<code>_</code>) in HDFS.</p>
+
+<p>In this example, the <code>wikipedia</code> segment above under <code>/druid/segments</code> in local deep storage would need to be migrated to HDFS under <code>hdfs:///migration/example/</code> with the following path:</p>
+
+<p><code>wikipedia/2016-06-27T02_00_00.000Z_2016-06-27T03_00_00.000Z/2019-05-03T21_57_15.950Z/1/index.zip</code></p>
+
+<h4 id="migration-to-new-local-deep-storage-path">Migration to New Local Deep Storage Path</h4>
+
+<p>By setting the options below, the tool will rewrite the segment load specs to point to a new local deep storage location.</p>
+
+<p>This helps users migrate segments stored in local deep storage to a new path (e.g., a new NFS mount).</p>
+
+<p><code>--newLocalPath</code>, <code>-n</code>: The new path on the local filesystem that will hold the migrated segments</p>
+
+<p>When copying the local deep storage segments to a new path, the rewrite performed by this tool requires that the directory structure of the segments be unchanged.</p>
+
+<p>For example, if the cluster had the following local deep storage configuration:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>druid.storage.type=local
+druid.storage.storageDirectory=/druid/segments
+</code></pre></div>
+<p>If the new path  was <code>/migration/example</code>, the contents of <code>/migration/example/</code> must be identical to that of <code>/druid/segments</code> on the local filesystem.</p>
+
+<h2 id="running-the-tool">Running the tool</h2>
+
+<p>To use the tool, you can run the following from the root of the Druid package:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="nb">cd</span> <span class="si">${</span><span class="nv">DRUID_ROOT</span><span class="si">}</span>
+mkdir -p /tmp/csv
+java -classpath <span class="s2">&quot;lib/*&quot;</span> -Dlog4j.configurationFile<span class="o">=</span>conf/druid/cluster/_common/log4j2.xml -Ddruid.extensions.directory<span class="o">=</span><span class="s2">&quot;extensions&quot;</span> -Ddruid.extensions.loadList<span class="o">=[]</span> org.apache.druid.cli.Main tools export-metadata --connectURI <span class="s2">&quot;jdbc:derby://localhost:1527/var/druid/metadata.db;&quot;</span> -o /tmp/csv
+</code></pre></div>
+<p>In the example command above:
+- <code>lib</code> is the the Druid lib directory
+- <code>extensions</code> is the Druid extensions directory
+- <code>/tmp/csv</code> is the output directory. Please make sure that this directory exists.</p>
+
+<h2 id="importing-metadata">Importing Metadata</h2>
+
+<p>After running the tool, the output directory will contain <code>&lt;table-name&gt;_raw.csv</code> and <code>&lt;table-name&gt;.csv</code> files.</p>
+
+<p>The <code>&lt;table-name&gt;_raw.csv</code> files are intermediate files used by the tool, containing the table data as exported by Derby without modification.</p>
+
+<p>The <code>&lt;table-name&gt;.csv</code> files are used for import into another database such as MySQL and PostgreSQL and have any configured deep storage location rewrites applied.</p>
+
+<p>Example import commands for Derby, MySQL, and PostgreSQL are shown below.</p>
+
+<p>These example import commands expect <code>/tmp/csv</code> and its contents to be accessible from the server. For other options, such as importing from the client filesystem, please refer to the database&#39;s documentation.</p>
+
+<h3 id="derby">Derby</h3>
+<div class="highlight"><pre><code class="language-sql" data-lang="sql"><span></span><span class="k">CALL</span> <span class="n">SYSCS_UTIL</span><span class="p">.</span><span class="n">SYSCS_IMPORT_TABLE</span> <span class="p">(</span><span class="k">null</span><span class="p">,</span><span class="s1">&#39;DRUID_SEGMENTS&#39;</span><span class="p">,</span><span class="s1">&#39;/tmp/csv/druid_segments.csv&#39;</span><span class="p">,</span><span class="s1">&#39;,&#39;</span><span class="p">,</span><span class="s1">&#39;&quot;&#39;</span><span class="p">,</span><span class="k">null</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+
+<span class="k">CALL</span> <span class="n">SYSCS_UTIL</span><span class="p">.</span><span class="n">SYSCS_IMPORT_TABLE</span> <span class="p">(</span><span class="k">null</span><span class="p">,</span><span class="s1">&#39;DRUID_RULES&#39;</span><span class="p">,</span><span class="s1">&#39;/tmp/csv/druid_rules.csv&#39;</span><span class="p">,</span><span class="s1">&#39;,&#39;</span><span class="p">,</span><span class="s1">&#39;&quot;&#39;</span><span class="p">,</span><span class="k">null</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+
+<span class="k">CALL</span> <span class="n">SYSCS_UTIL</span><span class="p">.</span><span class="n">SYSCS_IMPORT_TABLE</span> <span class="p">(</span><span class="k">null</span><span class="p">,</span><span class="s1">&#39;DRUID_CONFIG&#39;</span><span class="p">,</span><span class="s1">&#39;/tmp/csv/druid_config.csv&#39;</span><span class="p">,</span><span class="s1">&#39;,&#39;</span><span class="p">,</span><span class="s1">&#39;&quot;&#39;</span><span class="p">,</span><span class="k">null</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+
+<span class="k">CALL</span> <span class="n">SYSCS_UTIL</span><span class="p">.</span><span class="n">SYSCS_IMPORT_TABLE</span> <span class="p">(</span><span class="k">null</span><span class="p">,</span><span class="s1">&#39;DRUID_DATASOURCE&#39;</span><span class="p">,</span><span class="s1">&#39;/tmp/csv/druid_dataSource.csv&#39;</span><span class="p">,</span><span class="s1">&#39;,&#39;</span><span class="p">,</span><span class="s1">&#39;&quot;&#39;</span><span class="p">,</span><span class="k">null</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+
+<span class="k">CALL</span> <span class="n">SYSCS_UTIL</span><span class="p">.</span><span class="n">SYSCS_IMPORT_TABLE</span> <span class="p">(</span><span class="k">null</span><span class="p">,</span><span class="s1">&#39;DRUID_SUPERVISORS&#39;</span><span class="p">,</span><span class="s1">&#39;/tmp/csv/druid_supervisors.csv&#39;</span><span class="p">,</span><span class="s1">&#39;,&#39;</span><span class="p">,</span><span class="s1">&#39;&quot;&#39;</span><span class="p">,</span><span class="k">null</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+</code></pre></div>
+<h3 id="mysql">MySQL</h3>
+<div class="highlight"><pre><code class="language-sql" data-lang="sql"><span></span><span class="k">LOAD</span> <span class="k">DATA</span> <span class="n">INFILE</span> <span class="s1">&#39;/tmp/csv/druid_segments.csv&#39;</span> <span class="k">INTO</span> <span class="k">TABLE</span> <span class="n">druid_segments</span> <span class="n">FIELDS</span> <span class="n">TERMINATED</span> <span class="k">BY</span> <span class="s1">&#39;,&#39;</span> <span class="n">OPTIONALLY</span> <span class="n">ENCLOSED</span> <span class="k">BY</span> <span class="s1">&#39;\&quot;&#39;</span> <span class="p">(</span><span class="n">id</span><span class="p">,</span><span class="n">dataSource</span><span class="p">,</span><span class="n">created_date</span><span class="p">,</span><span class="k">start</span><span class="p">,</span><span class="k">end</span><span class="p">,</span><span class="n">partitioned</span><span class="p">,</span><span class="k">version</span><span class="p">,</span><span class="n">used</span><span class="p">,</span><span class="n">payload</span><span class="p">);</span> <span class="k">SHOW</span> <span class="n">WARNINGS</span><span class="p">;</span>
+
+<span class="k">LOAD</span> <span class="k">DATA</span> <span class="n">INFILE</span> <span class="s1">&#39;/tmp/csv/druid_rules.csv&#39;</span> <span class="k">INTO</span> <span class="k">TABLE</span> <span class="n">druid_rules</span> <span class="n">FIELDS</span> <span class="n">TERMINATED</span> <span class="k">BY</span> <span class="s1">&#39;,&#39;</span> <span class="n">OPTIONALLY</span> <span class="n">ENCLOSED</span> <span class="k">BY</span> <span class="s1">&#39;\&quot;&#39;</span> <span class="p">(</span><span class="n">id</span><span class="p">,</span><span class="n">dataSource</span><span class="p">,</span><span class="k">version</span><span class="p">,</span><span class="n">payload</span><span class="p">);</span> <span class="k">SHOW</span> <span class="n">WARNINGS</span><span class="p">;</span>
+
+<span class="k">LOAD</span> <span class="k">DATA</span> <span class="n">INFILE</span> <span class="s1">&#39;/tmp/csv/druid_config.csv&#39;</span> <span class="k">INTO</span> <span class="k">TABLE</span> <span class="n">druid_config</span> <span class="n">FIELDS</span> <span class="n">TERMINATED</span> <span class="k">BY</span> <span class="s1">&#39;,&#39;</span> <span class="n">OPTIONALLY</span> <span class="n">ENCLOSED</span> <span class="k">BY</span> <span class="s1">&#39;\&quot;&#39;</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="n">payload</span><span class="p">);</span> <span class="k">SHOW</span> <span class="n">WARNINGS</span><span class="p">;</span>
+
+<span class="k">LOAD</span> <span class="k">DATA</span> <span class="n">INFILE</span> <span class="s1">&#39;/tmp/csv/druid_dataSource.csv&#39;</span> <span class="k">INTO</span> <span class="k">TABLE</span> <span class="n">druid_dataSource</span> <span class="n">FIELDS</span> <span class="n">TERMINATED</span> <span class="k">BY</span> <span class="s1">&#39;,&#39;</span> <span class="n">OPTIONALLY</span> <span class="n">ENCLOSED</span> <span class="k">BY</span> <span class="s1">&#39;\&quot;&#39;</span> <span class="p">(</span><span class="n">dataSource</span><span class="p">,</span><span class="n">created_date</span><span class="p">,</span><span class="n">commit_metadata_payload</span><span class="p">,</span><span class="n">commit_metadata_sha1</span><span class="p">);</span> <span class="k">SHOW</span> <span class="n">WARNINGS</span><span class="p">;</span>
+
+<span class="k">LOAD</span> <span class="k">DATA</span> <span class="n">INFILE</span> <span class="s1">&#39;/tmp/csv/druid_supervisors.csv&#39;</span> <span class="k">INTO</span> <span class="k">TABLE</span> <span class="n">druid_supervisors</span> <span class="n">FIELDS</span> <span class="n">TERMINATED</span> <span class="k">BY</span> <span class="s1">&#39;,&#39;</span> <span class="n">OPTIONALLY</span> <span class="n">ENCLOSED</span> <span class="k">BY</span> <span class="s1">&#39;\&quot;&#39;</span> <span class="p">(</span><span class="n">id</span><span class="p">,</span><span class="n">spec_id</span><span class="p">,</span><span class="n">created_date</span><span class="p">,</span><span class="n">payload</span><span class="p">);</span> <span class="k">SHOW</span> <span class="n">WARNINGS</span><span class="p">;</span>
+</code></pre></div>
+<h3 id="postgresql">PostgreSQL</h3>
+<div class="highlight"><pre><code class="language-sql" data-lang="sql"><span></span><span class="k">COPY</span> <span class="n">druid_segments</span><span class="p">(</span><span class="n">id</span><span class="p">,</span><span class="n">dataSource</span><span class="p">,</span><span class="n">created_date</span><span class="p">,</span><span class="k">start</span><span class="p">,</span><span class="ss">&quot;end&quot;</span><span class="p">,</span><span class="n">partitioned</span><span class="p">,</span><span class="k">version</span><span class="p">,</span><span class="n">used</span><span class="p">,</span><span class="n">payload</span><span class="p">)</span> <span class="k">FROM</span> <span class="s1">&#39;/tmp/csv/druid_segments.csv&#39;</span> <span class="k">DELIMITER</span> <span class="s1">&#39;,&#39;</span> <span class="n">CSV</span><span class="p">;</span>
+
+<span class="k">COPY</span> <span class="n">druid_rules</span><span class="p">(</span><span class="n">id</span><span class="p">,</span><span class="n">dataSource</span><span class="p">,</span><span class="k">version</span><span class="p">,</span><span class="n">payload</span><span class="p">)</span> <span class="k">FROM</span> <span class="s1">&#39;/tmp/csv/druid_rules.csv&#39;</span> <span class="k">DELIMITER</span> <span class="s1">&#39;,&#39;</span> <span class="n">CSV</span><span class="p">;</span>
+
+<span class="k">COPY</span> <span class="n">druid_config</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="n">payload</span><span class="p">)</span> <span class="k">FROM</span> <span class="s1">&#39;/tmp/csv/druid_config.csv&#39;</span> <span class="k">DELIMITER</span> <span class="s1">&#39;,&#39;</span> <span class="n">CSV</span><span class="p">;</span>
+
+<span class="k">COPY</span> <span class="n">druid_dataSource</span><span class="p">(</span><span class="n">dataSource</span><span class="p">,</span><span class="n">created_date</span><span class="p">,</span><span class="n">commit_metadata_payload</span><span class="p">,</span><span class="n">commit_metadata_sha1</span><span class="p">)</span> <span class="k">FROM</span> <span class="s1">&#39;/tmp/csv/druid_dataSource.csv&#39;</span> <span class="k">DELIMITER</span> <span class="s1">&#39;,&#39;</span> <span class="n">CSV</span><span class="p">;</span>
+
+<span class="k">COPY</span> <span class="n">druid_supervisors</span><span class="p">(</span><span class="n">id</span><span class="p">,</span><span class="n">spec_id</span><span class="p">,</span><span class="n">created_date</span><span class="p">,</span><span class="n">payload</span><span class="p">)</span> <span class="k">FROM</span> <span class="s1">&#39;/tmp/csv/druid_supervisors.csv&#39;</span> <span class="k">DELIMITER</span> <span class="s1">&#39;,&#39;</span> <span class="n">CSV</span><span class="p">;</span>
+</code></pre></div>
+        </div>
+        <div class="col-md-3">
+          <div class="searchbox">
+            <gcse:searchbox-only></gcse:searchbox-only>
+          </div>
+          <div id="toc" class="nav toc hidden-print">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Start page_footer include -->
+<footer class="druid-footer">
+<div class="container">
+  <div class="text-center">
+    <p>
+    <a href="/technology">Technology</a>&ensp;·&ensp;
+    <a href="/use-cases">Use Cases</a>&ensp;·&ensp;
+    <a href="/druid-powered">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/docs/latest">Docs</a>&ensp;·&ensp;
+    <a href="/community/">Community</a>&ensp;·&ensp;
+    <a href="/downloads.html">Download</a>&ensp;·&ensp;
+    <a href="/faq">FAQ</a>
+    </p>
+  </div>
+  <div class="text-center">
+    <a title="Join the user group" href="https://groups.google.com/forum/#!forum/druid-user" target="_blank"><span class="fa fa-comments"></span></a>&ensp;·&ensp;
+    <a title="Follow Druid" href="https://twitter.com/druidio" target="_blank"><span class="fab fa-twitter"></span></a>&ensp;·&ensp;
+    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.15.0-incubating/apache-druid-0.15.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
+    <a title="GitHub" href="https://github.com/apache/incubator-druid" target="_blank"><span class="fab fa-github"></span></a>
+  </div>
+  <div class="text-center license">
+    Copyright © 2019 <a href="https://www.apache.org/" target="_blank">Apache Software Foundation</a>.<br>
+    Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>.<br>
+    Apache Druid, Druid, and the Druid logo are either registered trademarks or trademarks of The Apache Software Foundation in the United States and other countries.
+  </div>
+</div>
+</footer>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-131010415-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-131010415-1');
+</script>
+<script>
+  function trackDownload(type, url) {
+    ga('send', 'event', 'download', type, url);
+  }
+</script>
+<script src="//code.jquery.com/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/assets/js/druid.js"></script>
+<!-- stop page_footer include -->
+
+
+    <script>
+    $(function() {
+      $(".toc").load("/docs/0.15.0-incubating/toc.html");
+
+      // There is no way to tell when .gsc-input will be async loaded into the page so just try to set a placeholder until it works
+      var tries = 0;
+      var timer = setInterval(function() {
+        tries++;
+        if (tries > 300) clearInterval(timer);
+        var searchInput = $('input.gsc-input');
+        if (searchInput.length) {
+          searchInput.attr('placeholder', 'Search');
+          clearInterval(timer);
+        }
+      }, 100);
+    });
+    </script>
+  </body>
+</html>

@@ -148,7 +148,7 @@
 
 <h1 id="datasketches-quantiles-sketch-module">DataSketches Quantiles Sketch module</h1>
 
-<p>This module provides Apache Druid (incubating) aggregators based on numeric quantiles DoublesSketch from <a href="http://datasketches.github.io/">datasketches</a> library. Quantiles sketch is a mergeable streaming algorithm to estimate the distribution of values, and approximately answer queries about the rank of a value, probability mass function of the distribution (PMF) or histogram, cummulative distribution function (CDF), and quantiles (median, min, max, 95th percentile and such). See <a href="https://datasketches.github.io/docs/Quantiles/QuantilesOverview.html">Quantiles Sketch Overview</a>.</p>
+<p>This module provides Apache Druid (incubating) aggregators based on numeric quantiles DoublesSketch from <a href="https://datasketches.github.io/">datasketches</a> library. Quantiles sketch is a mergeable streaming algorithm to estimate the distribution of values, and approximately answer queries about the rank of a value, probability mass function of the distribution (PMF) or histogram, cummulative distribution function (CDF), and quantiles (median, min, max, 95th percentile and such). See <a href="https://datasketches.github.io/docs/Quantiles/QuantilesOverview.html">Quantiles Sketch Overview</a>.</p>
 
 <p>There are three major modes of operation:</p>
 
@@ -232,6 +232,26 @@
   <span class="nt">&quot;splitPoints&quot;</span> <span class="p">:</span> <span class="err">&lt;array</span> <span class="err">of</span> <span class="err">split</span> <span class="err">points&gt;</span>
 <span class="p">}</span>
 </code></pre></div>
+<h4 id="rank">Rank</h4>
+
+<p>This returns an approximation to the rank of a given value that is the fraction of the distribution less than that value.</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+  <span class="nt">&quot;type&quot;</span>  <span class="p">:</span> <span class="s2">&quot;quantilesDoublesSketchToRank&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="err">&lt;output</span> <span class="err">name&gt;</span><span class="p">,</span>
+  <span class="nt">&quot;field&quot;</span>  <span class="p">:</span> <span class="err">&lt;post</span> <span class="err">aggregator</span> <span class="err">that</span> <span class="err">refers</span> <span class="err">to</span> <span class="err">a</span> <span class="err">DoublesSketch</span> <span class="err">(fieldAccess</span> <span class="err">or</span> <span class="err">another</span> <span class="err">post</span> <span class="err">aggregator)&gt;</span><span class="p">,</span>
+  <span class="nt">&quot;value&quot;</span> <span class="p">:</span> <span class="err">&lt;value&gt;</span>
+<span class="p">}</span>
+</code></pre></div>
+<h4 id="cdf">CDF</h4>
+
+<p>This returns an approximation to the Cumulative Distribution Function given an array of split points that define the edges of the bins. An array of <i>m</i> unique, monotonically increasing split points divide the real number line into <i>m+1</i> consecutive disjoint intervals. The definition of an interval is inclusive of the left split point and exclusive of the right split point. The resulting array of fractions can be viewed as ranks of each split point with one additional rank that is always 1.</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+  <span class="nt">&quot;type&quot;</span>  <span class="p">:</span> <span class="s2">&quot;quantilesDoublesSketchToCDF&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="err">&lt;output</span> <span class="err">name&gt;</span><span class="p">,</span>
+  <span class="nt">&quot;field&quot;</span>  <span class="p">:</span> <span class="err">&lt;post</span> <span class="err">aggregator</span> <span class="err">that</span> <span class="err">refers</span> <span class="err">to</span> <span class="err">a</span> <span class="err">DoublesSketch</span> <span class="err">(fieldAccess</span> <span class="err">or</span> <span class="err">another</span> <span class="err">post</span> <span class="err">aggregator)&gt;</span><span class="p">,</span>
+  <span class="nt">&quot;splitPoints&quot;</span> <span class="p">:</span> <span class="err">&lt;array</span> <span class="err">of</span> <span class="err">split</span> <span class="err">points&gt;</span>
+<span class="p">}</span>
+</code></pre></div>
 <h4 id="sketch-summary">Sketch Summary</h4>
 
 <p>This returns a summary of the sketch that can be used for debugging. This is the result of calling toString() method.</p>
@@ -269,7 +289,7 @@
   <div class="text-center">
     <a title="Join the user group" href="https://groups.google.com/forum/#!forum/druid-user" target="_blank"><span class="fa fa-comments"></span></a>&ensp;·&ensp;
     <a title="Follow Druid" href="https://twitter.com/druidio" target="_blank"><span class="fab fa-twitter"></span></a>&ensp;·&ensp;
-    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.14.2-incubating/apache-druid-0.14.2-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
+    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.15.0-incubating/apache-druid-0.15.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
     <a title="GitHub" href="https://github.com/apache/incubator-druid" target="_blank"><span class="fab fa-github"></span></a>
   </div>
   <div class="text-center license">

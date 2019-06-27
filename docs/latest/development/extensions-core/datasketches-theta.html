@@ -148,7 +148,7 @@
 
 <h1 id="datasketches-theta-sketch-module">DataSketches Theta Sketch module</h1>
 
-<p>This module provides Apache Druid (incubating) aggregators based on Theta sketch from <a href="http://datasketches.github.io/">datasketches</a> library. Note that sketch algorithms are approximate; see details in the &quot;Accuracy&quot; section of the datasketches doc. 
+<p>This module provides Apache Druid (incubating) aggregators based on Theta sketch from <a href="https://datasketches.github.io/">datasketches</a> library. Note that sketch algorithms are approximate; see details in the &quot;Accuracy&quot; section of the datasketches doc.
 At ingestion time, this aggregator creates the Theta sketch objects which get stored in Druid segments. Logically speaking, a Theta sketch object can be thought of as a Set data structure. At query time, sketches are read and aggregated (set unioned) together. In the end, by default, you receive the estimate of the number of unique entries in the sketch object. Also, you can use post aggregators to do union, intersection or difference on sketch columns in the same row. 
 Note that you can use <code>thetaSketch</code> aggregator on columns which were not ingested using the same. It will return estimated cardinality of the column. It is recommended to use it at ingestion time as well to make querying faster.</p>
 
@@ -423,7 +423,7 @@ How many unique users visited both product A and product B?</p>
   <div class="text-center">
     <a title="Join the user group" href="https://groups.google.com/forum/#!forum/druid-user" target="_blank"><span class="fa fa-comments"></span></a>&ensp;·&ensp;
     <a title="Follow Druid" href="https://twitter.com/druidio" target="_blank"><span class="fab fa-twitter"></span></a>&ensp;·&ensp;
-    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.14.2-incubating/apache-druid-0.14.2-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
+    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.15.0-incubating/apache-druid-0.15.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
     <a title="GitHub" href="https://github.com/apache/incubator-druid" target="_blank"><span class="fab fa-github"></span></a>
   </div>
   <div class="text-center license">

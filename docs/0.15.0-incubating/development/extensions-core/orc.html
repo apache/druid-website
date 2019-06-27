@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Apache Druid">
+<meta name="keywords" content="druid,kafka,database,analytics,streaming,real-time,real time,apache,open source">
+<meta name="author" content="Apache Software Foundation">
+
+<title>Druid | ORC Extension</title>
+
+<link rel="alternate" type="application/atom+xml" href="/feed">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+<link href='//fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700,300italic|Open+Sans:300italic,400italic,600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="/css/bootstrap-pure.css?v=1.1">
+<link rel="stylesheet" href="/css/base.css?v=1.1">
+<link rel="stylesheet" href="/css/header.css?v=1.1">
+<link rel="stylesheet" href="/css/footer.css?v=1.1">
+<link rel="stylesheet" href="/css/syntax.css?v=1.1">
+<link rel="stylesheet" href="/css/docs.css?v=1.1">
+
+<script>
+  (function() {
+    var cx = '000162378814775985090:molvbm0vggm';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+
+  </head>
+
+  <body>
+    <!-- Start page_header include -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+
+<div class="top-navigator">
+  <div class="container">
+    <div class="left-cont">
+      <a class="logo" href="/"><span class="druid-logo"></span></a>
+    </div>
+    <div class="right-cont">
+      <ul class="links">
+        <li class=""><a href="/technology">Technology</a></li>
+        <li class=""><a href="/use-cases">Use Cases</a></li>
+        <li class=""><a href="/druid-powered">Powered By</a></li>
+        <li class=""><a href="/docs/latest/design/">Docs</a></li>
+        <li class=""><a href="/community/">Community</a></li>
+        <li class="header-dropdown">
+          <a>Apache</a>
+          <div class="header-dropdown-menu">
+            <a href="https://www.apache.org/" target="_blank">Foundation</a>
+            <a href="https://www.apache.org/events/current-event" target="_blank">Events</a>
+            <a href="https://www.apache.org/licenses/" target="_blank">License</a>
+            <a href="https://www.apache.org/foundation/thanks.html" target="_blank">Thanks</a>
+            <a href="https://www.apache.org/security/" target="_blank">Security</a>
+            <a href="https://www.apache.org/foundation/sponsorship.html" target="_blank">Sponsorship</a>
+          </div>
+        </li>
+        <li class=" button-link"><a href="/downloads.html">Download</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="action-button menu-icon">
+    <span class="fa fa-bars"></span> MENU
+  </div>
+  <div class="action-button menu-icon-close">
+    <span class="fa fa-times"></span> MENU
+  </div>
+</div>
+
+<script type="text/javascript">
+  var $menu = $('.right-cont');
+  var $menuIcon = $('.menu-icon');
+  var $menuIconClose = $('.menu-icon-close');
+
+  function showMenu() {
+    $menu.fadeIn(100);
+    $menuIcon.fadeOut(100);
+    $menuIconClose.fadeIn(100);
+  }
+
+  $menuIcon.click(showMenu);
+
+  function hideMenu() {
+    $menu.fadeOut(100);
+    $menuIconClose.fadeOut(100);
+    $menuIcon.fadeIn(100);
+  }
+
+  $menuIconClose.click(hideMenu);
+
+  $(window).resize(function() {
+    if ($(window).width() >= 840) {
+      $menu.fadeIn(100);
+      $menuIcon.fadeOut(100);
+      $menuIconClose.fadeOut(100);
+    }
+    else {
+      $menu.fadeOut(100);
+      $menuIcon.fadeIn(100);
+      $menuIconClose.fadeOut(100);
+    }
+  });
+</script>
+
+<!-- Stop page_header include -->
+
+
+    <div class="container doc-container">
+      
+      
+
+      
+
+      <div class="row">
+        <div class="col-md-9 doc-content">
+          <p>
+            <a class="btn btn-default btn-xs visible-xs-inline-block visible-sm-inline-block" href="#toc">Table of Contents</a>
+          </p>
+          <!--
+  ~ Licensed to the Apache Software Foundation (ASF) under one
+  ~ or more contributor license agreements.  See the NOTICE file
+  ~ distributed with this work for additional information
+  ~ regarding copyright ownership.  The ASF licenses this file
+  ~ to you under the Apache License, Version 2.0 (the
+  ~ "License"); you may not use this file except in compliance
+  ~ with the License.  You may obtain a copy of the License at
+  ~
+  ~   http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing,
+  ~ software distributed under the License is distributed on an
+  ~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  ~ KIND, either express or implied.  See the License for the
+  ~ specific language governing permissions and limitations
+  ~ under the License.
+  -->
+
+<h1 id="orc-extension">ORC Extension</h1>
+
+<p>This Apache Druid (incubating) module extends <a href="../../ingestion/hadoop.html">Druid Hadoop based indexing</a> to ingest data directly from offline 
+Apache ORC files. </p>
+
+<p>To use this extension, make sure to <a href="../../operations/including-extensions.html">include</a> <code>druid-orc-extensions</code>.</p>
+
+<h2 id="orc-hadoop-parser">ORC Hadoop Parser</h2>
+
+<p>The <code>inputFormat</code> of <code>inputSpec</code> in <code>ioConfig</code> must be set to <code>&quot;org.apache.orc.mapreduce.OrcInputFormat&quot;</code>.</p>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>type</td>
+<td>String</td>
+<td>This should say <code>orc</code></td>
+<td>yes</td>
+</tr>
+<tr>
+<td>parseSpec</td>
+<td>JSON Object</td>
+<td>Specifies the timestamp and dimensions of the data (<code>timeAndDims</code> and <code>orc</code> format) and a <code>flattenSpec</code> (<code>orc</code> format)</td>
+<td>yes</td>
+</tr>
+</tbody></table>
+
+<p>The parser supports two <code>parseSpec</code> formats: <code>orc</code> and <code>timeAndDims</code>. </p>
+
+<p><code>orc</code> supports auto field discovery and flattening, if specified with a <a href="../../ingestion/flatten-json.html">flattenSpec</a>. 
+If no <code>flattenSpec</code> is specified, <code>useFieldDiscovery</code> will be enabled by default. Specifying a <code>dimensionSpec</code> is 
+optional if <code>useFieldDiscovery</code> is enabled: if a <code>dimensionSpec</code> is supplied, the list of <code>dimensions</code> it defines will be
+the set of ingested dimensions, if missing the discovered fields will make up the list.</p>
+
+<p><code>timeAndDims</code> parse spec must specify which fields will be extracted as dimensions through the <code>dimensionSpec</code>.</p>
+
+<p><a href="https://orc.apache.org/docs/types.html">All column types</a> are supported, with the exception of <code>union</code> types. Columns of
+ <code>list</code> type, if filled with primitives, may be used as a multi-value dimension, or specific elements can be extracted with 
+<code>flattenSpec</code> expressions. Likewise, primitive fields may be extracted from <code>map</code> and <code>struct</code> types in the same manner.
+Auto field discovery will automatically create a string dimension for every (non-timestamp) primitive or <code>list</code> of 
+primitives, as well as any flatten expressions defined in the <code>flattenSpec</code>.</p>
+
+<h3 id="hadoop-job-properties">Hadoop Job Properties</h3>
+
+<p>Like most Hadoop jobs, the best outcomes will add <code>&quot;mapreduce.job.user.classpath.first&quot;: &quot;true&quot;</code> or
+<code>&quot;mapreduce.job.classloader&quot;: &quot;true&quot;</code> to the <code>jobProperties</code> section of <code>tuningConfig</code>. Note that it is likely if using
+<code>&quot;mapreduce.job.classloader&quot;: &quot;true&quot;</code> that you will need to set <code>mapreduce.job.classloader.system.classes</code> to include 
+<code>-org.apache.hadoop.hive.</code> to instruct Hadoop to load <code>org.apache.hadoop.hive</code> classes from the application jars instead
+of system jars, e.g.</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="err">...</span>
+    <span class="s2">&quot;mapreduce.job.classloader&quot;</span><span class="err">:</span> <span class="s2">&quot;true&quot;</span><span class="err">,</span>
+    <span class="s2">&quot;mapreduce.job.classloader.system.classes&quot;</span> <span class="err">:</span> <span class="s2">&quot;java., javax.accessibility., javax.activation., javax.activity., javax.annotation., javax.annotation.processing., javax.crypto., javax.imageio., javax.jws., javax.lang.model., -javax.management.j2ee., javax.management., javax.naming., javax.net., javax.print., javax.rmi., javax.script., -javax.security.auth.message., javax.security.auth., javax.security.cert., javax.security.sasl., javax.sound., javax.sql., javax.swing., javax.tools., javax.transaction., -javax.xml.registry., -javax.xml.rpc., javax.xml., org.w3c.dom., org.xml.sax., org.apache.commons.logging., org.apache.log4j., -org.apache.hadoop.hbase., -org.apache.hadoop.hive., org.apache.hadoop., core-default.xml, hdfs-default.xml, mapred-default.xml, yarn-default.xml&quot;</span><span class="err">,</span>
+<span class="err">...</span>
+</code></pre></div>
+<p>This is due to the <code>hive-storage-api</code> dependency of the
+<code>orc-mapreduce</code> library, which provides some classes under the <code>org.apache.hadoop.hive</code> package. If instead using the
+setting <code>&quot;mapreduce.job.user.classpath.first&quot;: &quot;true&quot;</code>, then this will not be an issue.</p>
+
+<h3 id="examples">Examples</h3>
+
+<h4 id="orc-parser-orc-parsespec-auto-field-discovery-flatten-expressions"><code>orc</code> parser, <code>orc</code> parseSpec, auto field discovery, flatten expressions</h4>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+  <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;index_hadoop&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;spec&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;ioConfig&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;hadoop&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;inputSpec&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;static&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;inputFormat&quot;</span><span class="p">:</span> <span class="s2">&quot;org.apache.orc.mapreduce.OrcInputFormat&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;paths&quot;</span><span class="p">:</span> <span class="s2">&quot;path/to/file.orc&quot;</span>
+      <span class="p">},</span>
+      <span class="err">...</span>
+    <span class="p">},</span>
+    <span class="nt">&quot;dataSchema&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="s2">&quot;example&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;parser&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;orc&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;parseSpec&quot;</span><span class="p">:</span> <span class="p">{</span>
+          <span class="nt">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;orc&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;flattenSpec&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;useFieldDiscovery&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+            <span class="nt">&quot;fields&quot;</span><span class="p">:</span> <span class="p">[</span>
+              <span class="p">{</span>
+                <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;path&quot;</span><span class="p">,</span>
+                <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;nestedDim&quot;</span><span class="p">,</span>
+                <span class="nt">&quot;expr&quot;</span><span class="p">:</span> <span class="s2">&quot;$.nestedData.dim1&quot;</span>
+              <span class="p">},</span>
+              <span class="p">{</span>
+                <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;path&quot;</span><span class="p">,</span>
+                <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;listDimFirstItem&quot;</span><span class="p">,</span>
+                <span class="nt">&quot;expr&quot;</span><span class="p">:</span> <span class="s2">&quot;$.listDim[1]&quot;</span>
+              <span class="p">}</span>
+            <span class="p">]</span>
+          <span class="p">},</span>
+          <span class="nt">&quot;timestampSpec&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;column&quot;</span><span class="p">:</span> <span class="s2">&quot;timestamp&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;millis&quot;</span>
+          <span class="p">}</span>
+        <span class="p">}</span>
+      <span class="p">},</span>
+      <span class="err">...</span>
+    <span class="p">},</span>
+    <span class="nt">&quot;tuningConfig&quot;</span><span class="p">:</span> <span class="err">&lt;hadoop-tuning-config&gt;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="err">}</span>
+</code></pre></div>
+<h4 id="orc-parser-orc-parsespec-field-discovery-with-no-flattenspec-or-dimensionspec"><code>orc</code> parser, <code>orc</code> parseSpec, field discovery with no flattenSpec or dimensionSpec</h4>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+  <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;index_hadoop&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;spec&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;ioConfig&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;hadoop&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;inputSpec&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;static&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;inputFormat&quot;</span><span class="p">:</span> <span class="s2">&quot;org.apache.orc.mapreduce.OrcInputFormat&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;paths&quot;</span><span class="p">:</span> <span class="s2">&quot;path/to/file.orc&quot;</span>
+      <span class="p">},</span>
+      <span class="err">...</span>
+    <span class="p">},</span>
+    <span class="nt">&quot;dataSchema&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="s2">&quot;example&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;parser&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;orc&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;parseSpec&quot;</span><span class="p">:</span> <span class="p">{</span>
+          <span class="nt">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;orc&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;timestampSpec&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;column&quot;</span><span class="p">:</span> <span class="s2">&quot;timestamp&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;millis&quot;</span>
+          <span class="p">}</span>
+        <span class="p">}</span>
+      <span class="p">},</span>
+      <span class="err">...</span>
+    <span class="p">},</span>
+    <span class="nt">&quot;tuningConfig&quot;</span><span class="p">:</span> <span class="err">&lt;hadoop-tuning-config&gt;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="err">}</span>
+</code></pre></div>
+<h4 id="orc-parser-orc-parsespec-no-autodiscovery"><code>orc</code> parser, <code>orc</code> parseSpec, no autodiscovery</h4>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+  <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;index_hadoop&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;spec&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;ioConfig&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;hadoop&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;inputSpec&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;static&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;inputFormat&quot;</span><span class="p">:</span> <span class="s2">&quot;org.apache.orc.mapreduce.OrcInputFormat&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;paths&quot;</span><span class="p">:</span> <span class="s2">&quot;path/to/file.orc&quot;</span>
+      <span class="p">},</span>
+      <span class="err">...</span>
+    <span class="p">},</span>
+    <span class="nt">&quot;dataSchema&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="s2">&quot;example&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;parser&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;orc&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;parseSpec&quot;</span><span class="p">:</span> <span class="p">{</span>
+          <span class="nt">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;orc&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;flattenSpec&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;useFieldDiscovery&quot;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+            <span class="nt">&quot;fields&quot;</span><span class="p">:</span> <span class="p">[</span>
+              <span class="p">{</span>
+                <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;path&quot;</span><span class="p">,</span>
+                <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;nestedDim&quot;</span><span class="p">,</span>
+                <span class="nt">&quot;expr&quot;</span><span class="p">:</span> <span class="s2">&quot;$.nestedData.dim1&quot;</span>
+              <span class="p">},</span>
+              <span class="p">{</span>
+                <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;path&quot;</span><span class="p">,</span>
+                <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;listDimFirstItem&quot;</span><span class="p">,</span>
+                <span class="nt">&quot;expr&quot;</span><span class="p">:</span> <span class="s2">&quot;$.listDim[1]&quot;</span>
+              <span class="p">}</span>
+            <span class="p">]</span>
+          <span class="p">},</span>
+          <span class="nt">&quot;timestampSpec&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;column&quot;</span><span class="p">:</span> <span class="s2">&quot;timestamp&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;millis&quot;</span>
+          <span class="p">},</span>
+          <span class="nt">&quot;dimensionsSpec&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;dimensions&quot;</span><span class="p">:</span> <span class="p">[</span>
+              <span class="s2">&quot;dim1&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;dim3&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;nestedDim&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;listDimFirstItem&quot;</span>
+            <span class="p">],</span>
+            <span class="nt">&quot;dimensionExclusions&quot;</span><span class="p">:</span> <span class="p">[],</span>
+            <span class="nt">&quot;spatialDimensions&quot;</span><span class="p">:</span> <span class="p">[]</span>
+          <span class="p">}</span>
+        <span class="p">}</span>
+      <span class="p">},</span>
+      <span class="err">...</span>
+    <span class="p">},</span>
+    <span class="nt">&quot;tuningConfig&quot;</span><span class="p">:</span> <span class="err">&lt;hadoop-tuning-config&gt;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="err">}</span>
+</code></pre></div>
+<h4 id="orc-parser-timeanddims-parsespec"><code>orc</code> parser, <code>timeAndDims</code> parseSpec</h4>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+  <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;index_hadoop&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;spec&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;ioConfig&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;hadoop&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;inputSpec&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;static&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;inputFormat&quot;</span><span class="p">:</span> <span class="s2">&quot;org.apache.orc.mapreduce.OrcInputFormat&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;paths&quot;</span><span class="p">:</span> <span class="s2">&quot;path/to/file.orc&quot;</span>
+      <span class="p">},</span>
+      <span class="err">...</span>
+    <span class="p">},</span>
+    <span class="nt">&quot;dataSchema&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="s2">&quot;example&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;parser&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;orc&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;parseSpec&quot;</span><span class="p">:</span> <span class="p">{</span>
+          <span class="nt">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;timeAndDims&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;timestampSpec&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;column&quot;</span><span class="p">:</span> <span class="s2">&quot;timestamp&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;auto&quot;</span>
+          <span class="p">},</span>
+          <span class="nt">&quot;dimensionsSpec&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;dimensions&quot;</span><span class="p">:</span> <span class="p">[</span>
+              <span class="s2">&quot;dim1&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;dim2&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;dim3&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;listDim&quot;</span>
+            <span class="p">],</span>
+            <span class="nt">&quot;dimensionExclusions&quot;</span><span class="p">:</span> <span class="p">[],</span>
+            <span class="nt">&quot;spatialDimensions&quot;</span><span class="p">:</span> <span class="p">[]</span>
+          <span class="p">}</span>
+        <span class="p">}</span>
+      <span class="p">},</span>
+      <span class="err">...</span>
+    <span class="p">},</span>
+    <span class="nt">&quot;tuningConfig&quot;</span><span class="p">:</span> <span class="err">&lt;hadoop-tuning-config&gt;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<h3 id="migration-from-contrib-extension">Migration from &#39;contrib&#39; extension</h3>
+
+<p>This extension, first available in version 0.15.0, replaces the previous &#39;contrib&#39; extension which was available until 
+0.14.0-incubating. While this extension can index any data the &#39;contrib&#39; extension could, the json spec for the 
+ingestion task is <em>incompatible</em>, and will need modified to work with the newer &#39;core&#39; extension. </p>
+
+<p>To migrate to 0.15.0+:
+* In <code>inputSpec</code> of <code>ioConfig</code>, <code>inputFormat</code> must be changed from <code>&quot;org.apache.hadoop.hive.ql.io.orc.OrcNewInputFormat&quot;</code> to 
+<code>&quot;org.apache.orc.mapreduce.OrcInputFormat&quot;</code>
+* The &#39;contrib&#39; extension supported a <code>typeString</code> property, which provided the schema of the
+ORC file, of which was essentially required to have the types correct, but notably <em>not</em> the column names, which 
+facilitated column renaming. In the &#39;core&#39; extension, column renaming can be achieved with 
+<a href="../../ingestion/flatten-json.html"><code>flattenSpec</code> expressions</a>. For example, <code>&quot;typeString&quot;:&quot;struct&lt;time:string,name:string&gt;&quot;</code>
+with the actual schema <code>struct&lt;_col0:string,_col1:string&gt;</code>, to preserve Druid schema would need replaced with:
+<code>json
+&quot;flattenSpec&quot;: {
+  &quot;fields&quot;: [
+    {
+      &quot;type&quot;: &quot;path&quot;,
+      &quot;name&quot;: &quot;time&quot;,
+      &quot;expr&quot;: &quot;$._col0&quot;
+    },
+    {
+      &quot;type&quot;: &quot;path&quot;,
+      &quot;name&quot;: &quot;name&quot;,
+      &quot;expr&quot;: &quot;$._col1&quot;
+    }
+  ]
+  ...
+}
+</code>
+* The &#39;contrib&#39; extension supported a <code>mapFieldNameFormat</code> property, which provided a way to specify a dimension to
+ flatten <code>OrcMap</code> columns with primitive types. This functionality has also been replaced with
+ <a href="../../ingestion/flatten-json.html"><code>flattenSpec</code> expressions</a>. For example: <code>&quot;mapFieldNameFormat&quot;: &quot;&lt;PARENT&gt;_&lt;CHILD&gt;&quot;</code>
+ for a dimension <code>nestedData_dim1</code>, to preserve Druid schema could be replaced with 
+ <code>json
+&quot;flattenSpec&quot;: {
+  &quot;fields&quot;: [
+    {
+      &quot;type&quot;: &quot;path&quot;,
+      &quot;name&quot;: &quot;nestedData_dim1&quot;,
+      &quot;expr&quot;: &quot;$.nestedData.dim1&quot;
+    }
+  ]
+  ...
+}
+</code></p>
+
+        </div>
+        <div class="col-md-3">
+          <div class="searchbox">
+            <gcse:searchbox-only></gcse:searchbox-only>
+          </div>
+          <div id="toc" class="nav toc hidden-print">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Start page_footer include -->
+<footer class="druid-footer">
+<div class="container">
+  <div class="text-center">
+    <p>
+    <a href="/technology">Technology</a>&ensp;·&ensp;
+    <a href="/use-cases">Use Cases</a>&ensp;·&ensp;
+    <a href="/druid-powered">Powered by Druid</a>&ensp;·&ensp;
+    <a href="/docs/latest">Docs</a>&ensp;·&ensp;
+    <a href="/community/">Community</a>&ensp;·&ensp;
+    <a href="/downloads.html">Download</a>&ensp;·&ensp;
+    <a href="/faq">FAQ</a>
+    </p>
+  </div>
+  <div class="text-center">
+    <a title="Join the user group" href="https://groups.google.com/forum/#!forum/druid-user" target="_blank"><span class="fa fa-comments"></span></a>&ensp;·&ensp;
+    <a title="Follow Druid" href="https://twitter.com/druidio" target="_blank"><span class="fab fa-twitter"></span></a>&ensp;·&ensp;
+    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.15.0-incubating/apache-druid-0.15.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
+    <a title="GitHub" href="https://github.com/apache/incubator-druid" target="_blank"><span class="fab fa-github"></span></a>
+  </div>
+  <div class="text-center license">
+    Copyright © 2019 <a href="https://www.apache.org/" target="_blank">Apache Software Foundation</a>.<br>
+    Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>.<br>
+    Apache Druid, Druid, and the Druid logo are either registered trademarks or trademarks of The Apache Software Foundation in the United States and other countries.
+  </div>
+</div>
+</footer>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-131010415-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-131010415-1');
+</script>
+<script>
+  function trackDownload(type, url) {
+    ga('send', 'event', 'download', type, url);
+  }
+</script>
+<script src="//code.jquery.com/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/assets/js/druid.js"></script>
+<!-- stop page_footer include -->
+
+
+    <script>
+    $(function() {
+      $(".toc").load("/docs/0.15.0-incubating/toc.html");
+
+      // There is no way to tell when .gsc-input will be async loaded into the page so just try to set a placeholder until it works
+      var tries = 0;
+      var timer = setInterval(function() {
+        tries++;
+        if (tries > 300) clearInterval(timer);
+        var searchInput = $('input.gsc-input');
+        if (searchInput.length) {
+          searchInput.attr('placeholder', 'Search');
+          clearInterval(timer);
+        }
+      }, 100);
+    });
+    </script>
+  </body>
+</html>

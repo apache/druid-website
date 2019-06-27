@@ -166,7 +166,7 @@ the <a href="index.html">single-machine quickstart</a> and have it running on yo
 <p>The spec we&#39;ll use for this tutorial is located at <code>quickstart/tutorial/updates-init-index.json</code>. This spec creates a datasource called <code>updates-tutorial</code> from the <code>quickstart/tutorial/updates-data.json</code> input file.</p>
 
 <p>Let&#39;s submit that task:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>bin/post-index-task --file quickstart/tutorial/updates-init-index.json 
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>bin/post-index-task --file quickstart/tutorial/updates-init-index.json --url http://localhost:8081
 </code></pre></div>
 <p>We have three initial rows containing an &quot;animal&quot; dimension and &quot;number&quot; metric:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>dsql&gt; <span class="k">select</span> * from <span class="s2">&quot;updates-tutorial&quot;</span><span class="p">;</span> 
@@ -188,7 +188,7 @@ Retrieved <span class="m">3</span> rows in <span class="m">1</span>.42s.
 <p>Note that this task reads input from <code>quickstart/tutorial/updates-data2.json</code>, and <code>appendToExisting</code> is set to <code>false</code> (indicating this is an overwrite).</p>
 
 <p>Let&#39;s submit that task:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>bin/post-index-task --file quickstart/tutorial/updates-overwrite-index.json 
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>bin/post-index-task --file quickstart/tutorial/updates-overwrite-index.json --url http://localhost:8081
 </code></pre></div>
 <p>When Druid finishes loading the new segment from this overwrite task, the &quot;tiger&quot; row now has the value &quot;lion&quot;, the &quot;aardvark&quot; row has a different number, and the &quot;giraffe&quot; row has been replaced. It may take a couple of minutes for the changes to take effect:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>dsql&gt; <span class="k">select</span> * from <span class="s2">&quot;updates-tutorial&quot;</span><span class="p">;</span>
@@ -208,7 +208,7 @@ Retrieved <span class="m">3</span> rows in <span class="m">0</span>.02s.
 <p>The <code>quickstart/tutorial/updates-append-index.json</code> task spec has been configured to read from the existing <code>updates-tutorial</code> datasource and the <code>quickstart/tutorial/updates-data3.json</code> file. The task will combine data from the two input sources, and then overwrite the original data with the new combined data.</p>
 
 <p>Let&#39;s submit that task:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>bin/post-index-task --file quickstart/tutorial/updates-append-index.json 
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>bin/post-index-task --file quickstart/tutorial/updates-append-index.json --url http://localhost:8081
 </code></pre></div>
 <p>When Druid finishes loading the new segment from this overwrite task, the new rows will have been added to the datasource. Note that roll-up occurred for the &quot;lion&quot; row:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>dsql&gt; <span class="k">select</span> * from <span class="s2">&quot;updates-tutorial&quot;</span><span class="p">;</span>
@@ -231,7 +231,7 @@ Retrieved <span class="m">6</span> rows in <span class="m">0</span>.02s.
 <p>The <code>quickstart/tutorial/updates-append-index2.json</code> task spec reads input from <code>quickstart/tutorial/updates-data4.json</code> and will append its data to the <code>updates-tutorial</code> datasource. Note that <code>appendToExisting</code> is set to <code>true</code> in this spec.</p>
 
 <p>Let&#39;s submit that task:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>bin/post-index-task --file quickstart/tutorial/updates-append-index2.json 
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>bin/post-index-task --file quickstart/tutorial/updates-append-index2.json --url http://localhost:8081
 </code></pre></div>
 <p>When the new data is loaded, we can see two additional rows after &quot;octopus&quot;. Note that the new &quot;bear&quot; row with number 222 has not been rolled up with the existing bear-111 row, because the new data is held in a separate segment.</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>dsql&gt; <span class="k">select</span> * from <span class="s2">&quot;updates-tutorial&quot;</span><span class="p">;</span>
@@ -292,7 +292,7 @@ Retrieved <span class="m">7</span> rows in <span class="m">0</span>.23s.
   <div class="text-center">
     <a title="Join the user group" href="https://groups.google.com/forum/#!forum/druid-user" target="_blank"><span class="fa fa-comments"></span></a>&ensp;·&ensp;
     <a title="Follow Druid" href="https://twitter.com/druidio" target="_blank"><span class="fab fa-twitter"></span></a>&ensp;·&ensp;
-    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.14.2-incubating/apache-druid-0.14.2-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
+    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.15.0-incubating/apache-druid-0.15.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
     <a title="GitHub" href="https://github.com/apache/incubator-druid" target="_blank"><span class="fab fa-github"></span></a>
   </div>
   <div class="text-center license">

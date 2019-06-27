@@ -428,6 +428,12 @@ at the load balancer.</p>
 
 <p>Return the tiers that a datasource exists in.</p>
 
+<h4 id="note-for-coordinators-post-and-delete-apis">Note for coordinator&#39;s POST and DELETE API&#39;s</h4>
+
+<p>The segments would be enabled when these API&#39;s are called, but then can be disabled again by the coordinator if any dropRule matches. Segments enabled by these API&#39;s might not be loaded by historical processes if no loadRule matches.  If an indexing or kill task runs at the same time as these API&#39;s are invoked, the behavior is undefined. Some segments might be killed and others might be enabled. It&#39;s also possible that all segments might be disabled but at the same time, the indexing task is able to read data from those segments and succeed. </p>
+
+<p>Caution : Avoid using indexing or kill tasks and these API&#39;s at the same time for the same datasource and time chunk. (It&#39;s fine if the time chunks or datasource don&#39;t overlap)</p>
+
 <h5 id="post">POST</h5>
 
 <ul>
@@ -441,6 +447,27 @@ at the load balancer.</p>
 </ul>
 
 <p>Enables a segment of a datasource.</p>
+
+<ul>
+<li><p><code>/druid/coordinator/v1/datasources/{dataSourceName}/markUsed</code></p></li>
+<li><p><code>/druid/coordinator/v1/datasources/{dataSourceName}/markUnused</code></p></li>
+</ul>
+
+<p>Marks segments (un)used for a datasource by interval or set of segment Ids. </p>
+
+<p>When marking used only segments that are not overshadowed will be updated.</p>
+
+<p>The request payload contains the interval or set of segment Ids to be marked unused.
+Either interval or segment ids should be provided, if both or none are provided in the payload, the API would throw an error (400 BAD REQUEST).</p>
+
+<p>Interval specifies the start and end times as IS0 8601 strings. <code>interval=(start/end)</code> where start and end both are inclusive and only the segments completely contained within the specified interval will be disabled, partially overlapping segments will not be affected.</p>
+
+<p>JSON Request Payload:</p>
+
+<p>|Key|Description|Example|
+|----------|-------------|---------|
+|<code>interval</code>|The interval for which to mark segments unused|&quot;2015-09-12T03:00:00.000Z/2015-09-12T05:00:00.000Z&quot;|
+|<code>segmentIds</code>|Set of segment Ids to be marked unused|[&quot;segmentId1&quot;, &quot;segmentId2&quot;]|</p>
 
 <h5 id="delete">DELETE<a name="coordinator-delete"></a></h5>
 
@@ -818,9 +845,59 @@ which automates this operation to perform periodically.</p>
 <td>supervisor unique identifier</td>
 </tr>
 <tr>
+<td><code>state</code></td>
+<td>String</td>
+<td>basic state of the supervisor. Available states:<code>UNHEALTHY_SUPERVISOR</code>, <code>UNHEALTHY_TASKS</code>, <code>PENDING</code>, <code>RUNNING</code>, <code>SUSPENDED</code>, <code>STOPPING</code></td>
+</tr>
+<tr>
+<td><code>detailedState</code></td>
+<td>String</td>
+<td>supervisor specific state. (See documentation of specific supervisor for details)</td>
+</tr>
+<tr>
+<td><code>healthy</code></td>
+<td>Boolean</td>
+<td>true or false indicator of overall supervisor health</td>
+</tr>
+<tr>
 <td><code>spec</code></td>
 <td>SupervisorSpec</td>
 <td>json specification of supervisor (See Supervisor Configuration for details)</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li><code>/druid/indexer/v1/supervisor?state=true</code></li>
+</ul>
+
+<p>Returns a list of objects of the currently active supervisors and their current state.</p>
+
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>id</code></td>
+<td>String</td>
+<td>supervisor unique identifier</td>
+</tr>
+<tr>
+<td><code>state</code></td>
+<td>String</td>
+<td>basic state of the supervisor. Available states:<code>UNHEALTHY_SUPERVISOR</code>, <code>UNHEALTHY_TASKS</code>, <code>PENDING</code>, <code>RUNNING</code>, <code>SUSPENDED</code>, <code>STOPPING</code></td>
+</tr>
+<tr>
+<td><code>detailedState</code></td>
+<td>String</td>
+<td>supervisor specific state. (See documentation of specific supervisor for details)</td>
+</tr>
+<tr>
+<td><code>healthy</code></td>
+<td>Boolean</td>
+<td>true or false indicator of overall supervisor health</td>
 </tr>
 </tbody></table>
 
@@ -1076,8 +1153,8 @@ in the local cache have been loaded, and 503 SERVICE UNAVAILABLE, if they haven&
 <p>Returns the dimensions of the datasource.</p>
 
 <div class="note caution">
-This API is deprecated and will be removed in future releases. Please use <a href="/querying/segmentmetadataquery.html">SegmentMetadataQuery</a> instead
-which provides more comprehensive information and supports all dataSource types including streaming dataSources. It's also encouraged to use <a href="/querying/sql.html#retrieving-metadata">INFORMATION_SCHEMA tables</a>
+This API is deprecated and will be removed in future releases. Please use <a href="../querying/segmentmetadataquery.html">SegmentMetadataQuery</a> instead
+which provides more comprehensive information and supports all dataSource types including streaming dataSources. It's also encouraged to use <a href="../querying/sql.html#retrieving-metadata">INFORMATION_SCHEMA tables</a>
 if you're using SQL.
 </div>
 
@@ -1089,7 +1166,7 @@ if you're using SQL.
 
 <div class="note caution">
 This API is deprecated and will be removed in future releases. Please use <a href="../querying/segmentmetadataquery.html">SegmentMetadataQuery</a> instead
-which provides more comprehensive information and supports all dataSource types including streaming dataSources. It's also encouraged to use [INFORMATION_SCHEMA tables](../querying/sql.html#retrieving-metadata)
+which provides more comprehensive information and supports all dataSource types including streaming dataSources. It's also encouraged to use <a href="../querying/sql.html#retrieving-metadata">INFORMATION_SCHEMA tables</a>
 if you're using SQL.
 </div>
 
@@ -1153,7 +1230,7 @@ if you're using SQL.
   <div class="text-center">
     <a title="Join the user group" href="https://groups.google.com/forum/#!forum/druid-user" target="_blank"><span class="fa fa-comments"></span></a>&ensp;·&ensp;
     <a title="Follow Druid" href="https://twitter.com/druidio" target="_blank"><span class="fab fa-twitter"></span></a>&ensp;·&ensp;
-    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.14.2-incubating/apache-druid-0.14.2-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
+    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.15.0-incubating/apache-druid-0.15.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
     <a title="GitHub" href="https://github.com/apache/incubator-druid" target="_blank"><span class="fab fa-github"></span></a>
   </div>
   <div class="text-center license">

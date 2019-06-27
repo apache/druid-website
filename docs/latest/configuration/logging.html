@@ -175,6 +175,36 @@
   &lt;/Loggers&gt;
 &lt;/Configuration&gt;
 </code></pre></div>
+<h2 id="my-logs-are-really-chatty-can-i-set-them-to-asynchronously-write">My logs are really chatty, can I set them to asynchronously write?</h2>
+
+<p>Yes, using a <code>log4j2.xml</code> similar to the following causes some of the more chatty classes to write asynchronously:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;
+&lt;Configuration status=&quot;WARN&quot;&gt;
+  &lt;Appenders&gt;
+    &lt;Console name=&quot;Console&quot; target=&quot;SYSTEM_OUT&quot;&gt;
+      &lt;PatternLayout pattern=&quot;%d{ISO8601} %p [%t] %c - %m%n&quot;/&gt;
+    &lt;/Console&gt;
+  &lt;/Appenders&gt;
+  &lt;Loggers&gt;
+    &lt;AsyncLogger name=&quot;org.apache.druid.curator.inventory.CuratorInventoryManager&quot; level=&quot;debug&quot; additivity=&quot;false&quot;&gt;
+      &lt;AppenderRef ref=&quot;Console&quot;/&gt;
+    &lt;/AsyncLogger&gt;
+    &lt;AsyncLogger name=&quot;org.apache.druid.client.BatchServerInventoryView&quot; level=&quot;debug&quot; additivity=&quot;false&quot;&gt;
+      &lt;AppenderRef ref=&quot;Console&quot;/&gt;
+    &lt;/AsyncLogger&gt;
+    &lt;!-- Make extra sure nobody adds logs in a bad way that can hurt performance --&gt;
+    &lt;AsyncLogger name=&quot;org.apache.druid.client.ServerInventoryView&quot; level=&quot;debug&quot; additivity=&quot;false&quot;&gt;
+      &lt;AppenderRef ref=&quot;Console&quot;/&gt;
+    &lt;/AsyncLogger&gt;
+    &lt;AsyncLogger name =&quot;org.apache.druid.java.util.http.client.pool.ChannelResourceFactory&quot; level=&quot;info&quot; additivity=&quot;false&quot;&gt;
+      &lt;AppenderRef ref=&quot;Console&quot;/&gt;
+    &lt;/AsyncLogger&gt;
+    &lt;Root level=&quot;info&quot;&gt;
+      &lt;AppenderRef ref=&quot;Console&quot;/&gt;
+    &lt;/Root&gt;
+  &lt;/Loggers&gt;
+&lt;/Configuration&gt;
+</code></pre></div>
         </div>
         <div class="col-md-3">
           <div class="searchbox">
@@ -203,7 +233,7 @@
   <div class="text-center">
     <a title="Join the user group" href="https://groups.google.com/forum/#!forum/druid-user" target="_blank"><span class="fa fa-comments"></span></a>&ensp;·&ensp;
     <a title="Follow Druid" href="https://twitter.com/druidio" target="_blank"><span class="fab fa-twitter"></span></a>&ensp;·&ensp;
-    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.14.2-incubating/apache-druid-0.14.2-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
+    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.15.0-incubating/apache-druid-0.15.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
     <a title="GitHub" href="https://github.com/apache/incubator-druid" target="_blank"><span class="fab fa-github"></span></a>
   </div>
   <div class="text-center license">
