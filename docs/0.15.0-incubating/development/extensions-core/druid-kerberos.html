@@ -199,6 +199,13 @@ druid.auth.authenticator.MyKerberosAuthenticator.type=kerberos
 <td>No</td>
 </tr>
 <tr>
+<td><code>druid.auth.authenticator.kerberos.excludedPaths</code></td>
+<td><code>[&#39;/status&#39;,&#39;/health&#39;]</code></td>
+<td>Array of HTTP paths which which does NOT need to be authenticated.</td>
+<td>None</td>
+<td>No</td>
+</tr>
+<tr>
 <td><code>druid.auth.authenticator.kerberos.cookieSignatureSecret</code></td>
 <td><code>secretString</code></td>
 <td>Secret used to sign authentication cookies. It is advisable to explicitly set it, if you have multiple druid ndoes running on same machine with different ports as the Cookie Specification does not guarantee isolation by port.</td>
@@ -216,10 +223,6 @@ druid.auth.authenticator.MyKerberosAuthenticator.type=kerberos
 
 <p>As a note, it is required that the SPNego principal in use by the druid processes must start with HTTP (This specified by <a href="https://tools.ietf.org/html/rfc4559">RFC-4559</a>) and must be of the form &quot;HTTP/_HOST@REALM&quot;.
 The special string _HOST will be replaced automatically with the value of config <code>druid.host</code></p>
-
-<h3 id="druid-auth-authenticator-kerberos-excludedpaths"><code>druid.auth.authenticator.kerberos.excludedPaths</code></h3>
-
-<p>In older releases, the Kerberos authenticator had an <code>excludedPaths</code> property that allowed the user to specify a list of paths where authentication checks should be skipped. This property has been removed from the Kerberos authenticator because the path exclusion functionality is now handled across all authenticators/authorizers by setting <code>druid.auth.unsecuredPaths</code>, as described in the <a href="../../design/auth.html">main auth documentation</a>.</p>
 
 <h3 id="auth-to-local-syntax">Auth to Local Syntax</h3>
 

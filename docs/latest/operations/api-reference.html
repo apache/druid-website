@@ -845,59 +845,9 @@ which automates this operation to perform periodically.</p>
 <td>supervisor unique identifier</td>
 </tr>
 <tr>
-<td><code>state</code></td>
-<td>String</td>
-<td>basic state of the supervisor. Available states:<code>UNHEALTHY_SUPERVISOR</code>, <code>UNHEALTHY_TASKS</code>, <code>PENDING</code>, <code>RUNNING</code>, <code>SUSPENDED</code>, <code>STOPPING</code></td>
-</tr>
-<tr>
-<td><code>detailedState</code></td>
-<td>String</td>
-<td>supervisor specific state. (See documentation of specific supervisor for details)</td>
-</tr>
-<tr>
-<td><code>healthy</code></td>
-<td>Boolean</td>
-<td>true or false indicator of overall supervisor health</td>
-</tr>
-<tr>
 <td><code>spec</code></td>
 <td>SupervisorSpec</td>
 <td>json specification of supervisor (See Supervisor Configuration for details)</td>
-</tr>
-</tbody></table>
-
-<ul>
-<li><code>/druid/indexer/v1/supervisor?state=true</code></li>
-</ul>
-
-<p>Returns a list of objects of the currently active supervisors and their current state.</p>
-
-<table><thead>
-<tr>
-<th>Field</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><code>id</code></td>
-<td>String</td>
-<td>supervisor unique identifier</td>
-</tr>
-<tr>
-<td><code>state</code></td>
-<td>String</td>
-<td>basic state of the supervisor. Available states:<code>UNHEALTHY_SUPERVISOR</code>, <code>UNHEALTHY_TASKS</code>, <code>PENDING</code>, <code>RUNNING</code>, <code>SUSPENDED</code>, <code>STOPPING</code></td>
-</tr>
-<tr>
-<td><code>detailedState</code></td>
-<td>String</td>
-<td>supervisor specific state. (See documentation of specific supervisor for details)</td>
-</tr>
-<tr>
-<td><code>healthy</code></td>
-<td>Boolean</td>
-<td>true or false indicator of overall supervisor health</td>
 </tr>
 </tbody></table>
 

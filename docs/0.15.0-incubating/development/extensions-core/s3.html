@@ -174,18 +174,43 @@
 </thead><tbody>
 <tr>
 <td><code>druid.s3.accessKey</code></td>
-<td>S3 access key.See <a href="#s3-authentication-methods">S3 authentication methods</a> for more details</td>
-<td>Can be ommitted according to authentication methods chosen.</td>
+<td>S3 access key.</td>
+<td>Must be set.</td>
 </tr>
 <tr>
 <td><code>druid.s3.secretKey</code></td>
-<td>S3 secret key.See <a href="#s3-authentication-methods">S3 authentication methods</a> for more details</td>
-<td>Can be ommitted according to authentication methods chosen.</td>
+<td>S3 secret key.</td>
+<td>Must be set.</td>
 </tr>
 <tr>
-<td><code>druid.s3.fileSessionCredentials</code></td>
-<td>Path to properties file containing <code>sessionToken</code>, <code>accessKey</code> and <code>secretKey</code> value. One key/value pair per line (format <code>key=value</code>). See <a href="#s3-authentication-methods">S3 authentication methods</a> for more details</td>
-<td>Can be ommitted according to authentication methods chosen.</td>
+<td><code>druid.storage.bucket</code></td>
+<td>Bucket to store in.</td>
+<td>Must be set.</td>
+</tr>
+<tr>
+<td><code>druid.storage.baseKey</code></td>
+<td>Base key prefix to use, i.e. what directory.</td>
+<td>Must be set.</td>
+</tr>
+<tr>
+<td><code>druid.storage.disableAcl</code></td>
+<td>Boolean flag to disable ACL. If this is set to <code>false</code>, the full control would be granted to the bucket owner. This may require to set additional permissions. See <a href="#s3-permissions-settings">S3 permissions settings</a>.</td>
+<td>false</td>
+</tr>
+<tr>
+<td><code>druid.storage.sse.type</code></td>
+<td>Server-side encryption type. Should be one of <code>s3</code>, <code>kms</code>, and <code>custom</code>. See the below <a href="#server-side-encryption">Server-side encryption section</a> for more details.</td>
+<td>None</td>
+</tr>
+<tr>
+<td><code>druid.storage.sse.kms.keyId</code></td>
+<td>AWS KMS key ID. This is used only when <code>druid.storage.sse.type</code> is <code>kms</code> and can be empty to use the default key ID.</td>
+<td>None</td>
+</tr>
+<tr>
+<td><code>druid.storage.sse.custom.base64EncodedKey</code></td>
+<td>Base64-encoded key. Should be specified if <code>druid.storage.sse.type</code> is <code>custom</code>.</td>
+<td>None</td>
 </tr>
 <tr>
 <td><code>druid.s3.protocol</code></td>
@@ -237,104 +262,12 @@
 <td>Password to use when connecting through a proxy.</td>
 <td>None</td>
 </tr>
-<tr>
-<td><code>druid.storage.bucket</code></td>
-<td>Bucket to store in.</td>
-<td>Must be set.</td>
-</tr>
-<tr>
-<td><code>druid.storage.baseKey</code></td>
-<td>Base key prefix to use, i.e. what directory.</td>
-<td>Must be set.</td>
-</tr>
-<tr>
-<td><code>druid.storage.archiveBucket</code></td>
-<td>S3 bucket name for archiving when running the <em>archive task</em>.</td>
-<td>none</td>
-</tr>
-<tr>
-<td><code>druid.storage.archiveBaseKey</code></td>
-<td>S3 object key prefix for archiving.</td>
-<td>none</td>
-</tr>
-<tr>
-<td><code>druid.storage.disableAcl</code></td>
-<td>Boolean flag to disable ACL. If this is set to <code>false</code>, the full control would be granted to the bucket owner. This may require to set additional permissions. See <a href="#s3-permissions-settings">S3 permissions settings</a>.</td>
-<td>false</td>
-</tr>
-<tr>
-<td><code>druid.storage.sse.type</code></td>
-<td>Server-side encryption type. Should be one of <code>s3</code>, <code>kms</code>, and <code>custom</code>. See the below <a href="#server-side-encryption">Server-side encryption section</a> for more details.</td>
-<td>None</td>
-</tr>
-<tr>
-<td><code>druid.storage.sse.kms.keyId</code></td>
-<td>AWS KMS key ID. This is used only when <code>druid.storage.sse.type</code> is <code>kms</code> and can be empty to use the default key ID.</td>
-<td>None</td>
-</tr>
-<tr>
-<td><code>druid.storage.sse.custom.base64EncodedKey</code></td>
-<td>Base64-encoded key. Should be specified if <code>druid.storage.sse.type</code> is <code>custom</code>.</td>
-<td>None</td>
-</tr>
-<tr>
-<td><code>druid.storage.useS3aSchema</code></td>
-<td>If true, use the &quot;s3a&quot; filesystem when using Hadoop-based ingestion. If false, the &quot;s3n&quot; filesystem will be used. Only affects Hadoop-based ingestion.</td>
-<td>false</td>
-</tr>
 </tbody></table>
 
 <h3 id="s3-permissions-settings">S3 permissions settings</h3>
 
 <p><code>s3:GetObject</code> and <code>s3:PutObject</code> are basically required for pushing/loading segments to/from S3.
 If <code>druid.storage.disableAcl</code> is set to <code>false</code>, then <code>s3:GetBucketAcl</code> and <code>s3:PutObjectAcl</code> are additionally required to set ACL for objects.</p>
-
-<h3 id="s3-authentication-methods">S3 authentication methods</h3>
-
-<p>To connect to your S3 bucket (whether deep storage bucket or source bucket), Druid use the following credentials providers chain</p>
-
-<table><thead>
-<tr>
-<th>order</th>
-<th>type</th>
-<th>details</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>1</td>
-<td>Druid config file</td>
-<td>Based on your runtime.properties if it contains values <code>druid.s3.accessKey</code> and <code>druid.s3.secretKey</code></td>
-</tr>
-<tr>
-<td>2</td>
-<td>Custom properties file</td>
-<td>Based on custom properties file where you can supply <code>sessionToken</code>, <code>accessKey</code> and <code>secretKey</code> values. This file is provided to Druid through <code>druid.s3.fileSessionCredentials</code> propertie</td>
-</tr>
-<tr>
-<td>3</td>
-<td>Environment variables</td>
-<td>Based on environment variables <code>AWS_ACCESS_KEY_ID</code> and <code>AWS_SECRET_ACCESS_KEY</code></td>
-</tr>
-<tr>
-<td>4</td>
-<td>Java system properties</td>
-<td>Based on JVM properties <code>aws.accessKeyId</code> and <code>aws.secretKey</code></td>
-</tr>
-<tr>
-<td>5</td>
-<td>Profile informations</td>
-<td>Based on credentials you may have on your druid instance (generally in <code>~/.aws/credentials</code>)</td>
-</tr>
-<tr>
-<td>6</td>
-<td>Instance profile informations</td>
-<td>Based on the instance profile you may have attached to your druid instance</td>
-</tr>
-</tbody></table>
-
-<p>You can find more informations about authentication method <a href="https://docs.aws.amazon.com/fr_fr/sdk-for-java/v1/developer-guide/credentials.html">here</a><br/>
-<strong>Note :</strong> <em>Order is important here as it indicates the precedence of authentication methods.<br/> 
-So if you are trying to use Instance profile informations, you **must not</em>* set <code>druid.s3.accessKey</code> and <code>druid.s3.secretKey</code> in your Druid runtime.properties* </p>
 
 <h2 id="server-side-encryption">Server-side encryption</h2>
 
