@@ -231,7 +231,7 @@ and the MiddleManagers. A supervisor for a dataSource is started by submitting a
   <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-<h2 id="supervisor-configuration">Supervisor Configuration</h2>
+<h2 id="supervisor-spec">Supervisor Spec</h2>
 
 <table><thead>
 <tr>
@@ -661,12 +661,108 @@ For all supervisor APIs, please check <a href="../../operations/api-reference.ht
 <code>
 -Ddruid.kinesis.accessKey=123 -Ddruid.kinesis.secretKey=456
 </code>
-The AWS access key ID and secret access key are used for Kinesis API requests. If this is not provided, the service will look for credentials set in environment variables, in the default profile configuration file, and from the EC2 instance profile provider (in this order).</p>
+The AWS access key ID and secret access key are used for Kinesis API requests. If this is not provided, the service will
+look for credentials set in environment variables, in the default profile configuration file, and from the EC2 instance
+profile provider (in this order).</p>
 
 <h3 id="getting-supervisor-status-report">Getting Supervisor Status Report</h3>
 
-<p><code>GET /druid/indexer/v1/supervisor/&lt;supervisorId&gt;/status</code> returns a snapshot report of the current state of the tasks managed by the given supervisor. This includes the latest
-sequence numbers as reported by Kinesis. Unlike the Kafka Indexing Service, stats about lag is not yet supported.</p>
+<p><code>GET /druid/indexer/v1/supervisor/&lt;supervisorId&gt;/status</code> returns a snapshot report of the current state of the tasks 
+managed by the given supervisor. This includes the latest sequence numbers as reported by Kinesis. Unlike the Kafka
+Indexing Service, stats about lag are not yet supported.</p>
+
+<p>The status report also contains the supervisor&#39;s state and a list of recently thrown exceptions (reported as
+<code>recentErrors</code>, whose max size can be controlled using the <code>druid.supervisor.maxStoredExceptionEvents</code> configuration).
+There are two fields related to the supervisor&#39;s state - <code>state</code> and <code>detailedState</code>. The <code>state</code> field will always be
+one of a small number of generic states that are applicable to any type of supervisor, while the <code>detailedState</code> field
+will contain a more descriptive, implementation-specific state that may provide more insight into the supervisor&#39;s
+activities than the generic <code>state</code> field.</p>
+
+<p>The list of possible <code>state</code> values are: [<code>PENDING</code>, <code>RUNNING</code>, <code>SUSPENDED</code>, <code>STOPPING</code>, <code>UNHEALTHY_SUPERVISOR</code>, <code>UNHEALTHY_TASKS</code>]</p>
+
+<p>The list of <code>detailedState</code> values and their corresponding <code>state</code> mapping is as follows:</p>
+
+<table><thead>
+<tr>
+<th>Detailed State</th>
+<th>Corresponding State</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>UNHEALTHY_SUPERVISOR</td>
+<td>UNHEALTHY_SUPERVISOR</td>
+<td>The supervisor has encountered errors on the past <code>druid.supervisor.unhealthinessThreshold</code> iterations</td>
+</tr>
+<tr>
+<td>UNHEALTHY_TASKS</td>
+<td>UNHEALTHY_TASKS</td>
+<td>The last <code>druid.supervisor.taskUnhealthinessThreshold</code> tasks have all failed</td>
+</tr>
+<tr>
+<td>UNABLE_TO_CONNECT_TO_STREAM</td>
+<td>UNHEALTHY_SUPERVISOR</td>
+<td>The supervisor is encountering connectivity issues with Kinesis and has not successfully connected in the past</td>
+</tr>
+<tr>
+<td>LOST_CONTACT_WITH_STREAM</td>
+<td>UNHEALTHY_SUPERVISOR</td>
+<td>The supervisor is encountering connectivity issues with Kinesis but has successfully connected in the past</td>
+</tr>
+<tr>
+<td>PENDING (first iteration only)</td>
+<td>PENDING</td>
+<td>The supervisor has been initialized and hasn&#39;t started connecting to the stream</td>
+</tr>
+<tr>
+<td>CONNECTING_TO_STREAM (first iteration only)</td>
+<td>RUNNING</td>
+<td>The supervisor is trying to connect to the stream and update partition data</td>
+</tr>
+<tr>
+<td>DISCOVERING_INITIAL_TASKS (first iteration only)</td>
+<td>RUNNING</td>
+<td>The supervisor is discovering already-running tasks</td>
+</tr>
+<tr>
+<td>CREATING_TASKS (first iteration only)</td>
+<td>RUNNING</td>
+<td>The supervisor is creating tasks and discovering state</td>
+</tr>
+<tr>
+<td>RUNNING</td>
+<td>RUNNING</td>
+<td>The supervisor has started tasks and is waiting for taskDuration to elapse</td>
+</tr>
+<tr>
+<td>SUSPENDED</td>
+<td>SUSPENDED</td>
+<td>The supervisor has been suspended</td>
+</tr>
+<tr>
+<td>STOPPING</td>
+<td>STOPPING</td>
+<td>The supervisor is stopping</td>
+</tr>
+</tbody></table>
+
+<p>On each iteration of the supervisor&#39;s run loop, the supervisor completes the following tasks in sequence:
+  1) Fetch the list of shards from Kinesis and determine the starting sequence number for each shard (either based on the
+  last processed sequence number if continuing, or starting from the beginning or ending of the stream if this is a new stream).
+  2) Discover any running indexing tasks that are writing to the supervisor&#39;s datasource and adopt them if they match
+  the supervisor&#39;s configuration, else signal them to stop.
+  3) Send a status request to each supervised task to update our view of the state of the tasks under our supervision.
+  4) Handle tasks that have exceeded <code>taskDuration</code> and should transition from the reading to publishing state.
+  5) Handle tasks that have finished publishing and signal redundant replica tasks to stop.
+  6) Handle tasks that have failed and clean up the supervisor&#39;s internal state.
+  7) Compare the list of healthy tasks to the requested <code>taskCount</code> and <code>replicas</code> configurations and create additional tasks if required.</p>
+
+<p>The <code>detailedState</code> field will show additional values (those marked with &quot;first iteration only&quot;) the first time the
+supervisor executes this run loop after startup or after resuming from a suspension. This is intended to surface
+initialization-type issues, where the supervisor is unable to reach a stable state (perhaps because it can&#39;t connect to
+Kinesis, it can&#39;t read from the stream, or it can&#39;t communicate with existing tasks). Once the supervisor is stable -
+that is, once it has completed a full execution without encountering any issues - <code>detailedState</code> will show a <code>RUNNING</code>
+state until it is stopped, suspended, or hits a failure threshold and transitions to an unhealthy state.</p>
 
 <h3 id="updating-existing-supervisors">Updating Existing Supervisors</h3>
 
@@ -866,7 +962,7 @@ Then when submitting a supervisor-spec, set <code>deaggregate</code> to true.</p
   <div class="text-center">
     <a title="Join the user group" href="https://groups.google.com/forum/#!forum/druid-user" target="_blank"><span class="fa fa-comments"></span></a>&ensp;·&ensp;
     <a title="Follow Druid" href="https://twitter.com/druidio" target="_blank"><span class="fab fa-twitter"></span></a>&ensp;·&ensp;
-    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.14.2-incubating/apache-druid-0.14.2-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
+    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.15.0-incubating/apache-druid-0.15.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
     <a title="GitHub" href="https://github.com/apache/incubator-druid" target="_blank"><span class="fab fa-github"></span></a>
   </div>
   <div class="text-center license">

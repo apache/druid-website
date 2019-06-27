@@ -222,6 +222,47 @@ A sample http firehose spec is shown below:</p>
     <span class="nt">&quot;uris&quot;</span>  <span class="p">:</span> <span class="p">[</span><span class="s2">&quot;http://example.com/uri1&quot;</span><span class="p">,</span> <span class="s2">&quot;http://example2.com/uri2&quot;</span><span class="p">]</span>
 <span class="p">}</span>
 </code></pre></div>
+<p>The below configurations can be optionally used if the URIs specified in the spec require a Basic Authentication Header.
+Omitting these fields from your spec will result in HTTP requests with no Basic Authentication Header.</p>
+
+<table><thead>
+<tr>
+<th>property</th>
+<th>description</th>
+<th>default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>httpAuthenticationUsername</td>
+<td>Username to use for authentication with specified URIs</td>
+<td>None</td>
+</tr>
+<tr>
+<td>httpAuthenticationPassword</td>
+<td>PasswordProvider to use with specified URIs</td>
+<td>None</td>
+</tr>
+</tbody></table>
+
+<p>Example with authentication fields using the DefaultPassword provider (this requires the password to be in the ingestion spec):</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;http&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;uris&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;http://example.com/uri1&quot;</span><span class="p">,</span> <span class="s2">&quot;http://example2.com/uri2&quot;</span><span class="p">],</span>
+    <span class="nt">&quot;httpAuthenticationUsername&quot;</span><span class="p">:</span> <span class="s2">&quot;username&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;httpAuthenticationPassword&quot;</span><span class="p">:</span> <span class="s2">&quot;password123&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>You can also use the other existing Druid PasswordProviders. Here is an example using the EnvironmentVariablePasswordProvider:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;http&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;uris&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;http://example.com/uri1&quot;</span><span class="p">,</span> <span class="s2">&quot;http://example2.com/uri2&quot;</span><span class="p">],</span>
+    <span class="nt">&quot;httpAuthenticationUsername&quot;</span><span class="p">:</span> <span class="s2">&quot;username&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;httpAuthenticationPassword&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;environment&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;variable&quot;</span><span class="p">:</span> <span class="s2">&quot;HTTP_FIREHOSE_PW&quot;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
 <p>The below configurations can be optionally used for tuning the firehose performance.</p>
 
 <table><thead>
@@ -261,7 +302,8 @@ A sample http firehose spec is shown below:</p>
 <h3 id="ingestsegmentfirehose">IngestSegmentFirehose</h3>
 
 <p>This Firehose can be used to read the data from existing druid segments.
-It can be used ingest existing druid segments using a new schema and change the name, dimensions, metrics, rollup, etc. of the segment.
+It can be used to ingest existing druid segments using a new schema and change the name, dimensions, metrics, rollup, etc. of the segment.
+This firehose is <em>splittable</em> and can be used by <a href="./native_tasks.html#parallel-index-task">native parallel index tasks</a>.
 A sample ingest firehose spec is shown below -</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
     <span class="nt">&quot;type&quot;</span>    <span class="p">:</span> <span class="s2">&quot;ingestSegment&quot;</span><span class="p">,</span>
@@ -306,20 +348,28 @@ A sample ingest firehose spec is shown below -</p>
 <td>See <a href="../querying/filters.html">Filters</a></td>
 <td>no</td>
 </tr>
+<tr>
+<td>maxInputSegmentBytesPerTask</td>
+<td>When used with the native parallel index task, the maximum number of bytes of input segments to process in a single task. If a single segment is larger than this number, it will be processed by itself in a single task (input segments are never split across tasks). Defaults to 150MB.</td>
+<td>no</td>
+</tr>
 </tbody></table>
 
 <h4 id="sqlfirehose">SqlFirehose</h4>
 
-<p>SqlFirehoseFactory can be used to ingest events residing in RDBMS. The database connection information is provided as part of the ingestion spec. For each query, the results are fetched locally and indexed. If there are multiple queries from which data needs to be indexed, queries are prefetched in the background upto <code>maxFetchCapacityBytes</code> bytes.
-An example is shown below:</p>
+<p>SqlFirehoseFactory can be used to ingest events residing in RDBMS. The database connection information is provided as part of the ingestion spec. For each query, the results are fetched locally and indexed. If there are multiple queries from which data needs to be indexed, queries are prefetched in the background upto <code>maxFetchCapacityBytes</code> bytes.</p>
+
+<p>Requires one of the following extensions:
+ * <a href="../development/extensions-core/mysql.html">MySQL Metadata Store</a>.
+ * <a href="../development/extensions-core/postgresql.html">PostgreSQL Metadata Store</a>.</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
     <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;sql&quot;</span><span class="p">,</span>
     <span class="nt">&quot;database&quot;</span><span class="p">:</span> <span class="p">{</span>
         <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;mysql&quot;</span><span class="p">,</span>
         <span class="nt">&quot;connectorConfig&quot;</span> <span class="p">:</span> <span class="p">{</span>
-        <span class="nt">&quot;connectURI&quot;</span> <span class="p">:</span> <span class="s2">&quot;jdbc:mysql://host:port/schema&quot;</span><span class="p">,</span>
-        <span class="nt">&quot;user&quot;</span> <span class="p">:</span> <span class="s2">&quot;user&quot;</span><span class="p">,</span>
-        <span class="nt">&quot;password&quot;</span> <span class="p">:</span> <span class="s2">&quot;password&quot;</span>
+            <span class="nt">&quot;connectURI&quot;</span> <span class="p">:</span> <span class="s2">&quot;jdbc:mysql://host:port/schema&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;user&quot;</span> <span class="p">:</span> <span class="s2">&quot;user&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;password&quot;</span> <span class="p">:</span> <span class="s2">&quot;password&quot;</span>
         <span class="p">}</span>
      <span class="p">},</span>
     <span class="nt">&quot;sqls&quot;</span> <span class="p">:</span> <span class="p">[</span><span class="s2">&quot;SELECT * FROM table1&quot;</span><span class="p">,</span> <span class="s2">&quot;SELECT * FROM table2&quot;</span><span class="p">]</span>
@@ -341,7 +391,7 @@ An example is shown below:</p>
 </tr>
 <tr>
 <td>database</td>
-<td>Specifies the database connection details.<code>type</code> should specify the database type and <code>connectorConfig</code> should specify the database connection properties via <code>connectURI</code>, <code>user</code> and <code>password</code></td>
+<td>Specifies the database connection details.</td>
 <td></td>
 <td>Yes</td>
 </tr>
@@ -378,6 +428,30 @@ An example is shown below:</p>
 <tr>
 <td>sqls</td>
 <td>List of SQL queries where each SQL query would retrieve the data to be indexed.</td>
+<td></td>
+<td>Yes</td>
+</tr>
+</tbody></table>
+
+<h4 id="database">Database</h4>
+
+<table><thead>
+<tr>
+<th>property</th>
+<th>description</th>
+<th>default</th>
+<th>required?</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>type</td>
+<td>The type of database to query. Valid values are <code>mysql</code> and <code>postgresql</code>_</td>
+<td></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>connectorConfig</td>
+<td>specify the database connection properties via <code>connectURI</code>, <code>user</code> and <code>password</code></td>
 <td></td>
 <td>Yes</td>
 </tr>
@@ -444,13 +518,18 @@ This can be used to merge data from more than one firehose.</p>
 </tr>
 <tr>
 <td>serviceName</td>
-<td>name used to announce the event receiver service endpoint</td>
+<td>Name used to announce the event receiver service endpoint</td>
 <td>yes</td>
 </tr>
 <tr>
+<td>maxIdleTime</td>
+<td>A firehose is automatically shut down after not receiving any events for this period of time, in milliseconds. If not specified, a firehose is never shut down due to being idle. Zero and negative values have the same effect.</td>
+<td>no</td>
+</tr>
+<tr>
 <td>bufferSize</td>
-<td>size of buffer used by firehose to store events</td>
-<td>no default(100000)</td>
+<td>Size of buffer used by firehose to store events</td>
+<td>no, default is 100000</td>
 </tr>
 </tbody></table>
 
@@ -526,7 +605,7 @@ An example is shown below:</p>
   <div class="text-center">
     <a title="Join the user group" href="https://groups.google.com/forum/#!forum/druid-user" target="_blank"><span class="fa fa-comments"></span></a>&ensp;·&ensp;
     <a title="Follow Druid" href="https://twitter.com/druidio" target="_blank"><span class="fab fa-twitter"></span></a>&ensp;·&ensp;
-    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.14.2-incubating/apache-druid-0.14.2-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
+    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.15.0-incubating/apache-druid-0.15.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
     <a title="GitHub" href="https://github.com/apache/incubator-druid" target="_blank"><span class="fab fa-github"></span></a>
   </div>
   <div class="text-center license">

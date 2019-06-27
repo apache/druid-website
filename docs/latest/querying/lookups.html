@@ -181,6 +181,13 @@ lookup as per <a href="../querying/dimensionspecs.html">dimension specs</a>.</p>
 <li>Globally cached lookups from a Kafka topic through <a href="../development/extensions-core/kafka-extraction-namespace.html">kafka-extraction-namespace</a>.</li>
 </ul>
 
+<h2 id="query-syntax">Query Syntax</h2>
+
+<p>In <a href="sql.html">Druid SQL</a>, lookups can be queried using the <code>LOOKUP</code> function, for example:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>SELECT LOOKUP(column_name, &#39;lookup-name&#39;), COUNT(*) FROM datasource GROUP BY 1
+</code></pre></div>
+<p>In native queries, lookups can be queried with <a href="dimensionspecs.html">dimension specs or extraction functions</a>.</p>
+
 <h2 id="query-execution">Query Execution</h2>
 
 <p>When executing an aggregation query involving lookups, Druid can decide to apply lookups either while scanning and
@@ -395,12 +402,16 @@ The Coordinator periodically checks if any of the processes need to load/drop lo
 </code></pre></div>
 <h2 id="delete-lookup">Delete Lookup</h2>
 
-<p>A <code>DELETE</code> to <code>/druid/coordinator/v1/lookups/config/{tier}/{id}</code> will remove that lookup from the cluster.</p>
+<p>A <code>DELETE</code> to <code>/druid/coordinator/v1/lookups/config/{tier}/{id}</code> will remove that lookup from the cluster. If it was last lookup in the tier, then tier is deleted as well.</p>
+
+<h2 id="delete-tier">Delete Tier</h2>
+
+<p>A <code>DELETE</code> to <code>/druid/coordinator/v1/lookups/config/{tier}</code> will remove that tier from the cluster.</p>
 
 <h2 id="list-tier-names">List tier names</h2>
 
 <p>A <code>GET</code> to <code>/druid/coordinator/v1/lookups/config</code> will return a list of known tier names in the dynamic configuration.
-To discover a list of tiers currently active in the cluster <strong>instead of</strong> ones known in the dynamic configuration, the parameter <code>discover=true</code> can be added as per <code>/druid/coordinator/v1/lookups?discover=true</code>.</p>
+To discover a list of tiers currently active in the cluster in addition to ones known in the dynamic configuration, the parameter <code>discover=true</code> can be added as per <code>/druid/coordinator/v1/lookups/config?discover=true</code>.</p>
 
 <h2 id="list-lookup-names">List lookup names</h2>
 
@@ -651,7 +662,7 @@ If downgrading from 0.10.1 to 0.9.0 then lookups updates done via Coordinator wh
   <div class="text-center">
     <a title="Join the user group" href="https://groups.google.com/forum/#!forum/druid-user" target="_blank"><span class="fa fa-comments"></span></a>&ensp;·&ensp;
     <a title="Follow Druid" href="https://twitter.com/druidio" target="_blank"><span class="fab fa-twitter"></span></a>&ensp;·&ensp;
-    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.14.2-incubating/apache-druid-0.14.2-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
+    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.15.0-incubating/apache-druid-0.15.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
     <a title="GitHub" href="https://github.com/apache/incubator-druid" target="_blank"><span class="fab fa-github"></span></a>
   </div>
   <div class="text-center license">

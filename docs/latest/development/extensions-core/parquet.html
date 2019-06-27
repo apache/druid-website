@@ -156,17 +156,24 @@ Apache Parquet files. </p>
 
 <h2 id="parquet-hadoop-parser">Parquet Hadoop Parser</h2>
 
-<p>This extension provides two ways to parse Parquet files:
-* <code>parquet</code> - using a simple conversion contained within this extension 
-* <code>parquet-avro</code> - conversion to avro records with the <code>parquet-avro</code> library and using the <code>druid-avro-extensions</code>
- module to parse the avro data</p>
+<p>This extension provides two ways to parse Parquet files:</p>
+
+<ul>
+<li><code>parquet</code> - using a simple conversion contained within this extension </li>
+<li><code>parquet-avro</code> - conversion to avro records with the <code>parquet-avro</code> library and using the <code>druid-avro-extensions</code>
+module to parse the avro data</li>
+</ul>
 
 <p>Selection of conversion method is controlled by parser type, and the correct hadoop input format must also be set in 
-the <code>ioConfig</code>,  <code>org.apache.druid.data.input.parquet.DruidParquetInputFormat</code> for <code>parquet</code> and 
-<code>org.apache.druid.data.input.parquet.DruidParquetAvroInputFormat</code> for <code>parquet-avro</code>.</p>
+the <code>ioConfig</code>:</p>
+
+<ul>
+<li><code>org.apache.druid.data.input.parquet.DruidParquetInputFormat</code> for <code>parquet</code></li>
+<li><code>org.apache.druid.data.input.parquet.DruidParquetAvroInputFormat</code> for <code>parquet-avro</code></li>
+</ul>
 
 <p>Both parse options support auto field discovery and flattening if provided with a 
-<a href="../../ingestion/flatten-json.html">flattenSpec</a> with <code>parquet</code> or <code>avro</code> as the <code>format</code>. Parquet nested list and map 
+<a href="../../ingestion/flatten-json.html">flattenSpec</a> with <code>parquet</code> or <code>avro</code> as the format. Parquet nested list and map 
 <a href="https://github.com/apache/parquet-format/blob/master/LogicalTypes.md">logical types</a> <em>should</em> operate correctly with 
 json path expressions for all supported types. <code>parquet-avro</code> sets a hadoop job property 
 <code>parquet.avro.add-list-element-records</code> to <code>false</code> (which normally defaults to <code>true</code>), in order to &#39;unwrap&#39; primitive 
@@ -385,7 +392,7 @@ However, <code>parquet-avro</code> was the original basis for this extension, an
   <div class="text-center">
     <a title="Join the user group" href="https://groups.google.com/forum/#!forum/druid-user" target="_blank"><span class="fa fa-comments"></span></a>&ensp;·&ensp;
     <a title="Follow Druid" href="https://twitter.com/druidio" target="_blank"><span class="fab fa-twitter"></span></a>&ensp;·&ensp;
-    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.14.2-incubating/apache-druid-0.14.2-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
+    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.15.0-incubating/apache-druid-0.15.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
     <a title="GitHub" href="https://github.com/apache/incubator-druid" target="_blank"><span class="fab fa-github"></span></a>
   </div>
   <div class="text-center license">

@@ -188,11 +188,11 @@ metadata store. Many clusters will also use additional extensions.</p>
 <tr>
 <td>druid-caffeine-cache</td>
 <td>A local cache implementation backed by Caffeine.</td>
-<td><a href="../development/extensions-core/caffeine-cache.html">link</a></td>
+<td><a href="../configuration/index.html#cache-configuration">link</a></td>
 </tr>
 <tr>
 <td>druid-datasketches</td>
-<td>Support for approximate counts and set operations with <a href="http://datasketches.github.io/">DataSketches</a>.</td>
+<td>Support for approximate counts and set operations with <a href="https://datasketches.github.io/">DataSketches</a>.</td>
 <td><a href="../development/extensions-core/datasketches-extension.html">link</a></td>
 </tr>
 <tr>
@@ -207,7 +207,7 @@ metadata store. Many clusters will also use additional extensions.</p>
 </tr>
 <tr>
 <td>druid-kafka-eight</td>
-<td>Kafka ingest firehose (high level consumer) for realtime nodes.</td>
+<td>Kafka ingest firehose (high level consumer) for realtime nodes(deprecated).</td>
 <td><a href="../development/extensions-core/kafka-eight-firehose.html">link</a></td>
 </tr>
 <tr>
@@ -241,6 +241,11 @@ metadata store. Many clusters will also use additional extensions.</p>
 <td><a href="../development/extensions-core/druid-lookups.html">link</a></td>
 </tr>
 <tr>
+<td>druid-orc-extensions</td>
+<td>Support for data in Apache Orc data format.</td>
+<td><a href="../development/extensions-core/orc.html">link</a></td>
+</tr>
+<tr>
 <td>druid-parquet-extensions</td>
 <td>Support for data in Apache Parquet data format. Requires druid-avro-extensions to be loaded.</td>
 <td><a href="../development/extensions-core/parquet.html">link</a></td>
@@ -254,6 +259,11 @@ metadata store. Many clusters will also use additional extensions.</p>
 <td>druid-s3-extensions</td>
 <td>Interfacing with data in AWS S3, and using S3 as deep storage.</td>
 <td><a href="../development/extensions-core/s3.html">link</a></td>
+</tr>
+<tr>
+<td>druid-ec2-extensions</td>
+<td>Interfacing with AWS EC2 for autoscaling middle managers</td>
+<td>UNDOCUMENTED</td>
 </tr>
 <tr>
 <td>druid-stats</td>
@@ -322,13 +332,8 @@ If you&#39;d like to take on maintenance for a community extension, please post 
 </tr>
 <tr>
 <td>druid-kafka-eight-simpleConsumer</td>
-<td>Kafka ingest firehose (low level consumer).</td>
+<td>Kafka ingest firehose (low level consumer)(deprecated).</td>
 <td><a href="../development/extensions-contrib/kafka-simple.html">link</a></td>
-</tr>
-<tr>
-<td>druid-orc-extensions</td>
-<td>Support for data in Apache Orc data format.</td>
-<td><a href="../development/extensions-contrib/orc.html">link</a></td>
 </tr>
 <tr>
 <td>druid-rabbitmq</td>
@@ -385,6 +390,26 @@ If you&#39;d like to take on maintenance for a community extension, please post 
 <td>OpenTSDB metrics emitter</td>
 <td><a href="../development/extensions-contrib/opentsdb-emitter.html">link</a></td>
 </tr>
+<tr>
+<td>druid-moving-average-query</td>
+<td>Support for <a href="https://en.wikipedia.org/wiki/Moving_average">Moving Average</a> and other Aggregate <a href="https://en.wikibooks.org/wiki/Structured_Query_Language/Window_functions">Window Functions</a> in Druid queries.</td>
+<td><a href="../development/extensions-contrib/moving-average-query.html">link</a></td>
+</tr>
+<tr>
+<td>druid-influxdb-emitter</td>
+<td>InfluxDB metrics emitter</td>
+<td><a href="../development/extensions-contrib/influxdb-emitter.html">link</a></td>
+</tr>
+<tr>
+<td>druid-momentsketch</td>
+<td>Support for approximate quantile queries using the <a href="https://github.com/stanford-futuredata/momentsketch">momentsketch</a> library</td>
+<td><a href="../development/extensions-contrib/momentsketch-quantiles.html">link</a></td>
+</tr>
+<tr>
+<td>druid-tdigestsketch</td>
+<td>Support for approximate sketch aggregators based on <a href="https://github.com/tdunning/t-digest">T-Digest</a></td>
+<td><a href="../development/extensions-contrib/tdigestsketch-quantiles.html">link</a></td>
+</tr>
 </tbody></table>
 
 <h2 id="promoting-community-extension-to-core-extension">Promoting Community Extension to Core Extension</h2>
@@ -424,7 +449,7 @@ If we see a community extension actively supported by the community, we can prom
   <div class="text-center">
     <a title="Join the user group" href="https://groups.google.com/forum/#!forum/druid-user" target="_blank"><span class="fa fa-comments"></span></a>&ensp;·&ensp;
     <a title="Follow Druid" href="https://twitter.com/druidio" target="_blank"><span class="fab fa-twitter"></span></a>&ensp;·&ensp;
-    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.14.2-incubating/apache-druid-0.14.2-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
+    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.15.0-incubating/apache-druid-0.15.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
     <a title="GitHub" href="https://github.com/apache/incubator-druid" target="_blank"><span class="fab fa-github"></span></a>
   </div>
   <div class="text-center license">

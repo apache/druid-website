@@ -149,7 +149,8 @@
 <h1 id="apache-druid-incubating-expressions">Apache Druid (incubating) Expressions</h1>
 
 <div class="note info">
-This feature is still experimental. It has not been optimized for performance yet, and its implementation is known to have significant inefficiencies.
+This feature is still experimental. It has not been optimized for performance yet, and its implementation is known to
+ have significant inefficiencies.
 </div>
  
 
@@ -187,14 +188,28 @@ This feature is still experimental. It has not been optimized for performance ye
 </tr>
 </tbody></table>
 
-<p>Long, double, and string data types are supported. If a number contains a dot, it is interpreted as a double, otherwise it is interpreted as a long. That means, always add a &#39;.&#39; to your number if you want it interpreted as a double value. String literals should be quoted by single quotation marks.</p>
+<p>Long, double, and string data types are supported. If a number contains a dot, it is interpreted as a double, otherwise
+it is interpreted as a long. That means, always add a &#39;.&#39; to your number if you want it interpreted as a double value.
+String literals should be quoted by single quotation marks.</p>
 
-<p>Multi-value types are not fully supported yet. Expressions may behave inconsistently on multi-value types, and you
-should not rely on the behavior in this case to stay the same in future releases.</p>
+<p>Additionally, the expression language supports long, double, and string arrays. Array literals are created by wrapping
+square brackets around a list of scalar literals values delimited by a comma or space character. All values in an array
+literal must be the same type.</p>
 
-<p>Expressions can contain variables. Variable names may contain letters, digits, &#39;_&#39; and &#39;$&#39;. Variable names must not begin with a digit. To escape other special characters, you can quote it with double quotation marks.</p>
+<p>Expressions can contain variables. Variable names may contain letters, digits, &#39;_&#39; and &#39;$&#39;. Variable names must not
+begin with a digit. To escape other special characters, you can quote it with double quotation marks.</p>
 
-<p>For logical operators, a number is true if and only if it is positive (0 or negative value means false). For string type, it&#39;s the evaluation result of &#39;Boolean.valueOf(string)&#39;.</p>
+<p>For logical operators, a number is true if and only if it is positive (0 or negative value means false). For string
+type, it&#39;s the evaluation result of &#39;Boolean.valueOf(string)&#39;.</p>
+
+<p>Multi-value string dimensions are supported and may be treated as either scalar or array typed values. When treated as
+a scalar type, an expression will automatically be transformed to apply the scalar operation across all values of the
+multi-valued type, to mimic Druid&#39;s native behavior. Values that result in arrays will be coerced back into the native
+Druid string type for aggregation. Druid aggregations on multi-value string dimensions on the individual values, <em>not</em>
+the &#39;array&#39;, behaving similar to the <code>unnest</code> operator available in many SQL dialects. However, by using the
+<code>array_to_string</code> function, aggregations may be done on a stringified version of the complete array, allowing the
+complete row to be preserved. Using <code>string_to_array</code> in an expression post-aggregator, allows transforming the
+stringified dimension back into the true native array type.</p>
 
 <p>The following built-in functions are available.</p>
 
@@ -208,7 +223,7 @@ should not rely on the behavior in this case to stay the same in future releases
 </thead><tbody>
 <tr>
 <td>cast</td>
-<td>cast(expr,&#39;LONG&#39; or &#39;DOUBLE&#39; or &#39;STRING&#39;) returns expr with specified type. exception can be thrown</td>
+<td>cast(expr,&#39;LONG&#39; or &#39;DOUBLE&#39; or &#39;STRING&#39; or &#39;LONG_ARRAY&#39;, or &#39;DOUBLE_ARRAY&#39; or &#39;STRING_ARRAY&#39;) returns expr with specified type. exception can be thrown. Scalar types may be cast to array types and will take the form of a single element list (null will still be null).</td>
 </tr>
 <tr>
 <td>if</td>
@@ -249,12 +264,20 @@ should not rely on the behavior in this case to stay the same in future releases
 <td>concat(expr, expr...) concatenate a list of strings</td>
 </tr>
 <tr>
+<td>format</td>
+<td>format(pattern[, args...]) returns a string formatted in the manner of Java&#39;s <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/String.html#format-java.lang.String-java.lang.Object...-">String.format</a>.</td>
+</tr>
+<tr>
 <td>like</td>
 <td>like(expr, pattern[, escape]) is equivalent to SQL <code>expr LIKE pattern</code></td>
 </tr>
 <tr>
 <td>lookup</td>
 <td>lookup(expr, lookup-name) looks up expr in a registered <a href="../querying/lookups.html">query-time lookup</a></td>
+</tr>
+<tr>
+<td>parse_long</td>
+<td>parse_long(string[, radix]) parses a string as a long with the given radix, or 10 (decimal) if a radix is not provided.</td>
 </tr>
 <tr>
 <td>regexp_extract</td>
@@ -267,6 +290,14 @@ should not rely on the behavior in this case to stay the same in future releases
 <tr>
 <td>substring</td>
 <td>substring(expr, index, length) behaves like java.lang.String&#39;s substring</td>
+</tr>
+<tr>
+<td>right</td>
+<td>right(expr, length) returns the rightmost length characters from a string</td>
+</tr>
+<tr>
+<td>left</td>
+<td>left(expr, length) returns the leftmost length characters from a string</td>
 </tr>
 <tr>
 <td>strlen</td>
@@ -295,6 +326,22 @@ should not rely on the behavior in this case to stay the same in future releases
 <tr>
 <td>upper</td>
 <td>upper(expr) converts a string to uppercase</td>
+</tr>
+<tr>
+<td>reverse</td>
+<td>reverse(expr) reverses a string</td>
+</tr>
+<tr>
+<td>repeat</td>
+<td>repeat(expr, N) repeats a string N times</td>
+</tr>
+<tr>
+<td>lpad</td>
+<td>lpad(expr, length, chars) returns a string of <code>length</code> from <code>expr</code> left-padded with <code>chars</code>. If <code>length</code> is shorter than the length of <code>expr</code>, the result is <code>expr</code> which is truncated to <code>length</code>. If either <code>expr</code> or <code>chars</code> are null, the result will be null.</td>
+</tr>
+<tr>
+<td>rpad</td>
+<td>rpad(expr, length, chars) returns a string of <code>length</code> from <code>expr</code> right-padded with <code>chars</code>. If <code>length</code> is shorter than the length of <code>expr</code>, the result is <code>expr</code> which is truncated to <code>length</code>. If either <code>expr</code> or <code>chars</code> are null, the result will be null.</td>
 </tr>
 </tbody></table>
 
@@ -391,6 +438,10 @@ should not rely on the behavior in this case to stay the same in future releases
 <td>cosh(x) would return the hyperbolic cosine of x</td>
 </tr>
 <tr>
+<td>cot</td>
+<td>cot(x) would return the trigonometric cotangent of an angle x</td>
+</tr>
+<tr>
 <td>div</td>
 <td>div(x,y) is integer division of x by y</td>
 </tr>
@@ -443,6 +494,10 @@ should not rely on the behavior in this case to stay the same in future releases
 <td>nextUp(x) would return the floating-point value adjacent to x in the direction of positive infinity</td>
 </tr>
 <tr>
+<td>pi</td>
+<td>pi would return the constant value of the π</td>
+</tr>
+<tr>
 <td>pow</td>
 <td>pow(x, y) would return the value of the x raised to the power of y</td>
 </tr>
@@ -456,7 +511,7 @@ should not rely on the behavior in this case to stay the same in future releases
 </tr>
 <tr>
 <td>round</td>
-<td>round(x) would return the closest long value to x, with ties rounding up</td>
+<td>round(x, y) would return the value of the x rounded to the y decimal places. While x can be an integer or floating-point number, y must be an integer. The type of the return value is specified by that of x. y defaults to 0 if omitted. When y is negative, x is rounded on the left side of the y decimal points.</td>
 </tr>
 <tr>
 <td>scalb</td>
@@ -500,6 +555,106 @@ should not rely on the behavior in this case to stay the same in future releases
 </tr>
 </tbody></table>
 
+<h2 id="array-functions">Array Functions</h2>
+
+<table><thead>
+<tr>
+<th>function</th>
+<th>description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>array_length(arr)</code></td>
+<td>returns length of array expression</td>
+</tr>
+<tr>
+<td><code>array_offset(arr,long)</code></td>
+<td>returns the array element at the 0 based index supplied, or null for an out of range index</td>
+</tr>
+<tr>
+<td><code>array_ordinal(arr,long)</code></td>
+<td>returns the array element at the 1 based index supplied, or null for an out of range index</td>
+</tr>
+<tr>
+<td><code>array_contains(arr,expr)</code></td>
+<td>returns true if the array contains the element specified by expr, or contains all elements specified by expr if expr is an array</td>
+</tr>
+<tr>
+<td><code>array_overlap(arr1,arr2)</code></td>
+<td>returns true if arr1 and arr2 have any elements in common</td>
+</tr>
+<tr>
+<td><code>array_offset_of(arr,expr)</code></td>
+<td>returns the 0 based index of the first occurrence of expr in the array, or <code>null</code> if no matching elements exist in the array.</td>
+</tr>
+<tr>
+<td><code>array_ordinal_of(arr,expr)</code></td>
+<td>returns the 1 based index of the first occurrence of expr in the array, or <code>null</code> if no matching elements exist in the array.</td>
+</tr>
+<tr>
+<td><code>array_append(arr1,expr)</code></td>
+<td>appends expr to arr, the resulting array type determined by the type of the first array</td>
+</tr>
+<tr>
+<td><code>array_concat(arr1,arr2)</code></td>
+<td>concatenates 2 arrays, the resulting array type determined by the type of the first array</td>
+</tr>
+<tr>
+<td><code>array_to_string(arr,str)</code></td>
+<td>joins all elements of arr by the delimiter specified by str</td>
+</tr>
+<tr>
+<td><code>string_to_array(str1,str2)</code></td>
+<td>splits str1 into an array on the delimiter specified by str2</td>
+</tr>
+<tr>
+<td><code>array_slice(arr,start,end)</code></td>
+<td>return the subarray of arr from the 0 based index start(inclusive) to end(exclusive), or <code>null</code>, if start is less than 0, greater than length of arr or less than end</td>
+</tr>
+<tr>
+<td><code>array_prepend(expr,arr)</code></td>
+<td>adds expr to arr at the beginning, the resulting array type determined by the type of the array</td>
+</tr>
+</tbody></table>
+
+<h2 id="apply-functions">Apply Functions</h2>
+
+<table><thead>
+<tr>
+<th>function</th>
+<th>description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>map(lambda,arr)</code></td>
+<td>applies a transform specified by a single argument lambda expression to all elements of arr, returning a new array</td>
+</tr>
+<tr>
+<td><code>cartesian_map(lambda,arr1,arr2,...)</code></td>
+<td>applies a transform specified by a multi argument lambda expression to all elements of the cartesian product of all input arrays, returning a new array; the number of lambda arguments and array inputs must be the same</td>
+</tr>
+<tr>
+<td><code>filter(lambda,arr)</code></td>
+<td>filters arr by a single argument lambda, returning a new array with all matching elements, or null if no elements match</td>
+</tr>
+<tr>
+<td><code>fold(lambda,arr)</code></td>
+<td>folds a 2 argument lambda across arr. The first argument of the lambda is the array element and the second the accumulator, returning a single accumulated value.</td>
+</tr>
+<tr>
+<td><code>cartesian_fold(lambda,arr1,arr2,...)</code></td>
+<td>folds a multi argument lambda across the cartesian product of all input arrays. The first arguments of the lambda is the array element and the last is the accumulator, returning a single accumulated value.</td>
+</tr>
+<tr>
+<td><code>any(lambda,arr)</code></td>
+<td>returns true if any element in the array matches the lambda expression</td>
+</tr>
+<tr>
+<td><code>all(lambda,arr)</code></td>
+<td>returns true if all elements in the array matches the lambda expression</td>
+</tr>
+</tbody></table>
+
         </div>
         <div class="col-md-3">
           <div class="searchbox">
@@ -528,7 +683,7 @@ should not rely on the behavior in this case to stay the same in future releases
   <div class="text-center">
     <a title="Join the user group" href="https://groups.google.com/forum/#!forum/druid-user" target="_blank"><span class="fa fa-comments"></span></a>&ensp;·&ensp;
     <a title="Follow Druid" href="https://twitter.com/druidio" target="_blank"><span class="fab fa-twitter"></span></a>&ensp;·&ensp;
-    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.14.2-incubating/apache-druid-0.14.2-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
+    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.15.0-incubating/apache-druid-0.15.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
     <a title="GitHub" href="https://github.com/apache/incubator-druid" target="_blank"><span class="fab fa-github"></span></a>
   </div>
   <div class="text-center license">

@@ -592,12 +592,6 @@ MiddleManagers. A supervisor for a dataSource is started by submitting a supervi
 <td>Configure tasks to reject messages with timestamps later than this period after the task reached its taskDuration; for example if this is set to <code>PT1H</code>, the taskDuration is set to <code>PT1H</code> and the supervisor creates a task at <em>2016-01-01T12:00Z</em>, messages with timestamps later than <em>2016-01-01T14:00Z</em> will be dropped. <strong>Note:</strong> Tasks sometimes run past their task duration, for example, in cases of supervisor failover. Setting earlyMessageRejectionPeriod too low may cause messages to be dropped unexpectedly whenever a task runs past its originally configured task duration.</td>
 <td>no (default == none)</td>
 </tr>
-<tr>
-<td><code>skipOffsetGaps</code></td>
-<td>Boolean</td>
-<td>Whether or not to allow gaps of missing offsets in the Kafka stream. This is required for compatibility with implementations such as MapR Streams which does not guarantee consecutive offsets. If this is false, an exception will be thrown if offsets are not consecutive.</td>
-<td>no (default == false)</td>
-</tr>
 </tbody></table>
 
 <h2 id="operations">Operations</h2>
@@ -612,11 +606,110 @@ offsets as reported by Kafka, the consumer lag per partition, as well as the agg
 consumer lag per partition may be reported as negative values if the supervisor has not received a recent latest offset
 response from Kafka. The aggregate lag value will always be &gt;= 0.</p>
 
+<p>The status report also contains the supervisor&#39;s state and a list of recently thrown exceptions (reported as
+<code>recentErrors</code>, whose max size can be controlled using the <code>druid.supervisor.maxStoredExceptionEvents</code> configuration).
+There are two fields related to the supervisor&#39;s state - <code>state</code> and <code>detailedState</code>. The <code>state</code> field will always be
+one of a small number of generic states that are applicable to any type of supervisor, while the <code>detailedState</code> field
+will contain a more descriptive, implementation-specific state that may provide more insight into the supervisor&#39;s
+activities than the generic <code>state</code> field.</p>
+
+<p>The list of possible <code>state</code> values are: [<code>PENDING</code>, <code>RUNNING</code>, <code>SUSPENDED</code>, <code>STOPPING</code>, <code>UNHEALTHY_SUPERVISOR</code>, <code>UNHEALTHY_TASKS</code>]</p>
+
+<p>The list of <code>detailedState</code> values and their corresponding <code>state</code> mapping is as follows:</p>
+
+<table><thead>
+<tr>
+<th>Detailed State</th>
+<th>Corresponding State</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>UNHEALTHY_SUPERVISOR</td>
+<td>UNHEALTHY_SUPERVISOR</td>
+<td>The supervisor has encountered errors on the past <code>druid.supervisor.unhealthinessThreshold</code> iterations</td>
+</tr>
+<tr>
+<td>UNHEALTHY_TASKS</td>
+<td>UNHEALTHY_TASKS</td>
+<td>The last <code>druid.supervisor.taskUnhealthinessThreshold</code> tasks have all failed</td>
+</tr>
+<tr>
+<td>UNABLE_TO_CONNECT_TO_STREAM</td>
+<td>UNHEALTHY_SUPERVISOR</td>
+<td>The supervisor is encountering connectivity issues with Kafka and has not successfully connected in the past</td>
+</tr>
+<tr>
+<td>LOST_CONTACT_WITH_STREAM</td>
+<td>UNHEALTHY_SUPERVISOR</td>
+<td>The supervisor is encountering connectivity issues with Kafka but has successfully connected in the past</td>
+</tr>
+<tr>
+<td>PENDING (first iteration only)</td>
+<td>PENDING</td>
+<td>The supervisor has been initialized and hasn&#39;t started connecting to the stream</td>
+</tr>
+<tr>
+<td>CONNECTING_TO_STREAM (first iteration only)</td>
+<td>RUNNING</td>
+<td>The supervisor is trying to connect to the stream and update partition data</td>
+</tr>
+<tr>
+<td>DISCOVERING_INITIAL_TASKS (first iteration only)</td>
+<td>RUNNING</td>
+<td>The supervisor is discovering already-running tasks</td>
+</tr>
+<tr>
+<td>CREATING_TASKS (first iteration only)</td>
+<td>RUNNING</td>
+<td>The supervisor is creating tasks and discovering state</td>
+</tr>
+<tr>
+<td>RUNNING</td>
+<td>RUNNING</td>
+<td>The supervisor has started tasks and is waiting for taskDuration to elapse</td>
+</tr>
+<tr>
+<td>SUSPENDED</td>
+<td>SUSPENDED</td>
+<td>The supervisor has been suspended</td>
+</tr>
+<tr>
+<td>STOPPING</td>
+<td>STOPPING</td>
+<td>The supervisor is stopping</td>
+</tr>
+</tbody></table>
+
+<p>On each iteration of the supervisor&#39;s run loop, the supervisor completes the following tasks in sequence:
+  1) Fetch the list of partitions from Kafka and determine the starting offset for each partition (either based on the
+  last processed offset if continuing, or starting from the beginning or ending of the stream if this is a new topic).
+  2) Discover any running indexing tasks that are writing to the supervisor&#39;s datasource and adopt them if they match
+  the supervisor&#39;s configuration, else signal them to stop.
+  3) Send a status request to each supervised task to update our view of the state of the tasks under our supervision.
+  4) Handle tasks that have exceeded <code>taskDuration</code> and should transition from the reading to publishing state.
+  5) Handle tasks that have finished publishing and signal redundant replica tasks to stop.
+  6) Handle tasks that have failed and clean up the supervisor&#39;s internal state.
+  7) Compare the list of healthy tasks to the requested <code>taskCount</code> and <code>replicas</code> configurations and create additional tasks if required.</p>
+
+<p>The <code>detailedState</code> field will show additional values (those marked with &quot;first iteration only&quot;) the first time the
+supervisor executes this run loop after startup or after resuming from a suspension. This is intended to surface
+initialization-type issues, where the supervisor is unable to reach a stable state (perhaps because it can&#39;t connect to
+Kafka, it can&#39;t read from the Kafka topic, or it can&#39;t communicate with existing tasks). Once the supervisor is stable -
+that is, once it has completed a full execution without encountering any issues - <code>detailedState</code> will show a <code>RUNNING</code>
+state until it is stopped, suspended, or hits a failure threshold and transitions to an unhealthy state.</p>
+
 <h3 id="getting-supervisor-ingestion-stats-report">Getting Supervisor Ingestion Stats Report</h3>
 
 <p><code>GET /druid/indexer/v1/supervisor/&lt;supervisorId&gt;/stats</code> returns a snapshot of the current ingestion row counters for each task being managed by the supervisor, along with moving averages for the row counters.</p>
 
 <p>See <a href="../../ingestion/reports.html#row-stats">Task Reports: Row Stats</a> for more information.</p>
+
+<h3 id="supervisor-health-check">Supervisor Health Check</h3>
+
+<p><code>GET /druid/indexer/v1/supervisor/&lt;supervisorId&gt;/health</code> returns <code>200 OK</code> if the supervisor is healthy and
+<code>503 Service Unavailable</code> if it is unhealthy. Healthiness is determined by the supervisor&#39;s <code>state</code> (as returned by the
+<code>/status</code> endpoint) and the <code>druid.supervisor.*</code> Overlord configuration thresholds.</p>
 
 <h3 id="updating-existing-supervisors">Updating Existing Supervisors</h3>
 
@@ -770,7 +863,7 @@ Hadoop (see <a href="https://github.com/apache/incubator-druid/pull/5102">here</
   <div class="text-center">
     <a title="Join the user group" href="https://groups.google.com/forum/#!forum/druid-user" target="_blank"><span class="fa fa-comments"></span></a>&ensp;·&ensp;
     <a title="Follow Druid" href="https://twitter.com/druidio" target="_blank"><span class="fab fa-twitter"></span></a>&ensp;·&ensp;
-    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.14.2-incubating/apache-druid-0.14.2-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
+    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.15.0-incubating/apache-druid-0.15.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
     <a title="GitHub" href="https://github.com/apache/incubator-druid" target="_blank"><span class="fab fa-github"></span></a>
   </div>
   <div class="text-center license">

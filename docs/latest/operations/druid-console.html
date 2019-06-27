@@ -164,52 +164,78 @@
 
 <h2 id="home">Home</h2>
 
-<p>The home view provide a high level overview of the cluster. Each card is clickable and links to the appropriate view. The legacy menu allows you to go to the <a href="./management-uis#legacy-consoles">legacy coordinator and overlord consoles</a> should you need them.</p>
+<p>The home view provides a high level overview of the cluster. Each card is clickable and links to the appropriate view. The legacy menu allows you to go to the <a href="./management-uis.html#legacy-consoles">legacy coordinator and overlord consoles</a> should you need them.</p>
 
 <p><img src="./img/01-home-view.png" alt="home-view"></p>
+
+<h2 id="data-loader">Data loader</h2>
+
+<p>The data loader view allows you to load data by building an ingestion spec with a step-by-step wizard. </p>
+
+<p><img src="./img/02-data-loader-1.png" alt="data-loader-1"></p>
+
+<p>After picking the source of your data just follow the series for steps that will show you incremental previews of the data as it will be ingested.
+After filling in the required details on every step you can navigate to the next step by clicking the <code>Next</code> button.
+You can also freely navigate between the steps from the top navigation.</p>
+
+<p>Navigating with the top navigation will leave the underlying spec unmodified while clicking the <code>Next</code> button will attempt to fill in the subsequent steps with appropriate defaults.</p>
+
+<p><img src="./img/03-data-loader-2.png" alt="data-loader-2"></p>
 
 <h2 id="datasources">Datasources</h2>
 
 <p>The datasources view shows all the currently enabled datasources. From this view you can see the sizes and availability of the different datasources. You can edit the retention rules and drop data (as well as issue kill tasks).
 Like any view that is powered by a DruidSQL query you can click “Go to SQL” to run the underlying SQL query directly.</p>
 
-<p><img src="./img/02-datasources.png" alt="datasources"></p>
+<p><img src="./img/04-datasources.png" alt="datasources"></p>
 
 <p>You can view and edit retention rules to determine the general availability of a datasource.</p>
 
-<p><img src="./img/03-retention.png" alt="retention"></p>
+<p><img src="./img/05-retention.png" alt="retention"></p>
 
 <h2 id="segments">Segments</h2>
 
 <p>The segment view shows every single segment in the cluster. Each segment can be expanded to provide more information. The Segment ID is also conveniently broken down into Datasource, Start, End, Version, and Partition columns for ease of filtering and sorting.</p>
 
-<p><img src="./img/04-segments.png" alt="segments"></p>
+<p><img src="./img/06-segments.png" alt="segments"></p>
 
 <h2 id="tasks-and-supervisors">Tasks and supervisors</h2>
 
 <p>The task view is also the home of supervisors. From this view you can check the status of existing supervisors as well as suspend and resume them. You can also submit new supervisors by entering their JSON spec.</p>
 
-<p><img src="./img/05-tasks-1.png" alt="tasks-1"></p>
+<p><img src="./img/07-supervisors.png" alt="supervisors"></p>
 
-<p>The tasks table let’s you see the currently running and recently completed tasks. From this table you can monitor individual tasks and also submit new tasks by entering their JSON spec.</p>
+<p>The tasks table allows you see the currently running and recently completed tasks. From this table you can monitor individual tasks and also submit new tasks by entering their JSON spec.
+To make managing a lot of tasks more accessible, you can group the tasks by their type, datasource, or status to make navigation easier.</p>
 
-<p><img src="./img/06-tasks-2.png" alt="tasks-2"></p>
+<p><img src="./img/08-tasks.png" alt="tasks"></p>
 
-<p>Since there will likely be a lot of tasks you can group the tasks by their type, datasource, or status to make navigation easier.</p>
+<p>Click on the magnifying glass for any task to see more detail about it.</p>
 
-<p><img src="./img/07-tasks-3.png" alt="tasks-3"></p>
+<p><img src="./img/09-task-status.png" alt="tasks-status"></p>
 
 <h2 id="servers">Servers</h2>
 
 <p>The data servers tab lets you see the current status of the historical nodes and MiddleManager (indexer) processes. Note that currently only historical nodes that are actively serving segments will be shown in this view.</p>
 
-<p><img src="./img/08-servers.png" alt="servers"></p>
+<p><img src="./img/10-servers.png" alt="servers"></p>
 
-<h2 id="sql">SQL</h2>
+<h2 id="query">Query</h2>
 
-<p>The SQL view lets you issue direct DruidSQL queries and display the results as a simple table. Note that despite the name this view also allows you to enter native Druid queries in Hjson format.</p>
+<p>The query view lets you issue <a href="../querying/sql.html">DruidSQL</a> queries and display the results as a simple table.</p>
 
-<p><img src="./img/09-sql.png" alt="sql"></p>
+<p><img src="./img/11-query-sql.png" alt="query-sql"></p>
+
+<p>The query view can also issue queries in Druid&#39;s <a href="../querying/querying.html">native query format</a>, which is JSON over HTTP.
+To send a native Druid query, you must start your query with <code>{</code> and format it as JSON.</p>
+
+<p><img src="./img/12-query-rune.png" alt="query-rune"></p>
+
+<h2 id="lookups">Lookups</h2>
+
+<p>You can create and edit query time lookups via the lookup view.</p>
+
+<p><img src="./img/13-lookups.png" alt="lookups"></p>
 
         </div>
         <div class="col-md-3">
@@ -239,7 +265,7 @@ Like any view that is powered by a DruidSQL query you can click “Go to SQL” 
   <div class="text-center">
     <a title="Join the user group" href="https://groups.google.com/forum/#!forum/druid-user" target="_blank"><span class="fa fa-comments"></span></a>&ensp;·&ensp;
     <a title="Follow Druid" href="https://twitter.com/druidio" target="_blank"><span class="fab fa-twitter"></span></a>&ensp;·&ensp;
-    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.14.2-incubating/apache-druid-0.14.2-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
+    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.15.0-incubating/apache-druid-0.15.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
     <a title="GitHub" href="https://github.com/apache/incubator-druid" target="_blank"><span class="fab fa-github"></span></a>
   </div>
   <div class="text-center license">

@@ -157,7 +157,7 @@
 <p>Apache Druid (incubating) data is stored in &quot;datasources&quot;, which are similar to tables in a traditional RDBMS. Each datasource is
 partitioned by time and, optionally, further partitioned by other attributes. Each time range is called a &quot;chunk&quot; (for
 example, a single day, if your datasource is partitioned by day). Within a chunk, data is partitioned into one or more
-&quot;segments&quot;. Each segment is a single file, typically comprising up to a few million rows of data. Since segments are
+<a href="../design/segments.html">&quot;segments&quot;</a>. Each segment is a single file, typically comprising up to a few million rows of data. Since segments are
 organized into time chunks, it&#39;s sometimes helpful to think of segments as living on a timeline like the following:</p>
 
 <p><img src="../../img/druid-timeline.png" width="800" /></p>
@@ -492,7 +492,7 @@ Hence, Druid ingestion specs define this granularity as the <code>queryGranulari
   <div class="text-center">
     <a title="Join the user group" href="https://groups.google.com/forum/#!forum/druid-user" target="_blank"><span class="fa fa-comments"></span></a>&ensp;·&ensp;
     <a title="Follow Druid" href="https://twitter.com/druidio" target="_blank"><span class="fab fa-twitter"></span></a>&ensp;·&ensp;
-    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.14.2-incubating/apache-druid-0.14.2-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
+    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.15.0-incubating/apache-druid-0.15.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
     <a title="GitHub" href="https://github.com/apache/incubator-druid" target="_blank"><span class="fab fa-github"></span></a>
   </div>
   <div class="text-center license">

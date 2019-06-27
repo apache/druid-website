@@ -406,6 +406,11 @@ kafka.json  server.json
 <td>digest is the only authentication scheme supported.</td>
 <td>digest</td>
 </tr>
+<tr>
+<td><code>druid.zk.service.terminateDruidProcessOnConnectFail</code></td>
+<td>If set to &#39;true&#39; and the connection to ZooKeeper fails (after exhausting all potential backoff retires), Druid process terminates itself with exit code 1.</td>
+<td>false</td>
+</tr>
 </tbody></table>
 
 <h4 id="zookeeper-behavior">Zookeeper Behavior</h4>
@@ -1424,7 +1429,8 @@ Except <code>recipientBaseUrl</code>. E. g. <code>druid.emitter.parametrized.htt
 
 <h4 id="s3-deep-storage">S3 Deep Storage</h4>
 
-<p>This deep storage is used to interface with Amazon&#39;s S3. Note that the <code>druid-s3-extensions</code> extension must be loaded.</p>
+<p>This deep storage is used to interface with Amazon&#39;s S3. Note that the <code>druid-s3-extensions</code> extension must be loaded.
+The below table shows some important configurations for S3. See <a href="../development/extensions-core/s3.html">S3 Deep Storage</a> for full configurations.</p>
 
 <table><thead>
 <tr>
@@ -1433,16 +1439,6 @@ Except <code>recipientBaseUrl</code>. E. g. <code>druid.emitter.parametrized.htt
 <th>Default</th>
 </tr>
 </thead><tbody>
-<tr>
-<td><code>druid.s3.accessKey</code></td>
-<td>The access key to use to access S3.</td>
-<td>none</td>
-</tr>
-<tr>
-<td><code>druid.s3.secretKey</code></td>
-<td>The secret key to use to access S3.</td>
-<td>none</td>
-</tr>
 <tr>
 <td><code>druid.storage.bucket</code></td>
 <td>S3 bucket name.</td>
@@ -1455,7 +1451,7 @@ Except <code>recipientBaseUrl</code>. E. g. <code>druid.emitter.parametrized.htt
 </tr>
 <tr>
 <td><code>druid.storage.disableAcl</code></td>
-<td>Boolean flag for ACL.</td>
+<td>Boolean flag for ACL. If this is set to <code>false</code>, the full control would be granted to the bucket owner. This may require to set additional permissions. See <a href="../development/extensions-core/s3.html#s3-permissions-settings">S3 permissions settings</a>.</td>
 <td>false</td>
 </tr>
 <tr>
@@ -1467,6 +1463,21 @@ Except <code>recipientBaseUrl</code>. E. g. <code>druid.emitter.parametrized.htt
 <td><code>druid.storage.archiveBaseKey</code></td>
 <td>S3 object key prefix for archiving.</td>
 <td>none</td>
+</tr>
+<tr>
+<td><code>druid.storage.sse.type</code></td>
+<td>Server-side encryption type. Should be one of <code>s3</code>, <code>kms</code>, and <code>custom</code>. See the below <a href="../development/extensions-core/s3.html#server-side-encryption">Server-side encryption section</a> for more details.</td>
+<td>None</td>
+</tr>
+<tr>
+<td><code>druid.storage.sse.kms.keyId</code></td>
+<td>AWS KMS key ID. This is used only when <code>druid.storage.sse.type</code> is <code>kms</code> and can be empty to use the default key ID.</td>
+<td>None</td>
+</tr>
+<tr>
+<td><code>druid.storage.sse.custom.base64EncodedKey</code></td>
+<td>Base64-encoded key. Should be specified if <code>druid.storage.sse.type</code> is <code>custom</code>.</td>
+<td>None</td>
 </tr>
 <tr>
 <td><code>druid.storage.useS3aSchema</code></td>
@@ -1535,7 +1546,7 @@ Except <code>recipientBaseUrl</code>. E. g. <code>druid.emitter.parametrized.htt
 </tbody></table>
 
 <p>You can also configure the Overlord to automatically retain the task logs in log directory and entries in task-related metadata storage tables only for last x milliseconds by configuring following additional properties.
-Caution: Automatic log file deletion typically works based on log file modification timestamp on the backing store, so large clock skews between druid processes and backing store nodes might result in un-intended behavior.  </p>
+Caution: Automatic log file deletion typically works based on log file modification timestamp on the backing store, so large clock skews between druid processes and backing store nodes might result in un-intended behavior.</p>
 
 <table><thead>
 <tr>
@@ -1868,11 +1879,6 @@ Support for 64-bit floating point columns was released in Druid 0.11.0, so if yo
 <td>PT300S</td>
 </tr>
 <tr>
-<td><code>druid.coordinator.merge.on</code></td>
-<td>Boolean flag for whether or not the Coordinator should try and merge small segments into a more optimal segment size.</td>
-<td>false</td>
-</tr>
-<tr>
 <td><code>druid.coordinator.load.timeout</code></td>
 <td>The timeout duration for when the Coordinator assigns a segment to a Historical process.</td>
 <td>PT15M</td>
@@ -1904,8 +1910,13 @@ Support for 64-bit floating point columns was released in Druid 0.11.0, so if yo
 </tr>
 <tr>
 <td><code>druid.coordinator.balancer.strategy</code></td>
-<td>Specify the type of balancing strategy that the Coordinator should use to distribute segments among the Historicals. <code>cachingCost</code> is logically equivalent to <code>cost</code> but is more CPU-efficient on large clusters and will replace <code>cost</code> in the future versions, users are invited to try it. Use <code>diskNormalized</code> to distribute segments among Historical processes so that the disks fill up uniformly and use <code>random</code> to randomly pick nodes to distribute segments.</td>
+<td>Specify the type of balancing strategy that the coordinator should use to distribute segments among the historicals. <code>cachingCost</code> is logically equivalent to <code>cost</code> but is more CPU-efficient on large clusters and will replace <code>cost</code> in the future versions, users are invited to try it. Use <code>diskNormalized</code> to distribute segments among processes so that the disks fill up uniformly and use <code>random</code> to randomly pick processes to distribute segments.</td>
 <td><code>cost</code></td>
+</tr>
+<tr>
+<td><code>druid.coordinator.balancer.cachingCost.awaitInitialization</code></td>
+<td>Whether to wait for segment view initialization before creating the <code>cachingCost</code> balancing strategy. This property is enabled only when <code>druid.coordinator.balancer.strategy</code> is <code>cachingCost</code>. If set to &#39;true&#39;, the Coordinator will not start to assign segments, until the segment view is initialized. If set to &#39;false&#39;, the Coordinator will fallback to use the <code>cost</code> balancing strategy only if the segment view is not initialized yet. Notes, it may take much time to wait for the initialization since the <code>cachingCost</code> balancing strategy involves much computing to build itself.</td>
+<td>false</td>
 </tr>
 <tr>
 <td><code>druid.coordinator.loadqueuepeon.repeatDelay</code></td>
@@ -1943,8 +1954,14 @@ Support for 64-bit floating point columns was released in Druid 0.11.0, so if yo
 <tr>
 <td><code>druid.coordinator.loadqueuepeon.type</code></td>
 <td>curator or http</td>
-<td>Whether to use &quot;http&quot; or &quot;curator&quot; implementation to assign segment loads/drops to Historical</td>
+<td>Whether to use &quot;http&quot; or &quot;curator&quot; implementation to assign segment loads/drops to historical</td>
 <td>curator</td>
+</tr>
+<tr>
+<td><code>druid.coordinator.segment.awaitInitializationOnStart</code></td>
+<td>true or false</td>
+<td>Whether the the Coordinator will wait for its view of segments to fully initialize before starting up. If set to &#39;true&#39;, the Coordinator&#39;s HTTP server will not start up, and the Coordinator will not announce itself as available, until the server view is initialized.</td>
+<td>true</td>
 </tr>
 </tbody></table>
 
@@ -2194,11 +2211,6 @@ Support for 64-bit floating point columns was released in Druid 0.11.0, so if yo
 <td><code>dataSource</code></td>
 <td>dataSource name to be compacted.</td>
 <td>yes</td>
-</tr>
-<tr>
-<td><code>keepSegmentGranularity</code></td>
-<td>Set <a href="../ingestion/compaction.html">keepSegmentGranularity</a> to true for compactionTask.</td>
-<td>no (default = true)</td>
 </tr>
 <tr>
 <td><code>taskPriority</code></td>
@@ -2509,6 +2521,47 @@ If you see this problem, it&#39;s recommended to set <code>skipOffsetFromLatest<
 <td><code>druid.indexer.autoscale.workerPort</code></td>
 <td>The port that MiddleManagers will run on.</td>
 <td>8080</td>
+</tr>
+</tbody></table>
+
+<h5 id="supervisors">Supervisors</h5>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>druid.supervisor.healthinessThreshold</code></td>
+<td>The number of successful runs before an unhealthy supervisor is again considered healthy.</td>
+<td>3</td>
+</tr>
+<tr>
+<td><code>druid.supervisor.unhealthinessThreshold</code></td>
+<td>The number of failed runs before the supervisor is considered unhealthy.</td>
+<td>3</td>
+</tr>
+<tr>
+<td><code>druid.supervisor.taskHealthinessThreshold</code></td>
+<td>The number of consecutive task successes before an unhealthy supervisor is again considered healthy.</td>
+<td>3</td>
+</tr>
+<tr>
+<td><code>druid.supervisor.taskUnhealthinessThreshold</code></td>
+<td>The number of consecutive task failures before the supervisor is considered unhealthy.</td>
+<td>3</td>
+</tr>
+<tr>
+<td><code>druid.supervisor.storeStackTrace</code></td>
+<td>Whether full stack traces of supervisor exceptions should be stored and returned by the supervisor <code>/status</code> endpoint.</td>
+<td>false</td>
+</tr>
+<tr>
+<td><code>druid.supervisor.maxStoredExceptionEvents</code></td>
+<td>The maximum number of exception events that can be returned through the supervisor <code>/status</code> endpoint.</td>
+<td><code>max(healthinessThreshold, unhealthinessThreshold)</code></td>
 </tr>
 </tbody></table>
 
@@ -3206,13 +3259,13 @@ then the value from the configuration below is used:</p>
 </tr>
 <tr>
 <td><code>druid.segmentCache.numLoadingThreads</code></td>
-<td>How many segments to drop or load concurrently from from deep storage.</td>
-<td>10</td>
+<td>How many segments to drop or load concurrently from deep storage. Note that the work of loading segments involves downloading segments from deep storage, decompressing them and loading them to a memory mapped location. So the work is not all I/O Bound. Depending on CPU and network load, one could possibly increase this config to a higher value.</td>
+<td>Number of cores</td>
 </tr>
 <tr>
-<td><code>druid.segmentCache.numBootstrapThreads</code></td>
-<td>How many segments to load concurrently from local storage at startup.</td>
-<td>Same as numLoadingThreads</td>
+<td><code>druid.coordinator.loadqueuepeon.curator.numCallbackThreads</code></td>
+<td>Number of threads for executing callback actions associated with loading or dropping of segments. One might want to increase this number when noticing clusters are lagging behind w.r.t. balancing segments across historical nodes.</td>
+<td>2</td>
 </tr>
 </tbody></table>
 
@@ -3646,7 +3699,7 @@ line.</p>
 <tr>
 <td><code>druid.sql.enable</code></td>
 <td>Whether to enable SQL at all, including background metadata fetching. If false, this overrides all other SQL-related properties and disables SQL metadata, serving, and planning completely.</td>
-<td>false</td>
+<td>true</td>
 </tr>
 <tr>
 <td><code>druid.sql.avatica.enable</code></td>
@@ -3717,11 +3770,6 @@ line.</p>
 <td><code>druid.sql.planner.useApproximateTopN</code></td>
 <td>Whether to use approximate <a href="../querying/topnquery.html">TopN queries</a> when a SQL query could be expressed as such. If false, exact <a href="../querying/groupbyquery.html">GroupBy queries</a> will be used instead.</td>
 <td>true</td>
-</tr>
-<tr>
-<td><code>druid.sql.planner.useFallback</code></td>
-<td>Whether to evaluate operations on the Broker when they cannot be expressed as Druid queries. This option is not recommended for production since it can generate unscalable query plans. If false, SQL queries that cannot be translated to Druid queries will fail.</td>
-<td>false</td>
 </tr>
 <tr>
 <td><code>druid.sql.planner.requireTimeCondition</code></td>
@@ -3838,7 +3886,7 @@ line.</p>
 
 <p>This section describes caching configuration that is common to Broker, Historical, and MiddleManager/Peon processes.</p>
 
-<p>Caching can optionally be enabled on the Broker, Historical, and MiddleManager/Peon processses. See <a href="#broker-caching">Broker</a>, 
+<p>Caching can optionally be enabled on the Broker, Historical, and MiddleManager/Peon processses. See <a href="#broker-caching">Broker</a>,
 <a href="#Historical-caching">Historical</a>, and <a href="#peon-caching">Peon</a> configuration options for how to enable it for different processes.</p>
 
 <p>Druid uses a local in-memory cache by default, unless a diffrent type of cache is specified.
@@ -4394,7 +4442,7 @@ If there is an L1 miss and L2 hit, it will also populate L1.</p>
   <div class="text-center">
     <a title="Join the user group" href="https://groups.google.com/forum/#!forum/druid-user" target="_blank"><span class="fa fa-comments"></span></a>&ensp;·&ensp;
     <a title="Follow Druid" href="https://twitter.com/druidio" target="_blank"><span class="fab fa-twitter"></span></a>&ensp;·&ensp;
-    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.14.2-incubating/apache-druid-0.14.2-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
+    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.15.0-incubating/apache-druid-0.15.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
     <a title="GitHub" href="https://github.com/apache/incubator-druid" target="_blank"><span class="fab fa-github"></span></a>
   </div>
   <div class="text-center license">

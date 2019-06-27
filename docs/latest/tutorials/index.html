@@ -7,7 +7,7 @@
 <meta name="keywords" content="druid,kafka,database,analytics,streaming,real-time,real time,apache,open source">
 <meta name="author" content="Apache Software Foundation">
 
-<title>Druid | Apache Druid (incubating) Quickstart</title>
+<title>Druid | Apache Druid (incubating) Single-Server Quickstart</title>
 
 <link rel="alternate" type="application/atom+xml" href="/feed">
 <link rel="shortcut icon" href="/img/favicon.png">
@@ -146,7 +146,7 @@
   ~ under the License.
   -->
 
-<h1 id="apache-druid-incubating-quickstart">Apache Druid (incubating) Quickstart</h1>
+<h1 id="apache-druid-incubating-single-server-quickstart">Apache Druid (incubating) Single-Server Quickstart</h1>
 
 <p>In this quickstart, we will download Druid and set it up on a single machine. The cluster will be ready to load data
 after completing this initial setup.</p>
@@ -158,27 +158,39 @@ after completing this initial setup.</p>
 
 <h3 id="software">Software</h3>
 
-<p>You will need:
-  * Java 8 (8u92+)
-  * Linux, Mac OS X, or other Unix-like OS (Windows is not supported)
-  * 8G of RAM
-  * 2 vCPUs</p>
+<p>You will need:</p>
+
+<ul>
+<li>Java 8 (8u92+)</li>
+<li>Linux, Mac OS X, or other Unix-like OS (Windows is not supported)</li>
+</ul>
+
+<h3 id="hardware">Hardware</h3>
+
+<p>Druid includes several example <a href="../operations/single-server.html">single-server configurations</a>, along with scripts to
+start the Druid processes using these configurations.</p>
+
+<p>If you&#39;re running on a small machine such as a laptop for a quick evaluation, the <code>micro-quickstart</code> configuration is
+a good choice, sized for a 4CPU/16GB RAM environment.</p>
+
+<p>If you plan to use the single-machine deployment for further evaluation beyond the tutorials, we recommend a larger
+configuration than <code>micro-quickstart</code>.</p>
 
 <h2 id="getting-started">Getting started</h2>
 
-<p><a href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.14.2-incubating/apache-druid-0.14.2-incubating-bin.tar.gz">Download</a>
-the 0.14.2-incubating release.</p>
+<p><a href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.15.0-incubating/apache-druid-0.15.0-incubating-bin.tar.gz">Download</a>
+the 0.15.0-incubating release.</p>
 
 <p>Extract Druid by running the following commands in your terminal:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>tar -xzf apache-druid-0.14.2-incubating-bin.tar.gz
-<span class="nb">cd</span> apache-druid-0.14.2-incubating
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>tar -xzf apache-druid-0.15.0-incubating-bin.tar.gz
+<span class="nb">cd</span> apache-druid-0.15.0-incubating
 </code></pre></div>
 <p>In the package, you should find:</p>
 
 <ul>
 <li><code>DISCLAIMER</code>, <code>LICENSE</code>, and <code>NOTICE</code> files</li>
 <li><code>bin/*</code> - scripts useful for this quickstart</li>
-<li><code>conf/*</code> - template configurations for a clustered setup</li>
+<li><code>conf/*</code> - example configurations for single-server and clustered setup</li>
 <li><code>extensions/*</code> - core Druid extensions</li>
 <li><code>hadoop-dependencies/*</code> - Druid Hadoop dependencies</li>
 <li><code>lib/*</code> - libraries and dependencies for core Druid</li>
@@ -195,47 +207,46 @@ need to download and run Zookeeper.</p>
 tar -xzf zookeeper-3.4.11.tar.gz
 mv zookeeper-3.4.11 zk
 </code></pre></div>
-<p>The startup scripts for the tutorial will expect the contents of the Zookeeper tarball to be located at <code>zk</code> under the apache-druid-0.14.2-incubating package root.</p>
+<p>The startup scripts for the tutorial will expect the contents of the Zookeeper tarball to be located at <code>zk</code> under the
+apache-druid-0.15.0-incubating package root.</p>
 
 <h2 id="start-up-druid-services">Start up Druid services</h2>
 
-<p>From the apache-druid-0.14.2-incubating package root, run the following command:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>bin/supervise -c quickstart/tutorial/conf/tutorial-cluster.conf
+<p>The following commands will assume that you are using the <code>micro-quickstart</code> single-machine configuration. If you are
+using a different configuration, the <code>bin</code> directory has equivalent scripts for each configuration, such as
+<code>bin/start-single-server-small</code>.</p>
+
+<p>From the apache-druid-0.15.0-incubating package root, run the following command:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>./bin/start-micro-quickstart
 </code></pre></div>
 <p>This will bring up instances of Zookeeper and the Druid services, all running on the local machine, e.g.:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>bin/supervise -c quickstart/tutorial/conf/tutorial-cluster.conf
-<span class="o">[</span>Wed Feb <span class="m">27</span> <span class="m">12</span>:46:13 <span class="m">2019</span><span class="o">]</span> Running command<span class="o">[</span>zk<span class="o">]</span>, logging to<span class="o">[</span>/apache-druid-0.14.2-incubating/var/sv/zk.log<span class="o">]</span>: bin/run-zk quickstart/tutorial/conf
-<span class="o">[</span>Wed Feb <span class="m">27</span> <span class="m">12</span>:46:13 <span class="m">2019</span><span class="o">]</span> Running command<span class="o">[</span>coordinator<span class="o">]</span>, logging to<span class="o">[</span>/apache-druid-0.14.2-incubating/var/sv/coordinator.log<span class="o">]</span>: bin/run-druid coordinator quickstart/tutorial/conf
-<span class="o">[</span>Wed Feb <span class="m">27</span> <span class="m">12</span>:46:13 <span class="m">2019</span><span class="o">]</span> Running command<span class="o">[</span>broker<span class="o">]</span>, logging to<span class="o">[</span>/apache-druid-0.14.2-incubating/var/sv/broker.log<span class="o">]</span>: bin/run-druid broker quickstart/tutorial/conf
-<span class="o">[</span>Wed Feb <span class="m">27</span> <span class="m">12</span>:46:13 <span class="m">2019</span><span class="o">]</span> Running command<span class="o">[</span>router<span class="o">]</span>, logging to<span class="o">[</span>/apache-druid-0.14.2-incubating/var/sv/router.log<span class="o">]</span>: bin/run-druid router quickstart/tutorial/conf
-<span class="o">[</span>Wed Feb <span class="m">27</span> <span class="m">12</span>:46:13 <span class="m">2019</span><span class="o">]</span> Running command<span class="o">[</span>historical<span class="o">]</span>, logging to<span class="o">[</span>/apache-druid-0.14.2-incubating/var/sv/historical.log<span class="o">]</span>: bin/run-druid historical quickstart/tutorial/conf
-<span class="o">[</span>Wed Feb <span class="m">27</span> <span class="m">12</span>:46:13 <span class="m">2019</span><span class="o">]</span> Running command<span class="o">[</span>overlord<span class="o">]</span>, logging to<span class="o">[</span>/apache-druid-0.14.2-incubating/var/sv/overlord.log<span class="o">]</span>: bin/run-druid overlord quickstart/tutorial/conf
-<span class="o">[</span>Wed Feb <span class="m">27</span> <span class="m">12</span>:46:13 <span class="m">2019</span><span class="o">]</span> Running command<span class="o">[</span>middleManager<span class="o">]</span>, logging to<span class="o">[</span>/apache-druid-0.14.2-incubating/var/sv/middleManager.log<span class="o">]</span>: bin/run-druid middleManager quickstart/tutorial/conf
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>$ ./bin/start-micro-quickstart 
+<span class="o">[</span>Fri May  <span class="m">3</span> <span class="m">11</span>:40:50 <span class="m">2019</span><span class="o">]</span> Running command<span class="o">[</span>zk<span class="o">]</span>, logging to<span class="o">[</span>/apache-druid-0.15.0-incubating/var/sv/zk.log<span class="o">]</span>: bin/run-zk conf
+<span class="o">[</span>Fri May  <span class="m">3</span> <span class="m">11</span>:40:50 <span class="m">2019</span><span class="o">]</span> Running command<span class="o">[</span>coordinator-overlord<span class="o">]</span>, logging to<span class="o">[</span>/apache-druid-0.15.0-incubating/var/sv/coordinator-overlord.log<span class="o">]</span>: bin/run-druid coordinator-overlord conf/druid/single-server/micro-quickstart
+<span class="o">[</span>Fri May  <span class="m">3</span> <span class="m">11</span>:40:50 <span class="m">2019</span><span class="o">]</span> Running command<span class="o">[</span>broker<span class="o">]</span>, logging to<span class="o">[</span>/apache-druid-0.15.0-incubating/var/sv/broker.log<span class="o">]</span>: bin/run-druid broker conf/druid/single-server/micro-quickstart
+<span class="o">[</span>Fri May  <span class="m">3</span> <span class="m">11</span>:40:50 <span class="m">2019</span><span class="o">]</span> Running command<span class="o">[</span>router<span class="o">]</span>, logging to<span class="o">[</span>/apache-druid-0.15.0-incubating/var/sv/router.log<span class="o">]</span>: bin/run-druid router conf/druid/single-server/micro-quickstart
+<span class="o">[</span>Fri May  <span class="m">3</span> <span class="m">11</span>:40:50 <span class="m">2019</span><span class="o">]</span> Running command<span class="o">[</span>historical<span class="o">]</span>, logging to<span class="o">[</span>/apache-druid-0.15.0-incubating/var/sv/historical.log<span class="o">]</span>: bin/run-druid historical conf/druid/single-server/micro-quickstart
+<span class="o">[</span>Fri May  <span class="m">3</span> <span class="m">11</span>:40:50 <span class="m">2019</span><span class="o">]</span> Running command<span class="o">[</span>middleManager<span class="o">]</span>, logging to<span class="o">[</span>/apache-druid-0.15.0-incubating/var/sv/middleManager.log<span class="o">]</span>: bin/run-druid middleManager conf/druid/single-server/micro-quickstart
 </code></pre></div>
-<p>All persistent state such as the cluster metadata store and segments for the services will be kept in the <code>var</code> directory under the apache-druid-0.14.2-incubating package root. Logs for the services are located at <code>var/sv</code>.</p>
+<p>All persistent state such as the cluster metadata store and segments for the services will be kept in the <code>var</code> directory under the apache-druid-0.15.0-incubating package root. Logs for the services are located at <code>var/sv</code>.</p>
 
-<p>Later on, if you&#39;d like to stop the services, CTRL-C to exit the <code>bin/supervise</code> script, which will terminate the Druid processes.</p>
+<p>Later on, if you&#39;d like to stop the services, CTRL-C to exit the <code>bin/start-micro-quickstart</code> script, which will terminate the Druid processes.</p>
 
-<h3 id="resetting-cluster-state">Resetting cluster state</h3>
+<p>Once the cluster has started, you can navigate to <a href="http://localhost:8888">http://localhost:8888</a>.
+The <a href="../development/router.html">Druid router process</a>, which serves the Druid console, resides at this address.</p>
 
-<p>If you want a clean start after stopping the services, delete the <code>var</code> directory and run the <code>bin/supervise</code> script again.</p>
+<p><img src="../tutorials/img/tutorial-quickstart-01.png" alt="Druid console" title="Druid console"></p>
 
-<p>Once every service has started, you are now ready to load data.</p>
+<p>It takes a few seconds for all the Druid processes to fully start up. If you open the console immediately after starting the services, you may see some errors that you can safely ignore.</p>
 
-<h4 id="resetting-kafka">Resetting Kafka</h4>
-
-<p>If you completed <a href="./tutorial-kafka.html">Tutorial: Loading stream data from Kafka</a> and wish to reset the cluster state, you should additionally clear out any Kafka state.</p>
-
-<p>Shut down the Kafka broker with CTRL-C before stopping Zookeeper and the Druid services, and then delete the Kafka log directory at <code>/tmp/kafka-logs</code>:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>rm -rf /tmp/kafka-logs
-</code></pre></div>
 <h2 id="loading-data">Loading Data</h2>
 
 <h3 id="tutorial-dataset">Tutorial Dataset</h3>
 
 <p>For the following data loading tutorials, we have included a sample data file containing Wikipedia page edit events that occurred on 2015-09-12.</p>
 
-<p>This sample data is located at <code>quickstart/tutorial/wikiticker-2015-09-12-sampled.json.gz</code> from the Druid package root. The page edit events are stored as JSON objects in a text file.</p>
+<p>This sample data is located at <code>quickstart/tutorial/wikiticker-2015-09-12-sampled.json.gz</code> from the Druid package root.
+The page edit events are stored as JSON objects in a text file.</p>
 
 <p>The sample data has the following columns, and an example event is shown below:</p>
 
@@ -282,28 +293,32 @@ mv zookeeper-3.4.11 zk
   <span class="nt">&quot;deleted&quot;</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>The following tutorials demonstrate various methods of loading data into Druid, including both batch and streaming use cases.</p>
+<h3 id="data-loading-tutorials">Data loading tutorials</h3>
 
-<h3 id="tutorial-loading-a-file"><a href="./tutorial-batch.html">Tutorial: Loading a file</a></h3>
+<p>The following tutorials demonstrate various methods of loading data into Druid, including both batch and streaming use cases.
+All tutorials assume that you are using the <code>micro-quickstart</code> single-machine configuration mentioned above.</p>
 
-<p>This tutorial demonstrates how to perform a batch file load, using Druid&#39;s native batch ingestion.</p>
+<ul>
+<li><a href="./tutorial-batch.html">Loading a file</a> - this tutorial demonstrates how to perform a batch file load, using Druid&#39;s native batch ingestion.</li>
+<li><a href="./tutorial-kafka.html">Loading stream data from Apache Kafka</a> - this tutorial demonstrates how to load streaming data from a Kafka topic.</li>
+<li><a href="./tutorial-batch-hadoop.html">Loading a file using Apache Hadoop</a> - this tutorial demonstrates how to perform a batch file load, using a remote Hadoop cluster.</li>
+<li><a href="./tutorial-tranquility.html">Loading data using Tranquility</a> - this tutorial demonstrates how to load streaming data by pushing events to Druid using the Tranquility service.</li>
+<li><a href="./tutorial-ingestion-spec.html">Writing your own ingestion spec</a> - this tutorial demonstrates how to write a new ingestion spec and use it to load data.</li>
+</ul>
 
-<h3 id="tutorial-loading-stream-data-from-apache-kafka"><a href="./tutorial-kafka.html">Tutorial: Loading stream data from Apache Kafka</a></h3>
+<h3 id="resetting-cluster-state">Resetting cluster state</h3>
 
-<p>This tutorial demonstrates how to load streaming data from a Kafka topic.</p>
+<p>If you want a clean start after stopping the services, delete the <code>var</code> directory and run the <code>bin/start-micro-quickstart</code> script again.</p>
 
-<h3 id="tutorial-loading-a-file-using-apache-hadoop"><a href="./tutorial-batch-hadoop.html">Tutorial: Loading a file using Apache Hadoop</a></h3>
+<p>Once every service has started, you are now ready to load data.</p>
 
-<p>This tutorial demonstrates how to perform a batch file load, using a remote Hadoop cluster.</p>
+<h4 id="resetting-kafka">Resetting Kafka</h4>
 
-<h3 id="tutorial-loading-data-using-tranquility"><a href="./tutorial-tranquility.html">Tutorial: Loading data using Tranquility</a></h3>
+<p>If you completed <a href="./tutorial-kafka.html">Tutorial: Loading stream data from Kafka</a> and wish to reset the cluster state, you should additionally clear out any Kafka state.</p>
 
-<p>This tutorial demonstrates how to load streaming data by pushing events to Druid using the Tranquility service.</p>
-
-<h3 id="tutorial-writing-your-own-ingestion-spec"><a href="./tutorial-ingestion-spec.html">Tutorial: Writing your own ingestion spec</a></h3>
-
-<p>This tutorial demonstrates how to write a new ingestion spec and use it to load data.</p>
-
+<p>Shut down the Kafka broker with CTRL-C before stopping Zookeeper and the Druid services, and then delete the Kafka log directory at <code>/tmp/kafka-logs</code>:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>rm -rf /tmp/kafka-logs
+</code></pre></div>
         </div>
         <div class="col-md-3">
           <div class="searchbox">
@@ -332,7 +347,7 @@ mv zookeeper-3.4.11 zk
   <div class="text-center">
     <a title="Join the user group" href="https://groups.google.com/forum/#!forum/druid-user" target="_blank"><span class="fa fa-comments"></span></a>&ensp;·&ensp;
     <a title="Follow Druid" href="https://twitter.com/druidio" target="_blank"><span class="fab fa-twitter"></span></a>&ensp;·&ensp;
-    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.14.2-incubating/apache-druid-0.14.2-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
+    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.15.0-incubating/apache-druid-0.15.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
     <a title="GitHub" href="https://github.com/apache/incubator-druid" target="_blank"><span class="fab fa-github"></span></a>
   </div>
   <div class="text-center license">
