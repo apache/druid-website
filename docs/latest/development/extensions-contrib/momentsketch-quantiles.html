@@ -158,17 +158,15 @@ The momentsketch provides coarse quantile estimates with less space and aggregat
 
 <p>The result of the aggregation is a momentsketch that is the union of all sketches either built from raw data or read from the segments.</p>
 
-<p>The <code>momentSketch</code> aggregator operates over raw data while the <code>momentSketchMerge</code> aggregator should be used when aggregating pre-computed sketches.
-<code>json
-{
-  &quot;type&quot; : &lt;aggregator_type&gt;,
-  &quot;name&quot; : &lt;output_name&gt;,
-  &quot;fieldName&quot; : &lt;input_name&gt;,
-  &quot;k&quot; : &lt;int&gt;,
-  &quot;compress&quot; : &lt;boolean&gt;
- }
-</code></p>
-
+<p>The <code>momentSketch</code> aggregator operates over raw data while the <code>momentSketchMerge</code> aggregator should be used when aggregating pre-computed sketches.</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+  <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="err">&lt;aggregator_type&gt;</span><span class="p">,</span>
+  <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="err">&lt;output_name&gt;</span><span class="p">,</span>
+  <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="err">&lt;input_name&gt;</span><span class="p">,</span>
+  <span class="nt">&quot;k&quot;</span> <span class="p">:</span> <span class="err">&lt;int&gt;</span><span class="p">,</span>
+  <span class="nt">&quot;compress&quot;</span> <span class="p">:</span> <span class="err">&lt;boolean&gt;</span>
+ <span class="p">}</span>
+</code></pre></div>
 <table><thead>
 <tr>
 <th>property</th>
@@ -205,68 +203,61 @@ The momentsketch provides coarse quantile estimates with less space and aggregat
 
 <h3 id="post-aggregators">Post Aggregators</h3>
 
-<p>Users can query for a set of quantiles using the <code>momentSketchSolveQuantiles</code> post-aggregator on the sketches created by the <code>momentSketch</code> or <code>momentSketchMerge</code> aggregators.
-<code>json
-{
-  &quot;type&quot;  : &quot;momentSketchSolveQuantiles&quot;,
-  &quot;name&quot; : &lt;output_name&gt;,
-  &quot;field&quot; : &lt;reference to moment sketch&gt;,
-  &quot;fractions&quot; : &lt;array of doubles in [0,1]&gt;
-}
-</code></p>
-
-<p>Users can also query for the min/max of a distribution:
-<code>json
-{
-  &quot;type&quot; : &quot;momentSketchMin&quot; | &quot;momentSketchMax&quot;,
-  &quot;name&quot; : &lt;output_name&gt;,
-  &quot;field&quot; : &lt;reference to moment sketch&gt;,
-}
-</code></p>
-
+<p>Users can query for a set of quantiles using the <code>momentSketchSolveQuantiles</code> post-aggregator on the sketches created by the <code>momentSketch</code> or <code>momentSketchMerge</code> aggregators.</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+  <span class="nt">&quot;type&quot;</span>  <span class="p">:</span> <span class="s2">&quot;momentSketchSolveQuantiles&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="err">&lt;output_name&gt;</span><span class="p">,</span>
+  <span class="nt">&quot;field&quot;</span> <span class="p">:</span> <span class="err">&lt;reference</span> <span class="err">to</span> <span class="err">moment</span> <span class="err">sketch&gt;</span><span class="p">,</span>
+  <span class="nt">&quot;fractions&quot;</span> <span class="p">:</span> <span class="err">&lt;array</span> <span class="err">of</span> <span class="err">doubles</span> <span class="err">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="err">&gt;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Users can also query for the min/max of a distribution:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+  <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;momentSketchMin&quot;</span> <span class="err">|</span> <span class="s2">&quot;momentSketchMax&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="err">&lt;output_name&gt;</span><span class="p">,</span>
+  <span class="nt">&quot;field&quot;</span> <span class="p">:</span> <span class="err">&lt;reference</span> <span class="err">to</span> <span class="err">moment</span> <span class="err">sketch&gt;</span><span class="p">,</span>
+<span class="p">}</span>
+</code></pre></div>
 <h3 id="example">Example</h3>
 
-<p>As an example of a query with sketches pre-aggregated at ingestion time, one could set up the following aggregator at ingest:
-<code>json
-{
-  &quot;type&quot;: &quot;momentSketch&quot;, 
-  &quot;name&quot;: &quot;sketch&quot;, 
-  &quot;fieldName&quot;: &quot;value&quot;, 
-  &quot;k&quot;: 10, 
-  &quot;compress&quot;: true,
-}
-</code>
-and make queries using the following aggregator + post-aggregator:
-<code>json
-{
-  &quot;aggregations&quot;: [{
-    &quot;type&quot;: &quot;momentSketchMerge&quot;,
-    &quot;name&quot;: &quot;sketch&quot;,
-    &quot;fieldName&quot;: &quot;sketch&quot;,
-    &quot;k&quot;: 10,
-    &quot;compress&quot;: true
-  }],
-  &quot;postAggregations&quot;: [
-  {
-    &quot;type&quot;: &quot;momentSketchSolveQuantiles&quot;,
-    &quot;name&quot;: &quot;quantiles&quot;,
-    &quot;fractions&quot;: [0.1, 0.5, 0.9],
-    &quot;field&quot;: {
-      &quot;type&quot;: &quot;fieldAccess&quot;,
-      &quot;fieldName&quot;: &quot;sketch&quot;
-    }
-  },
-  {
-    &quot;type&quot;: &quot;momentSketchMin&quot;,
-    &quot;name&quot;: &quot;min&quot;,
-    &quot;field&quot;: {
-      &quot;type&quot;: &quot;fieldAccess&quot;,
-      &quot;fieldName&quot;: &quot;sketch&quot;
-    }
-  }]
-}
-</code></p>
-
+<p>As an example of a query with sketches pre-aggregated at ingestion time, one could set up the following aggregator at ingest:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+  <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;momentSketch&quot;</span><span class="p">,</span> 
+  <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;sketch&quot;</span><span class="p">,</span> 
+  <span class="nt">&quot;fieldName&quot;</span><span class="p">:</span> <span class="s2">&quot;value&quot;</span><span class="p">,</span> 
+  <span class="nt">&quot;k&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> 
+  <span class="nt">&quot;compress&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>and make queries using the following aggregator + post-aggregator:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+  <span class="nt">&quot;aggregations&quot;</span><span class="p">:</span> <span class="p">[{</span>
+    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;momentSketchMerge&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;sketch&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;fieldName&quot;</span><span class="p">:</span> <span class="s2">&quot;sketch&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;k&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="nt">&quot;compress&quot;</span><span class="p">:</span> <span class="kc">true</span>
+  <span class="p">}],</span>
+  <span class="nt">&quot;postAggregations&quot;</span><span class="p">:</span> <span class="p">[</span>
+  <span class="p">{</span>
+    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;momentSketchSolveQuantiles&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;quantiles&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;fractions&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">],</span>
+    <span class="nt">&quot;field&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;fieldAccess&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;fieldName&quot;</span><span class="p">:</span> <span class="s2">&quot;sketch&quot;</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;momentSketchMin&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;min&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;field&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;fieldAccess&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;fieldName&quot;</span><span class="p">:</span> <span class="s2">&quot;sketch&quot;</span>
+    <span class="p">}</span>
+  <span class="p">}]</span>
+<span class="p">}</span>
+</code></pre></div>
         </div>
         <div class="col-md-3">
           <div class="searchbox">

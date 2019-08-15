@@ -166,7 +166,7 @@
 
 <p>This Dockerfile and related files are located at <code>quickstart/tutorial/hadoop/docker</code>.</p>
 
-<p>From the apache-druid-0.15.0-incubating package root, run the following commands to build a Docker image named &quot;druid-hadoop-demo&quot; with version tag &quot;2.8.3&quot;:</p>
+<p>From the apache-druid-0.15.1-incubating package root, run the following commands to build a Docker image named &quot;druid-hadoop-demo&quot; with version tag &quot;2.8.3&quot;:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="nb">cd</span> quickstart/tutorial/hadoop/docker
 docker build -t druid-hadoop-demo:2.8.3 .
 </code></pre></div>
@@ -216,7 +216,7 @@ bash-4.1#
 </code></pre></div>
 <h3 id="copy-input-data-to-the-hadoop-container">Copy input data to the Hadoop container</h3>
 
-<p>From the apache-druid-0.15.0-incubating package root on the host, copy the <code>quickstart/tutorial/wikiticker-2015-09-12-sampled.json.gz</code> sample data to the shared folder:</p>
+<p>From the apache-druid-0.15.1-incubating package root on the host, copy the <code>quickstart/tutorial/wikiticker-2015-09-12-sampled.json.gz</code> sample data to the shared folder:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>cp quickstart/tutorial/wikiticker-2015-09-12-sampled.json.gz /tmp/shared/wikiticker-2015-09-12-sampled.json.gz
 </code></pre></div>
 <h3 id="setup-hdfs-directories">Setup HDFS directories</h3>
@@ -282,7 +282,7 @@ druid.indexer.logs.directory=/druid/indexing-logs
 
 <p>Once the Hadoop .xml files have been copied to the Druid cluster and the segment/log storage configuration has been updated to use HDFS, the Druid cluster needs to be restarted for the new configurations to take effect.</p>
 
-<p>If the cluster is still running, CTRL-C to terminate the <code>bin/supervise</code> script, and re-reun it to bring the Druid services back up.</p>
+<p>If the cluster is still running, CTRL-C to terminate the <code>bin/start-micro-quickstart</code> script, and re-reun it to bring the Druid services back up.</p>
 
 <h2 id="load-batch-data">Load batch data</h2>
 

@@ -157,39 +157,37 @@
 <p>In materialized-view-maintenance, dataSouces user ingested are called &quot;base-dataSource&quot;. For each base-dataSource, we can submit <code>derivativeDataSource</code> supervisors to create and maintain other dataSources which we called  &quot;derived-dataSource&quot;. The deminsions and metrics of derived-dataSources are the subset of base-dataSource&#39;s.
 The <code>derivativeDataSource</code> supervisor is used to keep the timeline of derived-dataSource consistent with base-dataSource. Each <code>derivativeDataSource</code> supervisor  is responsible for one derived-dataSource.</p>
 
-<p>A sample derivativeDataSource supervisor spec is shown below:
-<code>json
-   {
-       &quot;type&quot;: &quot;derivativeDataSource&quot;,
-       &quot;baseDataSource&quot;: &quot;wikiticker&quot;,
-       &quot;dimensionsSpec&quot;: {
-           &quot;dimensions&quot;: [
-               &quot;isUnpatrolled&quot;,
-               &quot;metroCode&quot;,
-               &quot;namespace&quot;,
-               &quot;page&quot;,
-               &quot;regionIsoCode&quot;,
-               &quot;regionName&quot;,
-               &quot;user&quot;
-           ]
-       },
-       &quot;metricsSpec&quot;: [
-           {
-               &quot;name&quot;: &quot;count&quot;,
-               &quot;type&quot;: &quot;count&quot;
-           },
-           {
-               &quot;name&quot;: &quot;added&quot;,
-               &quot;type&quot;: &quot;longSum&quot;,
-               &quot;fieldName&quot;: &quot;added&quot;
-           }
-       ],
-       &quot;tuningConfig&quot;: {
-           &quot;type&quot;: &quot;hadoop&quot;
-       }
-   }
-</code></p>
-
+<p>A sample derivativeDataSource supervisor spec is shown below:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span>   <span class="p">{</span>
+       <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;derivativeDataSource&quot;</span><span class="p">,</span>
+       <span class="nt">&quot;baseDataSource&quot;</span><span class="p">:</span> <span class="s2">&quot;wikiticker&quot;</span><span class="p">,</span>
+       <span class="nt">&quot;dimensionsSpec&quot;</span><span class="p">:</span> <span class="p">{</span>
+           <span class="nt">&quot;dimensions&quot;</span><span class="p">:</span> <span class="p">[</span>
+               <span class="s2">&quot;isUnpatrolled&quot;</span><span class="p">,</span>
+               <span class="s2">&quot;metroCode&quot;</span><span class="p">,</span>
+               <span class="s2">&quot;namespace&quot;</span><span class="p">,</span>
+               <span class="s2">&quot;page&quot;</span><span class="p">,</span>
+               <span class="s2">&quot;regionIsoCode&quot;</span><span class="p">,</span>
+               <span class="s2">&quot;regionName&quot;</span><span class="p">,</span>
+               <span class="s2">&quot;user&quot;</span>
+           <span class="p">]</span>
+       <span class="p">},</span>
+       <span class="nt">&quot;metricsSpec&quot;</span><span class="p">:</span> <span class="p">[</span>
+           <span class="p">{</span>
+               <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;count&quot;</span><span class="p">,</span>
+               <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;count&quot;</span>
+           <span class="p">},</span>
+           <span class="p">{</span>
+               <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;added&quot;</span><span class="p">,</span>
+               <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;longSum&quot;</span><span class="p">,</span>
+               <span class="nt">&quot;fieldName&quot;</span><span class="p">:</span> <span class="s2">&quot;added&quot;</span>
+           <span class="p">}</span>
+       <span class="p">],</span>
+       <span class="nt">&quot;tuningConfig&quot;</span><span class="p">:</span> <span class="p">{</span>
+           <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;hadoop&quot;</span>
+       <span class="p">}</span>
+   <span class="p">}</span>
+</code></pre></div>
 <p><strong>Supervisor Configuration</strong></p>
 
 <table><thead>
@@ -266,42 +264,41 @@ The <code>derivativeDataSource</code> supervisor is used to keep the timeline of
 
 <p>In materialized-view-selection, we implement a new query type <code>view</code>. When we request a view query, Druid will try its best to optimize the query based on query dataSource and intervals.</p>
 
-<p>A sample view query spec is shown below:
-<code>json
-   {
-       &quot;queryType&quot;: &quot;view&quot;,
-       &quot;query&quot;: {
-           &quot;queryType&quot;: &quot;groupBy&quot;,
-           &quot;dataSource&quot;: &quot;wikiticker&quot;,
-           &quot;granularity&quot;: &quot;all&quot;,
-           &quot;dimensions&quot;: [
-               &quot;user&quot;
-           ],
-           &quot;limitSpec&quot;: {
-               &quot;type&quot;: &quot;default&quot;,
-               &quot;limit&quot;: 1,
-               &quot;columns&quot;: [
-                   {
-                       &quot;dimension&quot;: &quot;added&quot;,
-                       &quot;direction&quot;: &quot;descending&quot;,
-                       &quot;dimensionOrder&quot;: &quot;numeric&quot;
-                   }
-               ]
-           },
-           &quot;aggregations&quot;: [
-               {
-                   &quot;type&quot;: &quot;longSum&quot;,
-                   &quot;name&quot;: &quot;added&quot;,
-                   &quot;fieldName&quot;: &quot;added&quot;
-               }
-           ],
-           &quot;intervals&quot;: [
-               &quot;2015-09-12/2015-09-13&quot;
-           ]
-       }
-   }
-</code>
-There are 2 parts in a view query:</p>
+<p>A sample view query spec is shown below:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span>   <span class="p">{</span>
+       <span class="nt">&quot;queryType&quot;</span><span class="p">:</span> <span class="s2">&quot;view&quot;</span><span class="p">,</span>
+       <span class="nt">&quot;query&quot;</span><span class="p">:</span> <span class="p">{</span>
+           <span class="nt">&quot;queryType&quot;</span><span class="p">:</span> <span class="s2">&quot;groupBy&quot;</span><span class="p">,</span>
+           <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="s2">&quot;wikiticker&quot;</span><span class="p">,</span>
+           <span class="nt">&quot;granularity&quot;</span><span class="p">:</span> <span class="s2">&quot;all&quot;</span><span class="p">,</span>
+           <span class="nt">&quot;dimensions&quot;</span><span class="p">:</span> <span class="p">[</span>
+               <span class="s2">&quot;user&quot;</span>
+           <span class="p">],</span>
+           <span class="nt">&quot;limitSpec&quot;</span><span class="p">:</span> <span class="p">{</span>
+               <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;default&quot;</span><span class="p">,</span>
+               <span class="nt">&quot;limit&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+               <span class="nt">&quot;columns&quot;</span><span class="p">:</span> <span class="p">[</span>
+                   <span class="p">{</span>
+                       <span class="nt">&quot;dimension&quot;</span><span class="p">:</span> <span class="s2">&quot;added&quot;</span><span class="p">,</span>
+                       <span class="nt">&quot;direction&quot;</span><span class="p">:</span> <span class="s2">&quot;descending&quot;</span><span class="p">,</span>
+                       <span class="nt">&quot;dimensionOrder&quot;</span><span class="p">:</span> <span class="s2">&quot;numeric&quot;</span>
+                   <span class="p">}</span>
+               <span class="p">]</span>
+           <span class="p">},</span>
+           <span class="nt">&quot;aggregations&quot;</span><span class="p">:</span> <span class="p">[</span>
+               <span class="p">{</span>
+                   <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;longSum&quot;</span><span class="p">,</span>
+                   <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;added&quot;</span><span class="p">,</span>
+                   <span class="nt">&quot;fieldName&quot;</span><span class="p">:</span> <span class="s2">&quot;added&quot;</span>
+               <span class="p">}</span>
+           <span class="p">],</span>
+           <span class="nt">&quot;intervals&quot;</span><span class="p">:</span> <span class="p">[</span>
+               <span class="s2">&quot;2015-09-12/2015-09-13&quot;</span>
+           <span class="p">]</span>
+       <span class="p">}</span>
+   <span class="p">}</span>
+</code></pre></div>
+<p>There are 2 parts in a view query:</p>
 
 <table><thead>
 <tr>

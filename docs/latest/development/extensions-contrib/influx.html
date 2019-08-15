@@ -158,35 +158,36 @@
 
 <p><code>cpu,application=dbhost=prdb123,region=us-east-1 usage_idle=99.24,usage_user=0.55 1520722030000000000</code></p>
 
-<p>which contains four parts:
-  - measurement: A string indicating the name of the measurement represented (e.g. cpu, network, web_requests)
-  - tags: zero or more key-value pairs (i.e. dimensions)
-  - measurements: one or more key-value pairs; values can be numeric, boolean, or string
-  - timestamp: nanoseconds since Unix epoch (the parser truncates it to milliseconds)</p>
+<p>which contains four parts:</p>
+
+<ul>
+<li>measurement: A string indicating the name of the measurement represented (e.g. cpu, network, web_requests)</li>
+<li>tags: zero or more key-value pairs (i.e. dimensions)</li>
+<li>measurements: one or more key-value pairs; values can be numeric, boolean, or string</li>
+<li>timestamp: nanoseconds since Unix epoch (the parser truncates it to milliseconds)</li>
+</ul>
 
 <p>The parser extracts these fields into a map, giving the measurement the key <code>measurement</code> and the timestamp the key <code>_ts</code>. The tag and measurement keys are copied verbatim, so users should take care to avoid name collisions. It is up to the ingestion spec to decide which fields should be treated as dimensions and which should be treated as metrics (typically tags correspond to dimensions and measurements correspond to metrics).</p>
 
-<p>The parser is configured like so:
-<code>json
-&quot;parser&quot;: {
-      &quot;type&quot;: &quot;string&quot;,
-      &quot;parseSpec&quot;: {
-        &quot;format&quot;: &quot;influx&quot;,
-        &quot;timestampSpec&quot;: {
-          &quot;column&quot;: &quot;__ts&quot;,
-          &quot;format&quot;: &quot;millis&quot;
-        },
-        &quot;dimensionsSpec&quot;: {
-          &quot;dimensionExclusions&quot;: [
-            &quot;__ts&quot;
-          ]
-        },
-        &quot;whitelistMeasurements&quot;: [
-          &quot;cpu&quot;
-        ]
-      }
-</code></p>
-
+<p>The parser is configured like so:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;parser&quot;</span><span class="err">:</span> <span class="p">{</span>
+      <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;parseSpec&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;influx&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;timestampSpec&quot;</span><span class="p">:</span> <span class="p">{</span>
+          <span class="nt">&quot;column&quot;</span><span class="p">:</span> <span class="s2">&quot;__ts&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;millis&quot;</span>
+        <span class="p">},</span>
+        <span class="nt">&quot;dimensionsSpec&quot;</span><span class="p">:</span> <span class="p">{</span>
+          <span class="nt">&quot;dimensionExclusions&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="s2">&quot;__ts&quot;</span>
+          <span class="p">]</span>
+        <span class="p">},</span>
+        <span class="nt">&quot;whitelistMeasurements&quot;</span><span class="p">:</span> <span class="p">[</span>
+          <span class="s2">&quot;cpu&quot;</span>
+        <span class="p">]</span>
+      <span class="p">}</span>
+</code></pre></div>
 <p>The <code>whitelistMeasurements</code> field is an optional list of strings. If present, measurements that do not match one of the strings in the list will be ignored.</p>
 
         </div>

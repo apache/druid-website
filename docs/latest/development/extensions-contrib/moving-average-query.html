@@ -158,9 +158,12 @@
 
 <p>Moving Average encapsulates the <a href="../../querying/groupbyquery.html">groupBy query</a> (Or <a href="../../querying/timeseriesquery.html">timeseries</a> in case of no dimensions) in order to rely on the maturity of these query types.</p>
 
-<p>It runs the query in two main phases:
-1. Runs an inner <a href="../../querying/groupbyquery.html">groupBy</a> or <a href="../../querying/timeseriesquery.html">timeseries</a> query to compute Aggregators (i.e. daily count of events).
-2. Passes over aggregated results in Broker, in order to compute Averagers (i.e. moving 7 day average of the daily count).</p>
+<p>It runs the query in two main phases:</p>
+
+<ol>
+<li>Runs an inner <a href="../../querying/groupbyquery.html">groupBy</a> or <a href="../../querying/timeseriesquery.html">timeseries</a> query to compute Aggregators (i.e. daily count of events).</li>
+<li>Passes over aggregated results in Broker, in order to compute Averagers (i.e. moving 7 day average of the daily count).</li>
+</ol>
 
 <h4 id="main-enhancements-provided-by-this-extension">Main enhancements provided by this extension:</h4>
 
@@ -334,31 +337,35 @@
 
 <h4 id="standard-averagers">Standard averagers</h4>
 
-<p>These averagers offer four functions:
-* Mean (Average)
-* MeanNoNulls (Ignores empty buckets).
-* Max
-* Min</p>
+<p>These averagers offer four functions:</p>
+
+<ul>
+<li>Mean (Average)</li>
+<li>MeanNoNulls (Ignores empty buckets).</li>
+<li>Max</li>
+<li>Min</li>
+</ul>
 
 <p><strong>Ignoring nulls</strong>:
 Using a MeanNoNulls averager is useful when the interval starts at the dataset beginning time. 
 In that case, the first records will ignore missing buckets and average won&#39;t be artificially low.
 However, this also means that empty days in a sparse dataset will also be ignored.</p>
 
-<p>Example of usage:
-<code>json
-{ &quot;type&quot; : &quot;doubleMean&quot;, &quot;name&quot; : &lt;output_name&gt;, &quot;fieldName&quot;: &lt;input_name&gt; }
-</code></p>
-
+<p>Example of usage:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;doubleMean&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="err">&lt;output_name&gt;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span><span class="p">:</span> <span class="err">&lt;input_name&gt;</span> <span class="p">}</span>
+</code></pre></div>
 <h3 id="cycle-size-day-of-week">Cycle size (Day of Week)</h3>
 
 <p>This optional parameter is used to calculate over a single bucket within each cycle instead of all buckets. 
 A prime example would be weekly buckets, resulting in a Day of Week calculation. (Other examples: Month of year, Hour of day).</p>
 
-<p>I.e. when using these parameters:
-* <em>granularity</em>: period=P1D (daily)
-* <em>buckets</em>: 28
-* <em>cycleSize</em>: 7</p>
+<p>I.e. when using these parameters:</p>
+
+<ul>
+<li><em>granularity</em>: period=P1D (daily)</li>
+<li><em>buckets</em>: 28</li>
+<li><em>cycleSize</em>: 7</li>
+</ul>
 
 <p>Within each output record, the averager will compute the result over the following buckets: current (#0), #7, #14, #21. 
 Whereas without specifying cycleSize it would have computed over all 28 buckets.</p>
@@ -371,196 +378,186 @@ Whereas without specifying cycleSize it would have computed over all 28 buckets.
 
 <p>Calculating a 7-buckets moving average for Wikipedia edit deltas.</p>
 
-<p>Query syntax:
-<code>json
-{
-  &quot;queryType&quot;: &quot;movingAverage&quot;,
-  &quot;dataSource&quot;: &quot;wikipedia&quot;,
-  &quot;granularity&quot;: {
-    &quot;type&quot;: &quot;period&quot;,
-    &quot;period&quot;: &quot;PT30M&quot;
-  },
-  &quot;intervals&quot;: [
-    &quot;2015-09-12T00:00:00Z/2015-09-13T00:00:00Z&quot;
-  ],
-  &quot;aggregations&quot;: [
-    {
-      &quot;name&quot;: &quot;delta30Min&quot;,
-      &quot;fieldName&quot;: &quot;delta&quot;,
-      &quot;type&quot;: &quot;longSum&quot;
-    }
-  ],
-  &quot;averagers&quot;: [
-    {
-      &quot;name&quot;: &quot;trailing30MinChanges&quot;,
-      &quot;fieldName&quot;: &quot;delta30Min&quot;,
-      &quot;type&quot;: &quot;longMean&quot;,
-      &quot;buckets&quot;: 7
-    }
-  ]
-}
-</code></p>
-
-<p>Result:
-<code>json
-[ {
-   &quot;version&quot; : &quot;v1&quot;,
-   &quot;timestamp&quot; : &quot;2015-09-12T00:30:00.000Z&quot;,
-   &quot;event&quot; : {
-     &quot;delta30Min&quot; : 30490,
-     &quot;trailing30MinChanges&quot; : 4355.714285714285
-   }
- }, {
-   &quot;version&quot; : &quot;v1&quot;,
-   &quot;timestamp&quot; : &quot;2015-09-12T01:00:00.000Z&quot;,
-   &quot;event&quot; : {
-     &quot;delta30Min&quot; : 96526,
-     &quot;trailing30MinChanges&quot; : 18145.14285714286
-   }
- }, {
-...
-...
-... 
-}, {
-  &quot;version&quot; : &quot;v1&quot;,
-  &quot;timestamp&quot; : &quot;2015-09-12T23:00:00.000Z&quot;,
-  &quot;event&quot; : {
-    &quot;delta30Min&quot; : 119100,
-    &quot;trailing30MinChanges&quot; : 198697.2857142857
-  }
-}, {
-  &quot;version&quot; : &quot;v1&quot;,
-  &quot;timestamp&quot; : &quot;2015-09-12T23:30:00.000Z&quot;,
-  &quot;event&quot; : {
-    &quot;delta30Min&quot; : 177882,
-    &quot;trailing30MinChanges&quot; : 193890.0
-  }
-}
-</code></p>
-
+<p>Query syntax:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+  <span class="nt">&quot;queryType&quot;</span><span class="p">:</span> <span class="s2">&quot;movingAverage&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="s2">&quot;wikipedia&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;granularity&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;period&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;period&quot;</span><span class="p">:</span> <span class="s2">&quot;PT30M&quot;</span>
+  <span class="p">},</span>
+  <span class="nt">&quot;intervals&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="s2">&quot;2015-09-12T00:00:00Z/2015-09-13T00:00:00Z&quot;</span>
+  <span class="p">],</span>
+  <span class="nt">&quot;aggregations&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;delta30Min&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;fieldName&quot;</span><span class="p">:</span> <span class="s2">&quot;delta&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;longSum&quot;</span>
+    <span class="p">}</span>
+  <span class="p">],</span>
+  <span class="nt">&quot;averagers&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;trailing30MinChanges&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;fieldName&quot;</span><span class="p">:</span> <span class="s2">&quot;delta30Min&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;longMean&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;buckets&quot;</span><span class="p">:</span> <span class="mi">7</span>
+    <span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Result:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">[</span> <span class="p">{</span>
+   <span class="nt">&quot;version&quot;</span> <span class="p">:</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span>
+   <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2015-09-12T00:30:00.000Z&quot;</span><span class="p">,</span>
+   <span class="nt">&quot;event&quot;</span> <span class="p">:</span> <span class="p">{</span>
+     <span class="nt">&quot;delta30Min&quot;</span> <span class="p">:</span> <span class="mi">30490</span><span class="p">,</span>
+     <span class="nt">&quot;trailing30MinChanges&quot;</span> <span class="p">:</span> <span class="mf">4355.714285714285</span>
+   <span class="p">}</span>
+ <span class="p">},</span> <span class="p">{</span>
+   <span class="nt">&quot;version&quot;</span> <span class="p">:</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span>
+   <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2015-09-12T01:00:00.000Z&quot;</span><span class="p">,</span>
+   <span class="nt">&quot;event&quot;</span> <span class="p">:</span> <span class="p">{</span>
+     <span class="nt">&quot;delta30Min&quot;</span> <span class="p">:</span> <span class="mi">96526</span><span class="p">,</span>
+     <span class="nt">&quot;trailing30MinChanges&quot;</span> <span class="p">:</span> <span class="mf">18145.14285714286</span>
+   <span class="p">}</span>
+ <span class="p">},</span> <span class="p">{</span>
+<span class="err">...</span>
+<span class="err">...</span>
+<span class="err">...</span> 
+<span class="p">},</span> <span class="p">{</span>
+  <span class="nt">&quot;version&quot;</span> <span class="p">:</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2015-09-12T23:00:00.000Z&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;event&quot;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;delta30Min&quot;</span> <span class="p">:</span> <span class="mi">119100</span><span class="p">,</span>
+    <span class="nt">&quot;trailing30MinChanges&quot;</span> <span class="p">:</span> <span class="mf">198697.2857142857</span>
+  <span class="p">}</span>
+<span class="p">},</span> <span class="p">{</span>
+  <span class="nt">&quot;version&quot;</span> <span class="p">:</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2015-09-12T23:30:00.000Z&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;event&quot;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;delta30Min&quot;</span> <span class="p">:</span> <span class="mi">177882</span><span class="p">,</span>
+    <span class="nt">&quot;trailing30MinChanges&quot;</span> <span class="p">:</span> <span class="mf">193890.0</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
 <h3 id="post-averager-example">Post averager example</h3>
 
 <p>Calculating a 7-buckets moving average for Wikipedia edit deltas, plus a ratio between the current period and the moving average.</p>
 
-<p>Query syntax:
-<code>json
-{
-  &quot;queryType&quot;: &quot;movingAverage&quot;,
-  &quot;dataSource&quot;: &quot;wikipedia&quot;,
-  &quot;granularity&quot;: {
-    &quot;type&quot;: &quot;period&quot;,
-    &quot;period&quot;: &quot;PT30M&quot;
-  },
-  &quot;intervals&quot;: [
-    &quot;2015-09-12T22:00:00Z/2015-09-13T00:00:00Z&quot;
-  ],
-  &quot;aggregations&quot;: [
-    {
-      &quot;name&quot;: &quot;delta30Min&quot;,
-      &quot;fieldName&quot;: &quot;delta&quot;,
-      &quot;type&quot;: &quot;longSum&quot;
-    }
-  ],
-  &quot;averagers&quot;: [
-    {
-      &quot;name&quot;: &quot;trailing30MinChanges&quot;,
-      &quot;fieldName&quot;: &quot;delta30Min&quot;,
-      &quot;type&quot;: &quot;longMean&quot;,
-      &quot;buckets&quot;: 7
-    }
-  ],
-  &quot;postAveragers&quot; : [
-    {
-      &quot;name&quot;: &quot;ratioTrailing30MinChanges&quot;,
-      &quot;type&quot;: &quot;arithmetic&quot;,
-      &quot;fn&quot;: &quot;/&quot;,
-      &quot;fields&quot;: [
-        {
-          &quot;type&quot;: &quot;fieldAccess&quot;,
-          &quot;fieldName&quot;: &quot;delta30Min&quot;
-        },
-        {
-          &quot;type&quot;: &quot;fieldAccess&quot;,
-          &quot;fieldName&quot;: &quot;trailing30MinChanges&quot;
-        }
-      ]
-    }
-  ]
-}
-</code></p>
-
-<p>Result:
-<code>json
-[ {
-  &quot;version&quot; : &quot;v1&quot;,
-  &quot;timestamp&quot; : &quot;2015-09-12T22:00:00.000Z&quot;,
-  &quot;event&quot; : {
-    &quot;delta30Min&quot; : 144269,
-    &quot;trailing30MinChanges&quot; : 204088.14285714287,
-    &quot;ratioTrailing30MinChanges&quot; : 0.7068955500319539
-  }
-}, {
-  &quot;version&quot; : &quot;v1&quot;,
-  &quot;timestamp&quot; : &quot;2015-09-12T22:30:00.000Z&quot;,
-  &quot;event&quot; : {
-    &quot;delta30Min&quot; : 242860,
-    &quot;trailing30MinChanges&quot; : 214031.57142857142,
-    &quot;ratioTrailing30MinChanges&quot; : 1.134692411867141
-  }
-}, {
-  &quot;version&quot; : &quot;v1&quot;,
-  &quot;timestamp&quot; : &quot;2015-09-12T23:00:00.000Z&quot;,
-  &quot;event&quot; : {
-    &quot;delta30Min&quot; : 119100,
-    &quot;trailing30MinChanges&quot; : 198697.2857142857,
-    &quot;ratioTrailing30MinChanges&quot; : 0.5994042624782422
-  }
-}, {
-  &quot;version&quot; : &quot;v1&quot;,
-  &quot;timestamp&quot; : &quot;2015-09-12T23:30:00.000Z&quot;,
-  &quot;event&quot; : {
-    &quot;delta30Min&quot; : 177882,
-    &quot;trailing30MinChanges&quot; : 193890.0,
-    &quot;ratioTrailing30MinChanges&quot; : 0.9174377224199288
-  }
-} ]
-</code></p>
-
+<p>Query syntax:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+  <span class="nt">&quot;queryType&quot;</span><span class="p">:</span> <span class="s2">&quot;movingAverage&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="s2">&quot;wikipedia&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;granularity&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;period&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;period&quot;</span><span class="p">:</span> <span class="s2">&quot;PT30M&quot;</span>
+  <span class="p">},</span>
+  <span class="nt">&quot;intervals&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="s2">&quot;2015-09-12T22:00:00Z/2015-09-13T00:00:00Z&quot;</span>
+  <span class="p">],</span>
+  <span class="nt">&quot;aggregations&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;delta30Min&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;fieldName&quot;</span><span class="p">:</span> <span class="s2">&quot;delta&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;longSum&quot;</span>
+    <span class="p">}</span>
+  <span class="p">],</span>
+  <span class="nt">&quot;averagers&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;trailing30MinChanges&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;fieldName&quot;</span><span class="p">:</span> <span class="s2">&quot;delta30Min&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;longMean&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;buckets&quot;</span><span class="p">:</span> <span class="mi">7</span>
+    <span class="p">}</span>
+  <span class="p">],</span>
+  <span class="nt">&quot;postAveragers&quot;</span> <span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;ratioTrailing30MinChanges&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;arithmetic&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;fn&quot;</span><span class="p">:</span> <span class="s2">&quot;/&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;fields&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;fieldAccess&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;fieldName&quot;</span><span class="p">:</span> <span class="s2">&quot;delta30Min&quot;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;fieldAccess&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;fieldName&quot;</span><span class="p">:</span> <span class="s2">&quot;trailing30MinChanges&quot;</span>
+        <span class="p">}</span>
+      <span class="p">]</span>
+    <span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Result:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">[</span> <span class="p">{</span>
+  <span class="nt">&quot;version&quot;</span> <span class="p">:</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2015-09-12T22:00:00.000Z&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;event&quot;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;delta30Min&quot;</span> <span class="p">:</span> <span class="mi">144269</span><span class="p">,</span>
+    <span class="nt">&quot;trailing30MinChanges&quot;</span> <span class="p">:</span> <span class="mf">204088.14285714287</span><span class="p">,</span>
+    <span class="nt">&quot;ratioTrailing30MinChanges&quot;</span> <span class="p">:</span> <span class="mf">0.7068955500319539</span>
+  <span class="p">}</span>
+<span class="p">},</span> <span class="p">{</span>
+  <span class="nt">&quot;version&quot;</span> <span class="p">:</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2015-09-12T22:30:00.000Z&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;event&quot;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;delta30Min&quot;</span> <span class="p">:</span> <span class="mi">242860</span><span class="p">,</span>
+    <span class="nt">&quot;trailing30MinChanges&quot;</span> <span class="p">:</span> <span class="mf">214031.57142857142</span><span class="p">,</span>
+    <span class="nt">&quot;ratioTrailing30MinChanges&quot;</span> <span class="p">:</span> <span class="mf">1.134692411867141</span>
+  <span class="p">}</span>
+<span class="p">},</span> <span class="p">{</span>
+  <span class="nt">&quot;version&quot;</span> <span class="p">:</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2015-09-12T23:00:00.000Z&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;event&quot;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;delta30Min&quot;</span> <span class="p">:</span> <span class="mi">119100</span><span class="p">,</span>
+    <span class="nt">&quot;trailing30MinChanges&quot;</span> <span class="p">:</span> <span class="mf">198697.2857142857</span><span class="p">,</span>
+    <span class="nt">&quot;ratioTrailing30MinChanges&quot;</span> <span class="p">:</span> <span class="mf">0.5994042624782422</span>
+  <span class="p">}</span>
+<span class="p">},</span> <span class="p">{</span>
+  <span class="nt">&quot;version&quot;</span> <span class="p">:</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2015-09-12T23:30:00.000Z&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;event&quot;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;delta30Min&quot;</span> <span class="p">:</span> <span class="mi">177882</span><span class="p">,</span>
+    <span class="nt">&quot;trailing30MinChanges&quot;</span> <span class="p">:</span> <span class="mf">193890.0</span><span class="p">,</span>
+    <span class="nt">&quot;ratioTrailing30MinChanges&quot;</span> <span class="p">:</span> <span class="mf">0.9174377224199288</span>
+  <span class="p">}</span>
+<span class="p">}</span> <span class="p">]</span>
+</code></pre></div>
 <h3 id="cycle-size-example">Cycle size example</h3>
 
 <p>Calculating an average of every first 10-minutes of the last 3 hours:</p>
 
-<p>Query syntax:
-<code>json
-{
-  &quot;queryType&quot;: &quot;movingAverage&quot;,
-  &quot;dataSource&quot;: &quot;wikipedia&quot;,
-  &quot;granularity&quot;: {
-    &quot;type&quot;: &quot;period&quot;,
-    &quot;period&quot;: &quot;PT10M&quot;
-  },
-  &quot;intervals&quot;: [
-    &quot;2015-09-12T00:00:00Z/2015-09-13T00:00:00Z&quot;
-  ],
-  &quot;aggregations&quot;: [
-    {
-      &quot;name&quot;: &quot;delta10Min&quot;,
-      &quot;fieldName&quot;: &quot;delta&quot;,
-      &quot;type&quot;: &quot;doubleSum&quot;
-    }
-  ],
-  &quot;averagers&quot;: [
-    {
-      &quot;name&quot;: &quot;trailing10MinPerHourChanges&quot;,
-      &quot;fieldName&quot;: &quot;delta10Min&quot;,
-      &quot;type&quot;: &quot;doubleMeanNoNulls&quot;,
-      &quot;buckets&quot;: 18,
-      &quot;cycleSize&quot;: 6
-    }
-  ]
-}
-</code></p>
-
+<p>Query syntax:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+  <span class="nt">&quot;queryType&quot;</span><span class="p">:</span> <span class="s2">&quot;movingAverage&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="s2">&quot;wikipedia&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;granularity&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;period&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;period&quot;</span><span class="p">:</span> <span class="s2">&quot;PT10M&quot;</span>
+  <span class="p">},</span>
+  <span class="nt">&quot;intervals&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="s2">&quot;2015-09-12T00:00:00Z/2015-09-13T00:00:00Z&quot;</span>
+  <span class="p">],</span>
+  <span class="nt">&quot;aggregations&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;delta10Min&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;fieldName&quot;</span><span class="p">:</span> <span class="s2">&quot;delta&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;doubleSum&quot;</span>
+    <span class="p">}</span>
+  <span class="p">],</span>
+  <span class="nt">&quot;averagers&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;trailing10MinPerHourChanges&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;fieldName&quot;</span><span class="p">:</span> <span class="s2">&quot;delta10Min&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;doubleMeanNoNulls&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;buckets&quot;</span><span class="p">:</span> <span class="mi">18</span><span class="p">,</span>
+      <span class="nt">&quot;cycleSize&quot;</span><span class="p">:</span> <span class="mi">6</span>
+    <span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
         </div>
         <div class="col-md-3">
           <div class="searchbox">
