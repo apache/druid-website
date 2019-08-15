@@ -296,7 +296,7 @@ Community extensions are not maintained by Druid committers, although we accept 
 <p>A number of community members have contributed their own extensions to Druid that are not packaged with the default Druid tarball.
 If you&#39;d like to take on maintenance for a community extension, please post on <a href="https://lists.apache.org/list.html?dev@druid.apache.org">dev@druid.apache.org</a> to let us know!</p>
 
-<p>All of these community extensions can be downloaded using <em>pull-deps</em> with the coordinate org.apache.druid.extensions.contrib:EXTENSION_NAME:LATEST_DRUID_STABLE_VERSION.</p>
+<p>All of these community extensions can be downloaded using <a href="../operations/pull-deps.html">pull-deps</a> while specifying a <code>-c</code> coordinate option to pull <code>org.apache.druid.extensions.contrib:{EXTENSION_NAME}:{DRUID_VERSION}</code>.</p>
 
 <table><thead>
 <tr>
@@ -389,6 +389,11 @@ If you&#39;d like to take on maintenance for a community extension, please post 
 <td>druid-opentsdb-emitter</td>
 <td>OpenTSDB metrics emitter</td>
 <td><a href="../development/extensions-contrib/opentsdb-emitter.html">link</a></td>
+</tr>
+<tr>
+<td>materialized-view-selection, materialized-view-maintenance</td>
+<td>Materialized View</td>
+<td><a href="../development/extensions-contrib/materialized-view.html">link</a></td>
 </tr>
 <tr>
 <td>druid-moving-average-query</td>

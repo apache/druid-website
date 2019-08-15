@@ -178,12 +178,12 @@ configuration than <code>micro-quickstart</code>.</p>
 
 <h2 id="getting-started">Getting started</h2>
 
-<p><a href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.15.0-incubating/apache-druid-0.15.0-incubating-bin.tar.gz">Download</a>
-the 0.15.0-incubating release.</p>
+<p><a href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.15.1-incubating/apache-druid-0.15.1-incubating-bin.tar.gz">Download</a>
+the 0.15.1-incubating release.</p>
 
 <p>Extract Druid by running the following commands in your terminal:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>tar -xzf apache-druid-0.15.0-incubating-bin.tar.gz
-<span class="nb">cd</span> apache-druid-0.15.0-incubating
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>tar -xzf apache-druid-0.15.1-incubating-bin.tar.gz
+<span class="nb">cd</span> apache-druid-0.15.1-incubating
 </code></pre></div>
 <p>In the package, you should find:</p>
 
@@ -208,7 +208,7 @@ tar -xzf zookeeper-3.4.11.tar.gz
 mv zookeeper-3.4.11 zk
 </code></pre></div>
 <p>The startup scripts for the tutorial will expect the contents of the Zookeeper tarball to be located at <code>zk</code> under the
-apache-druid-0.15.0-incubating package root.</p>
+apache-druid-0.15.1-incubating package root.</p>
 
 <h2 id="start-up-druid-services">Start up Druid services</h2>
 
@@ -216,19 +216,19 @@ apache-druid-0.15.0-incubating package root.</p>
 using a different configuration, the <code>bin</code> directory has equivalent scripts for each configuration, such as
 <code>bin/start-single-server-small</code>.</p>
 
-<p>From the apache-druid-0.15.0-incubating package root, run the following command:</p>
+<p>From the apache-druid-0.15.1-incubating package root, run the following command:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>./bin/start-micro-quickstart
 </code></pre></div>
 <p>This will bring up instances of Zookeeper and the Druid services, all running on the local machine, e.g.:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>$ ./bin/start-micro-quickstart 
-<span class="o">[</span>Fri May  <span class="m">3</span> <span class="m">11</span>:40:50 <span class="m">2019</span><span class="o">]</span> Running command<span class="o">[</span>zk<span class="o">]</span>, logging to<span class="o">[</span>/apache-druid-0.15.0-incubating/var/sv/zk.log<span class="o">]</span>: bin/run-zk conf
-<span class="o">[</span>Fri May  <span class="m">3</span> <span class="m">11</span>:40:50 <span class="m">2019</span><span class="o">]</span> Running command<span class="o">[</span>coordinator-overlord<span class="o">]</span>, logging to<span class="o">[</span>/apache-druid-0.15.0-incubating/var/sv/coordinator-overlord.log<span class="o">]</span>: bin/run-druid coordinator-overlord conf/druid/single-server/micro-quickstart
-<span class="o">[</span>Fri May  <span class="m">3</span> <span class="m">11</span>:40:50 <span class="m">2019</span><span class="o">]</span> Running command<span class="o">[</span>broker<span class="o">]</span>, logging to<span class="o">[</span>/apache-druid-0.15.0-incubating/var/sv/broker.log<span class="o">]</span>: bin/run-druid broker conf/druid/single-server/micro-quickstart
-<span class="o">[</span>Fri May  <span class="m">3</span> <span class="m">11</span>:40:50 <span class="m">2019</span><span class="o">]</span> Running command<span class="o">[</span>router<span class="o">]</span>, logging to<span class="o">[</span>/apache-druid-0.15.0-incubating/var/sv/router.log<span class="o">]</span>: bin/run-druid router conf/druid/single-server/micro-quickstart
-<span class="o">[</span>Fri May  <span class="m">3</span> <span class="m">11</span>:40:50 <span class="m">2019</span><span class="o">]</span> Running command<span class="o">[</span>historical<span class="o">]</span>, logging to<span class="o">[</span>/apache-druid-0.15.0-incubating/var/sv/historical.log<span class="o">]</span>: bin/run-druid historical conf/druid/single-server/micro-quickstart
-<span class="o">[</span>Fri May  <span class="m">3</span> <span class="m">11</span>:40:50 <span class="m">2019</span><span class="o">]</span> Running command<span class="o">[</span>middleManager<span class="o">]</span>, logging to<span class="o">[</span>/apache-druid-0.15.0-incubating/var/sv/middleManager.log<span class="o">]</span>: bin/run-druid middleManager conf/druid/single-server/micro-quickstart
+<span class="o">[</span>Fri May  <span class="m">3</span> <span class="m">11</span>:40:50 <span class="m">2019</span><span class="o">]</span> Running command<span class="o">[</span>zk<span class="o">]</span>, logging to<span class="o">[</span>/apache-druid-0.15.1-incubating/var/sv/zk.log<span class="o">]</span>: bin/run-zk conf
+<span class="o">[</span>Fri May  <span class="m">3</span> <span class="m">11</span>:40:50 <span class="m">2019</span><span class="o">]</span> Running command<span class="o">[</span>coordinator-overlord<span class="o">]</span>, logging to<span class="o">[</span>/apache-druid-0.15.1-incubating/var/sv/coordinator-overlord.log<span class="o">]</span>: bin/run-druid coordinator-overlord conf/druid/single-server/micro-quickstart
+<span class="o">[</span>Fri May  <span class="m">3</span> <span class="m">11</span>:40:50 <span class="m">2019</span><span class="o">]</span> Running command<span class="o">[</span>broker<span class="o">]</span>, logging to<span class="o">[</span>/apache-druid-0.15.1-incubating/var/sv/broker.log<span class="o">]</span>: bin/run-druid broker conf/druid/single-server/micro-quickstart
+<span class="o">[</span>Fri May  <span class="m">3</span> <span class="m">11</span>:40:50 <span class="m">2019</span><span class="o">]</span> Running command<span class="o">[</span>router<span class="o">]</span>, logging to<span class="o">[</span>/apache-druid-0.15.1-incubating/var/sv/router.log<span class="o">]</span>: bin/run-druid router conf/druid/single-server/micro-quickstart
+<span class="o">[</span>Fri May  <span class="m">3</span> <span class="m">11</span>:40:50 <span class="m">2019</span><span class="o">]</span> Running command<span class="o">[</span>historical<span class="o">]</span>, logging to<span class="o">[</span>/apache-druid-0.15.1-incubating/var/sv/historical.log<span class="o">]</span>: bin/run-druid historical conf/druid/single-server/micro-quickstart
+<span class="o">[</span>Fri May  <span class="m">3</span> <span class="m">11</span>:40:50 <span class="m">2019</span><span class="o">]</span> Running command<span class="o">[</span>middleManager<span class="o">]</span>, logging to<span class="o">[</span>/apache-druid-0.15.1-incubating/var/sv/middleManager.log<span class="o">]</span>: bin/run-druid middleManager conf/druid/single-server/micro-quickstart
 </code></pre></div>
-<p>All persistent state such as the cluster metadata store and segments for the services will be kept in the <code>var</code> directory under the apache-druid-0.15.0-incubating package root. Logs for the services are located at <code>var/sv</code>.</p>
+<p>All persistent state such as the cluster metadata store and segments for the services will be kept in the <code>var</code> directory under the apache-druid-0.15.1-incubating package root. Logs for the services are located at <code>var/sv</code>.</p>
 
 <p>Later on, if you&#39;d like to stop the services, CTRL-C to exit the <code>bin/start-micro-quickstart</code> script, which will terminate the Druid processes.</p>
 

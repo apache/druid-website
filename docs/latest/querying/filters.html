@@ -516,61 +516,51 @@ greater than, less than, greater than or equal to, less than or equal to, and &q
 
 <p>Bound filters support the use of extraction functions, see <a href="#filtering-with-extraction-functions">Filtering with Extraction Functions</a> for details.</p>
 
-<p>The following bound filter expresses the condition <code>21 &lt;= age &lt;= 31</code>:
-<code>json
-{
-    &quot;type&quot;: &quot;bound&quot;,
-    &quot;dimension&quot;: &quot;age&quot;,
-    &quot;lower&quot;: &quot;21&quot;,
-    &quot;upper&quot;: &quot;31&quot; ,
-    &quot;ordering&quot;: &quot;numeric&quot;
-}
-</code></p>
-
-<p>This filter expresses the condition <code>foo &lt;= name &lt;= hoo</code>, using the default lexicographic sorting order.
-<code>json
-{
-    &quot;type&quot;: &quot;bound&quot;,
-    &quot;dimension&quot;: &quot;name&quot;,
-    &quot;lower&quot;: &quot;foo&quot;,
-    &quot;upper&quot;: &quot;hoo&quot;
-}
-</code></p>
-
-<p>Using strict bounds, this filter expresses the condition <code>21 &lt; age &lt; 31</code>
-<code>json
-{
-    &quot;type&quot;: &quot;bound&quot;,
-    &quot;dimension&quot;: &quot;age&quot;,
-    &quot;lower&quot;: &quot;21&quot;,
-    &quot;lowerStrict&quot;: true,
-    &quot;upper&quot;: &quot;31&quot; ,
-    &quot;upperStrict&quot;: true,
-    &quot;ordering&quot;: &quot;numeric&quot;
-}
-</code></p>
-
-<p>The user can also specify a one-sided bound by omitting &quot;upper&quot; or &quot;lower&quot;. This filter expresses <code>age &lt; 31</code>.
-<code>json
-{
-    &quot;type&quot;: &quot;bound&quot;,
-    &quot;dimension&quot;: &quot;age&quot;,
-    &quot;upper&quot;: &quot;31&quot; ,
-    &quot;upperStrict&quot;: true,
-    &quot;ordering&quot;: &quot;numeric&quot;
-}
-</code></p>
-
-<p>Likewise, this filter expresses <code>age &gt;= 18</code>
-<code>json
-{
-    &quot;type&quot;: &quot;bound&quot;,
-    &quot;dimension&quot;: &quot;age&quot;,
-    &quot;lower&quot;: &quot;18&quot; ,
-    &quot;ordering&quot;: &quot;numeric&quot;
-}
-</code></p>
-
+<p>The following bound filter expresses the condition <code>21 &lt;= age &lt;= 31</code>:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;bound&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;dimension&quot;</span><span class="p">:</span> <span class="s2">&quot;age&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;lower&quot;</span><span class="p">:</span> <span class="s2">&quot;21&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;upper&quot;</span><span class="p">:</span> <span class="s2">&quot;31&quot;</span> <span class="p">,</span>
+    <span class="nt">&quot;ordering&quot;</span><span class="p">:</span> <span class="s2">&quot;numeric&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>This filter expresses the condition <code>foo &lt;= name &lt;= hoo</code>, using the default lexicographic sorting order.</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;bound&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;dimension&quot;</span><span class="p">:</span> <span class="s2">&quot;name&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;lower&quot;</span><span class="p">:</span> <span class="s2">&quot;foo&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;upper&quot;</span><span class="p">:</span> <span class="s2">&quot;hoo&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Using strict bounds, this filter expresses the condition <code>21 &lt; age &lt; 31</code></p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;bound&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;dimension&quot;</span><span class="p">:</span> <span class="s2">&quot;age&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;lower&quot;</span><span class="p">:</span> <span class="s2">&quot;21&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;lowerStrict&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="nt">&quot;upper&quot;</span><span class="p">:</span> <span class="s2">&quot;31&quot;</span> <span class="p">,</span>
+    <span class="nt">&quot;upperStrict&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="nt">&quot;ordering&quot;</span><span class="p">:</span> <span class="s2">&quot;numeric&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>The user can also specify a one-sided bound by omitting &quot;upper&quot; or &quot;lower&quot;. This filter expresses <code>age &lt; 31</code>.</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;bound&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;dimension&quot;</span><span class="p">:</span> <span class="s2">&quot;age&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;upper&quot;</span><span class="p">:</span> <span class="s2">&quot;31&quot;</span> <span class="p">,</span>
+    <span class="nt">&quot;upperStrict&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="nt">&quot;ordering&quot;</span><span class="p">:</span> <span class="s2">&quot;numeric&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Likewise, this filter expresses <code>age &gt;= 18</code></p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;bound&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;dimension&quot;</span><span class="p">:</span> <span class="s2">&quot;age&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;lower&quot;</span><span class="p">:</span> <span class="s2">&quot;18&quot;</span> <span class="p">,</span>
+    <span class="nt">&quot;ordering&quot;</span><span class="p">:</span> <span class="s2">&quot;numeric&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
 <h3 id="interval-filter">Interval Filter</h3>
 
 <p>The Interval filter enables range filtering on columns that contain long millisecond values, with the boundaries specified as ISO 8601 time intervals. It is suitable for the <code>__time</code> column, long metric columns, and dimensions with values that can be parsed as long milliseconds.</p>
@@ -615,18 +605,16 @@ greater than, less than, greater than or equal to, less than or equal to, and &q
 
 <p>If an extraction function is used with this filter, the extraction function should output values that are parseable as long milliseconds.</p>
 
-<p>The following example filters on the time ranges of October 1-7, 2014 and November 15-16, 2014.
-<code>json
-{
-    &quot;type&quot; : &quot;interval&quot;,
-    &quot;dimension&quot; : &quot;__time&quot;,
-    &quot;intervals&quot; : [
-      &quot;2014-10-01T00:00:00.000Z/2014-10-07T00:00:00.000Z&quot;,
-      &quot;2014-11-15T00:00:00.000Z/2014-11-16T00:00:00.000Z&quot;
-    ]
-}
-</code></p>
-
+<p>The following example filters on the time ranges of October 1-7, 2014 and November 15-16, 2014.</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+    <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;interval&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;dimension&quot;</span> <span class="p">:</span> <span class="s2">&quot;__time&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;intervals&quot;</span> <span class="p">:</span> <span class="p">[</span>
+      <span class="s2">&quot;2014-10-01T00:00:00.000Z/2014-10-07T00:00:00.000Z&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;2014-11-15T00:00:00.000Z/2014-11-16T00:00:00.000Z&quot;</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
 <p>The filter above is equivalent to the following OR of Bound filters:</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
     <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;or&quot;</span><span class="p">,</span>

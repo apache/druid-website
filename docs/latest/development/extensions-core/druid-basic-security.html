@@ -388,6 +388,85 @@ Return a list of all user names.</p>
 <p><code>GET(/druid-ext/basic-security/authorization/db/{authorizerName}/users/{userName})</code>
 Return the name and role information of the user with name {userName}</p>
 
+<p>Example output:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+  <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;druid2&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;roles&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="s2">&quot;druidRole&quot;</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>This API supports the following flags:</p>
+
+<ul>
+<li><code>?full</code>: The response will also include the full information for each role currently assigned to the user.</li>
+</ul>
+
+<p>Example output:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+  <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;druid2&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;roles&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;druidRole&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;permissions&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;resourceAction&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;resource&quot;</span><span class="p">:</span> <span class="p">{</span>
+              <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;A&quot;</span><span class="p">,</span>
+              <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;DATASOURCE&quot;</span>
+            <span class="p">},</span>
+            <span class="nt">&quot;action&quot;</span><span class="p">:</span> <span class="s2">&quot;READ&quot;</span>
+          <span class="p">},</span>
+          <span class="nt">&quot;resourceNamePattern&quot;</span><span class="p">:</span> <span class="s2">&quot;A&quot;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;resourceAction&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;resource&quot;</span><span class="p">:</span> <span class="p">{</span>
+              <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;C&quot;</span><span class="p">,</span>
+              <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;CONFIG&quot;</span>
+            <span class="p">},</span>
+            <span class="nt">&quot;action&quot;</span><span class="p">:</span> <span class="s2">&quot;WRITE&quot;</span>
+          <span class="p">},</span>
+          <span class="nt">&quot;resourceNamePattern&quot;</span><span class="p">:</span> <span class="s2">&quot;C&quot;</span>
+        <span class="p">}</span>
+      <span class="p">]</span>
+    <span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>The output format of this API when <code>?full</code> is specified is deprecated and in later versions will be switched to the output format used when both <code>?full</code> and <code>?simplifyPermissions</code> flag is set. </p>
+
+<p>The <code>resourceNamePattern</code> is a compiled version of the resource name regex. It is redundant and complicates the use of this API for clients such as frontends that edit the authorization configuration, as the permission format in this output does not match the format used for adding permissions to a role.</p>
+
+<ul>
+<li><code>?full?simplifyPermissions</code>: When both <code>?full</code> and <code>?simplifyPermissions</code> are set, the permissions in the output will contain only a list of <code>resourceAction</code> objects, without the extraneous <code>resourceNamePattern</code> field.</li>
+</ul>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+  <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;druid2&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;roles&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;druidRole&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;users&quot;</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+      <span class="nt">&quot;permissions&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;resource&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;A&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;DATASOURCE&quot;</span>
+          <span class="p">},</span>
+          <span class="nt">&quot;action&quot;</span><span class="p">:</span> <span class="s2">&quot;READ&quot;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+          <span class="nt">&quot;resource&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;C&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;CONFIG&quot;</span>
+          <span class="p">},</span>
+          <span class="nt">&quot;action&quot;</span><span class="p">:</span> <span class="s2">&quot;WRITE&quot;</span>
+        <span class="p">}</span>
+      <span class="p">]</span>
+    <span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
 <p><code>POST(/druid-ext/basic-security/authorization/db/{authorizerName}/users/{userName})</code>
 Create a new user with name {userName}</p>
 
@@ -400,8 +479,53 @@ Delete the user with name {userName}</p>
 Return a list of all role names.</p>
 
 <p><code>GET(/druid-ext/basic-security/authorization/db/{authorizerName}/roles/{roleName})</code>
-Return name and permissions for the role named {roleName}</p>
+Return name and permissions for the role named {roleName}.</p>
 
+<p>Example output:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+  <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;druidRole2&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;permissions&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;resourceAction&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;resource&quot;</span><span class="p">:</span> <span class="p">{</span>
+          <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;E&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;DATASOURCE&quot;</span>
+        <span class="p">},</span>
+        <span class="nt">&quot;action&quot;</span><span class="p">:</span> <span class="s2">&quot;WRITE&quot;</span>
+      <span class="p">},</span>
+      <span class="nt">&quot;resourceNamePattern&quot;</span><span class="p">:</span> <span class="s2">&quot;E&quot;</span>
+    <span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>The default output format of this API is deprecated and in later versions will be switched to the output format used when the <code>?simplifyPermissions</code> flag is set. The <code>resourceNamePattern</code> is a compiled version of the resource name regex. It is redundant and complicates the use of this API for clients such as frontends that edit the authorization configuration, as the permission format in this output does not match the format used for adding permissions to a role.</p>
+
+<p>This API supports the following flags:</p>
+
+<ul>
+<li><code>?full</code>: The output will contain an extra <code>users</code> list, containing the users that currently have this role.</li>
+</ul>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;users&quot;</span><span class="err">:</span><span class="p">[</span><span class="s2">&quot;druid&quot;</span><span class="p">]</span>
+</code></pre></div>
+<ul>
+<li><code>?simplifyPermissions</code>: The permissions in the output will contain only a list of <code>resourceAction</code> objects, without the extraneous <code>resourceNamePattern</code> field. The <code>users</code> field will be null when <code>?full</code> is not specified.</li>
+</ul>
+
+<p>Example output:</p>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
+  <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;druidRole2&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;users&quot;</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+  <span class="nt">&quot;permissions&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;resource&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;E&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;DATASOURCE&quot;</span>
+      <span class="p">},</span>
+      <span class="nt">&quot;action&quot;</span><span class="p">:</span> <span class="s2">&quot;WRITE&quot;</span>
+    <span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
 <p><code>POST(/druid-ext/basic-security/authorization/db/{authorizerName}/roles/{roleName})</code>
 Create a new role with name {roleName}.
 Content: username string</p>
