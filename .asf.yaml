@@ -6,8 +6,3 @@ staging:
 
 publish:
   whoami:  asf-site
-
-  
-github:
-  description: 'Apache Druid Website
-  homepage: https://druid.apache.org/
