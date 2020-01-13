@@ -1,4 +1,4 @@
-# Staging and publishing profile for incubator-druid-website.git:
+# Staging and publishing profile for druid-website.git:
 
 staging:
   profile: ~
@@ -7,3 +7,7 @@ staging:
 publish:
   whoami:  asf-site
 
+  
+github:
+  description: 'Apache Druid Website
+  homepage: https://druid.apache.org/
