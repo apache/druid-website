@@ -8,7 +8,7 @@
 <meta name="author" content="Apache Software Foundation">
 
 <title>Druid | Technology</title>
-
+<link rel="canonical" href="https://druid.apache.org/technology" />
 <link rel="alternate" type="application/atom+xml" href="/feed">
 <link rel="shortcut icon" href="/img/favicon.png">
 
@@ -125,8 +125,8 @@
 <div class="container">
   <div class="row">
     <div class="col-md-10 col-md-offset-1">
-      <p>Apache Druid (incubating) is an open source distributed data store.
-Druid’s core design combines ideas from <a href="https://en.wikipedia.org/wiki/Online_analytical_processing">OLAP/analytic databases</a>, <a href="https://en.wikipedia.org/wiki/Time_series_database">timeseries databases</a>, and <a href="https://en.wikipedia.org/wiki/Full-text_search">search systems</a> to create a unified system for a broad range of <a href="/use-cases">use cases</a>. Druid merges key characteristics of each of the 3 systems into its ingestion layer, storage format, querying layer, and core architecture.</p>
+      <p>Apache Druid is an open source distributed data store.
+Druid’s core design combines ideas from <a href="https://en.wikipedia.org/wiki/Data_warehouse">data warehouses</a>, <a href="https://en.wikipedia.org/wiki/Time_series_database">timeseries databases</a>, and <a href="https://en.wikipedia.org/wiki/Full-text_search">search systems</a> to create a unified system for real-time analytics for a broad range of <a href="/use-cases">use cases</a>. Druid merges key characteristics of each of the 3 systems into its ingestion layer, storage format, querying layer, and core architecture.</p>
 
 <div class="image-large">
   <img src="img/diagram-2.png" style="max-width: 360px">
@@ -247,13 +247,13 @@ In addition to standard SQL operators, Druid supports unique operators that leve
 
 <h2 id="architecture">Architecture</h2>
 
-<p>Druid can be thought of as a disassembled database.
-Each core process in Druid (ingestion, querying, and coordination) can be separately or jointly deployed on commodity hardware.</p>
+<p>Druid has a microservice-based architecture can be thought of as a disassembled database.
+Each core service in Druid (ingestion, querying, and coordination) can be separately or jointly deployed on commodity hardware.</p>
 
-<p>Druid explicitly names every main process to allow the operator to fine tune each process based on the use case and workload.
-For example, an operator can dedicate more resources to Druid’s ingestion process while giving less resources to Druid’s query process if the workload requires it.</p>
+<p>Druid explicitly names every main service to allow the operator to fine tune each service based on the use case and workload.
+For example, an operator can dedicate more resources to Druid’s ingestion service while giving less resources to Druid’s query service if the workload requires it.</p>
 
-<p>Druid processes can independently fail without impacting the operations of other processes.</p>
+<p>Druid services can independently fail without impacting the operations of other services.</p>
 
 <div class="image-large">
   <img src="img/diagram-7.png" style="max-width: 620px;">
@@ -276,11 +276,11 @@ As such, Druid possesses several features to ensure uptime and no data loss.</p>
   </div>
   <div class="feature">
     <span class="fa fa-th-large fa"></span>
-    <h5>Independent processes</h5>
+    <h5>Independent services</h5>
     <p>
-      Druid explicitly names all of its main processes and each process can be fine tuned based on use case.
-      Processes can independently fail without impacting other processes.
-      For example, if the ingestion process fails, no new data is loaded in the system, but existing data remains queryable.
+      Druid explicitly names all of its main services and each service can be fine tuned based on use case.
+      Services can independently fail without impacting other services.
+      For example, if the ingestion services fails, no new data is loaded in the system, but existing data remains queryable.
     </p>
   </div>
   <div class="feature">
@@ -325,11 +325,11 @@ As such, Druid possesses several features to ensure uptime and no data loss.</p>
   <div class="text-center">
     <a title="Join the user group" href="https://groups.google.com/forum/#!forum/druid-user" target="_blank"><span class="fa fa-comments"></span></a>&ensp;·&ensp;
     <a title="Follow Druid" href="https://twitter.com/druidio" target="_blank"><span class="fab fa-twitter"></span></a>&ensp;·&ensp;
-    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.16.0-incubating/apache-druid-0.16.0-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
+    <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/0.16.1-incubating/apache-druid-0.16.1-incubating-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a>&ensp;·&ensp;
     <a title="GitHub" href="https://github.com/apache/incubator-druid" target="_blank"><span class="fab fa-github"></span></a>
   </div>
   <div class="text-center license">
-    Copyright © 2019 <a href="https://www.apache.org/" target="_blank">Apache Software Foundation</a>.<br>
+    Copyright © 2020 <a href="https://www.apache.org/" target="_blank">Apache Software Foundation</a>.<br>
     Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>.<br>
     Apache Druid, Druid, and the Druid logo are either registered trademarks or trademarks of The Apache Software Foundation in the United States and other countries.
   </div>
