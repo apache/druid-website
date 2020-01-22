@@ -168,38 +168,32 @@ Similarly, you can also edit the spec directly and see it reflected in the previ
   <span class="hljs-attr">"spec"</span> : {
     <span class="hljs-attr">"dataSchema"</span>: {
       <span class="hljs-attr">"dataSource"</span>: <span class="hljs-string">"wikipedia"</span>,
-      <span class="hljs-attr">"parser"</span>: {
-        <span class="hljs-attr">"type"</span>: <span class="hljs-string">"string"</span>,
-        <span class="hljs-attr">"parseSpec"</span>: {
-          <span class="hljs-attr">"format"</span>: <span class="hljs-string">"json"</span>,
-          <span class="hljs-attr">"timestampSpec"</span>: {
-            <span class="hljs-attr">"column"</span>: <span class="hljs-string">"time"</span>,
-            <span class="hljs-attr">"format"</span>: <span class="hljs-string">"auto"</span>
-          },
-          <span class="hljs-attr">"dimensionsSpec"</span>: {
-            <span class="hljs-attr">"dimensions"</span>: [
-              <span class="hljs-string">"channel"</span>,
-              <span class="hljs-string">"cityName"</span>,
-              <span class="hljs-string">"comment"</span>,
-              <span class="hljs-string">"countryIsoCode"</span>,
-              <span class="hljs-string">"countryName"</span>,
-              <span class="hljs-string">"isAnonymous"</span>,
-              <span class="hljs-string">"isMinor"</span>,
-              <span class="hljs-string">"isNew"</span>,
-              <span class="hljs-string">"isRobot"</span>,
-              <span class="hljs-string">"isUnpatrolled"</span>,
-              <span class="hljs-string">"metroCode"</span>,
-              <span class="hljs-string">"namespace"</span>,
-              <span class="hljs-string">"page"</span>,
-              <span class="hljs-string">"regionIsoCode"</span>,
-              <span class="hljs-string">"regionName"</span>,
-              <span class="hljs-string">"user"</span>,
-              { <span class="hljs-attr">"name"</span>: <span class="hljs-string">"added"</span>, <span class="hljs-attr">"type"</span>: <span class="hljs-string">"long"</span> },
-              { <span class="hljs-attr">"name"</span>: <span class="hljs-string">"deleted"</span>, <span class="hljs-attr">"type"</span>: <span class="hljs-string">"long"</span> },
-              { <span class="hljs-attr">"name"</span>: <span class="hljs-string">"delta"</span>, <span class="hljs-attr">"type"</span>: <span class="hljs-string">"long"</span> }
-            ]
-          }
-        }
+      <span class="hljs-attr">"timestampSpec"</span>: {
+        <span class="hljs-attr">"column"</span>: <span class="hljs-string">"time"</span>,
+        <span class="hljs-attr">"format"</span>: <span class="hljs-string">"auto"</span>
+      },
+      <span class="hljs-attr">"dimensionsSpec"</span>: {
+        <span class="hljs-attr">"dimensions"</span>: [
+          <span class="hljs-string">"channel"</span>,
+          <span class="hljs-string">"cityName"</span>,
+          <span class="hljs-string">"comment"</span>,
+          <span class="hljs-string">"countryIsoCode"</span>,
+          <span class="hljs-string">"countryName"</span>,
+          <span class="hljs-string">"isAnonymous"</span>,
+          <span class="hljs-string">"isMinor"</span>,
+          <span class="hljs-string">"isNew"</span>,
+          <span class="hljs-string">"isRobot"</span>,
+          <span class="hljs-string">"isUnpatrolled"</span>,
+          <span class="hljs-string">"metroCode"</span>,
+          <span class="hljs-string">"namespace"</span>,
+          <span class="hljs-string">"page"</span>,
+          <span class="hljs-string">"regionIsoCode"</span>,
+          <span class="hljs-string">"regionName"</span>,
+          <span class="hljs-string">"user"</span>,
+          { <span class="hljs-attr">"name"</span>: <span class="hljs-string">"added"</span>, <span class="hljs-attr">"type"</span>: <span class="hljs-string">"long"</span> },
+          { <span class="hljs-attr">"name"</span>: <span class="hljs-string">"deleted"</span>, <span class="hljs-attr">"type"</span>: <span class="hljs-string">"long"</span> },
+          { <span class="hljs-attr">"name"</span>: <span class="hljs-string">"delta"</span>, <span class="hljs-attr">"type"</span>: <span class="hljs-string">"long"</span> }
+        ]
       },
       <span class="hljs-attr">"metricsSpec"</span> : [],
       <span class="hljs-attr">"granularitySpec"</span>: {
@@ -215,6 +209,9 @@ Similarly, you can also edit the spec directly and see it reflected in the previ
     },
     <span class="hljs-attr">"ioConfig"</span>: {
       <span class="hljs-attr">"topic"</span>: <span class="hljs-string">"wikipedia"</span>,
+      <span class="hljs-attr">"inputFormat"</span>: {
+        <span class="hljs-attr">"type"</span>: <span class="hljs-string">"json"</span>
+      },
       <span class="hljs-attr">"replicas"</span>: <span class="hljs-number">2</span>,
       <span class="hljs-attr">"taskDuration"</span>: <span class="hljs-string">"PT10M"</span>,
       <span class="hljs-attr">"completionTimeout"</span>: <span class="hljs-string">"PT20M"</span>,

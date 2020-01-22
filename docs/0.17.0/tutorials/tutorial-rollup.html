@@ -97,25 +97,19 @@ the <a href="index.html">single-machine quickstart</a> and have it running on yo
 <p>A file containing this sample input data is located at <code>quickstart/tutorial/rollup-data.json</code>.</p>
 <p>We'll ingest this data using the following ingestion task spec, located at <code>quickstart/tutorial/rollup-index.json</code>.</p>
 <pre><code class="hljs css language-json">{
-  <span class="hljs-attr">"type"</span> : <span class="hljs-string">"index"</span>,
+  <span class="hljs-attr">"type"</span> : <span class="hljs-string">"index_parallel"</span>,
   <span class="hljs-attr">"spec"</span> : {
     <span class="hljs-attr">"dataSchema"</span> : {
       <span class="hljs-attr">"dataSource"</span> : <span class="hljs-string">"rollup-tutorial"</span>,
-      <span class="hljs-attr">"parser"</span> : {
-        <span class="hljs-attr">"type"</span> : <span class="hljs-string">"string"</span>,
-        <span class="hljs-attr">"parseSpec"</span> : {
-          <span class="hljs-attr">"format"</span> : <span class="hljs-string">"json"</span>,
-          <span class="hljs-attr">"dimensionsSpec"</span> : {
-            <span class="hljs-attr">"dimensions"</span> : [
-              <span class="hljs-string">"srcIP"</span>,
-              <span class="hljs-string">"dstIP"</span>
-            ]
-          },
-          <span class="hljs-attr">"timestampSpec"</span>: {
-            <span class="hljs-attr">"column"</span>: <span class="hljs-string">"timestamp"</span>,
-            <span class="hljs-attr">"format"</span>: <span class="hljs-string">"iso"</span>
-          }
-        }
+      <span class="hljs-attr">"dimensionsSpec"</span> : {
+        <span class="hljs-attr">"dimensions"</span> : [
+          <span class="hljs-string">"srcIP"</span>,
+          <span class="hljs-string">"dstIP"</span>
+        ]
+      },
+      <span class="hljs-attr">"timestampSpec"</span>: {
+        <span class="hljs-attr">"column"</span>: <span class="hljs-string">"timestamp"</span>,
+        <span class="hljs-attr">"format"</span>: <span class="hljs-string">"iso"</span>
       },
       <span class="hljs-attr">"metricsSpec"</span> : [
         { <span class="hljs-attr">"type"</span> : <span class="hljs-string">"count"</span>, <span class="hljs-attr">"name"</span> : <span class="hljs-string">"count"</span> },
@@ -131,16 +125,19 @@ the <a href="index.html">single-machine quickstart</a> and have it running on yo
       }
     },
     <span class="hljs-attr">"ioConfig"</span> : {
-      <span class="hljs-attr">"type"</span> : <span class="hljs-string">"index"</span>,
-      <span class="hljs-attr">"firehose"</span> : {
+      <span class="hljs-attr">"type"</span> : <span class="hljs-string">"index_parallel"</span>,
+      <span class="hljs-attr">"inputSource"</span> : {
         <span class="hljs-attr">"type"</span> : <span class="hljs-string">"local"</span>,
         <span class="hljs-attr">"baseDir"</span> : <span class="hljs-string">"quickstart/tutorial"</span>,
         <span class="hljs-attr">"filter"</span> : <span class="hljs-string">"rollup-data.json"</span>
       },
+      <span class="hljs-attr">"inputFormat"</span> : {
+        <span class="hljs-attr">"type"</span> : <span class="hljs-string">"json"</span>
+      },
       <span class="hljs-attr">"appendToExisting"</span> : <span class="hljs-literal">false</span>
     },
     <span class="hljs-attr">"tuningConfig"</span> : {
-      <span class="hljs-attr">"type"</span> : <span class="hljs-string">"index"</span>,
+      <span class="hljs-attr">"type"</span> : <span class="hljs-string">"index_parallel"</span>,
       <span class="hljs-attr">"maxRowsPerSegment"</span> : <span class="hljs-number">5000000</span>,
       <span class="hljs-attr">"maxRowsInMemory"</span> : <span class="hljs-number">25000</span>
     }

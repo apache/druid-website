@@ -358,6 +358,10 @@ falling in the same time chunk and the same hash value from multiple MiddleManag
 them to create the final segments. Finally, they push the final segments to the deep storage at once.</li>
 </ul>
 <h4><a class="anchor" aria-hidden="true" id="single-dimension-range-partitioning"></a><a href="#single-dimension-range-partitioning" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Single-dimension range partitioning</h4>
+<blockquote>
+<p>Single dimension range partitioning is currently not supported in the sequential mode of the Parallel task.
+Try set <code>maxNumConcurrentSubTasks</code> to larger than 1 to use this partitioning.</p>
+</blockquote>
 <table>
 <thead>
 <tr><th>property</th><th>description</th><th>default</th><th>required?</th></tr>
@@ -1037,6 +1041,9 @@ where each worker task of <code>index_parallel</code> will read a single file.</
 <tr><td>paths</td><td>HDFS paths. Can be either a JSON array or comma-separated string of paths. Wildcards like <code>*</code> are supported in these paths.</td><td>None</td><td>yes</td></tr>
 </tbody>
 </table>
+<p>You can also ingest from cloud storage using the HDFS input source.
+However, if you want to read from AWS S3 or Google Cloud Storage, consider using
+the <a href="#s3-input-source">S3 input source</a> or the <a href="#google-cloud-storage-input-source">Google Cloud Storage input source</a> instead.</p>
 <h3><a class="anchor" aria-hidden="true" id="http-input-source"></a><a href="#http-input-source" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>HTTP Input Source</h3>
 <p>The HDFS input source is to support reading files directly
 from remote sites via HTTP.

@@ -136,7 +136,7 @@ query time.</p>
 <p>(Double/Float/Long) First and Last aggregator cannot be used in ingestion spec, and should only be specified as part of queries.</p>
 <p>Note that queries with first/last aggregators on a segment created with rollup enabled will return the rolled up value, and not the last value within the raw ingested data.</p>
 <h4><a class="anchor" aria-hidden="true" id="doublefirst-aggregator"></a><a href="#doublefirst-aggregator" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>doubleFirst</code> aggregator</h4>
-<p><code>doubleFirst</code> computes the metric value with the minimum timestamp or 0 if no row exist</p>
+<p><code>doubleFirst</code> computes the metric value with the minimum timestamp or 0 in default mode or <code>null</code> in SQL compatible mode if no row exist</p>
 <pre><code class="hljs css language-json">{
   <span class="hljs-attr">"type"</span> : <span class="hljs-string">"doubleFirst"</span>,
   <span class="hljs-attr">"name"</span> : &lt;output_name&gt;,
@@ -144,7 +144,7 @@ query time.</p>
 }
 </code></pre>
 <h4><a class="anchor" aria-hidden="true" id="doublelast-aggregator"></a><a href="#doublelast-aggregator" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>doubleLast</code> aggregator</h4>
-<p><code>doubleLast</code> computes the metric value with the maximum timestamp or 0 if no row exist</p>
+<p><code>doubleLast</code> computes the metric value with the maximum timestamp or 0 in default mode or <code>null</code> in SQL compatible mode if no row exist</p>
 <pre><code class="hljs css language-json">{
   <span class="hljs-attr">"type"</span> : <span class="hljs-string">"doubleLast"</span>,
   <span class="hljs-attr">"name"</span> : &lt;output_name&gt;,
@@ -152,7 +152,7 @@ query time.</p>
 }
 </code></pre>
 <h4><a class="anchor" aria-hidden="true" id="floatfirst-aggregator"></a><a href="#floatfirst-aggregator" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>floatFirst</code> aggregator</h4>
-<p><code>floatFirst</code> computes the metric value with the minimum timestamp or 0 if no row exist</p>
+<p><code>floatFirst</code> computes the metric value with the minimum timestamp or 0 in default mode or <code>null</code> in SQL compatible mode if no row exist</p>
 <pre><code class="hljs css language-json">{
   <span class="hljs-attr">"type"</span> : <span class="hljs-string">"floatFirst"</span>,
   <span class="hljs-attr">"name"</span> : &lt;output_name&gt;,
@@ -160,7 +160,7 @@ query time.</p>
 }
 </code></pre>
 <h4><a class="anchor" aria-hidden="true" id="floatlast-aggregator"></a><a href="#floatlast-aggregator" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>floatLast</code> aggregator</h4>
-<p><code>floatLast</code> computes the metric value with the maximum timestamp or 0 if no row exist</p>
+<p><code>floatLast</code> computes the metric value with the maximum timestamp or 0 in default mode or <code>null</code> in SQL compatible mode if no row exist</p>
 <pre><code class="hljs css language-json">{
   <span class="hljs-attr">"type"</span> : <span class="hljs-string">"floatLast"</span>,
   <span class="hljs-attr">"name"</span> : &lt;output_name&gt;,
@@ -168,7 +168,7 @@ query time.</p>
 }
 </code></pre>
 <h4><a class="anchor" aria-hidden="true" id="longfirst-aggregator"></a><a href="#longfirst-aggregator" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>longFirst</code> aggregator</h4>
-<p><code>longFirst</code> computes the metric value with the minimum timestamp or 0 if no row exist</p>
+<p><code>longFirst</code> computes the metric value with the minimum timestamp or 0 in default mode or <code>null</code> in SQL compatible mode if no row exist</p>
 <pre><code class="hljs css language-json">{
   <span class="hljs-attr">"type"</span> : <span class="hljs-string">"longFirst"</span>,
   <span class="hljs-attr">"name"</span> : &lt;output_name&gt;,
@@ -176,7 +176,7 @@ query time.</p>
 }
 </code></pre>
 <h4><a class="anchor" aria-hidden="true" id="longlast-aggregator"></a><a href="#longlast-aggregator" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>longLast</code> aggregator</h4>
-<p><code>longLast</code> computes the metric value with the maximum timestamp or 0 if no row exist</p>
+<p><code>longLast</code> computes the metric value with the maximum timestamp or 0 in default mode or <code>null</code> in SQL compatible mode if no row exist</p>
 <pre><code class="hljs css language-json">{
   <span class="hljs-attr">"type"</span> : <span class="hljs-string">"longLast"</span>,
   <span class="hljs-attr">"name"</span> : &lt;output_name&gt;,
@@ -189,8 +189,7 @@ query time.</p>
   "type" : "stringFirst",
   "name" : &lt;output_name&gt;,
   "fieldName" : &lt;metric_name&gt;,
-  "maxStringBytes" : &lt;integer&gt; # (optional, defaults to 1024),
-  "filterNullValues" : &lt;boolean&gt; # (optional, defaults to false)
+  "maxStringBytes" : &lt;integer&gt; # (optional, defaults to 1024)
 }
 </code></pre>
 <h4><a class="anchor" aria-hidden="true" id="stringlast-aggregator"></a><a href="#stringlast-aggregator" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>stringLast</code> aggregator</h4>
@@ -199,8 +198,7 @@ query time.</p>
   "type" : "stringLast",
   "name" : &lt;output_name&gt;,
   "fieldName" : &lt;metric_name&gt;,
-  "maxStringBytes" : &lt;integer&gt; # (optional, defaults to 1024),
-  "filterNullValues" : &lt;boolean&gt; # (optional, defaults to false)
+  "maxStringBytes" : &lt;integer&gt; # (optional, defaults to 1024)
 }
 </code></pre>
 <h3><a class="anchor" aria-hidden="true" id="javascript-aggregator"></a><a href="#javascript-aggregator" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>JavaScript aggregator</h3>

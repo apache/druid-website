@@ -306,9 +306,9 @@ documentation for each <a href="#ingestion-methods">ingestion method</a>.</li>
 <li><a href="#tuningconfig"><code>tuningConfig</code></a>, which controls various tuning parameters specific to each
 <a href="#ingestion-methods">ingestion method</a>.</li>
 </ul>
-<p>Example ingestion spec for task type <code>parallel_index</code> (native batch):</p>
+<p>Example ingestion spec for task type <code>index_parallel</code> (native batch):</p>
 <pre><code class="hljs">{
-  <span class="hljs-attr">"type"</span>: <span class="hljs-string">"parallel_index"</span>,
+  <span class="hljs-attr">"type"</span>: <span class="hljs-string">"index_parallel"</span>,
   <span class="hljs-attr">"spec"</span>: {
     <span class="hljs-attr">"dataSchema"</span>: {
       <span class="hljs-attr">"dataSource"</span>: <span class="hljs-string">"wikipedia"</span>,
@@ -337,7 +337,7 @@ documentation for each <a href="#ingestion-methods">ingestion method</a>.</li>
       }
     },
     <span class="hljs-attr">"ioConfig"</span>: {
-      <span class="hljs-attr">"type"</span>: <span class="hljs-string">"parallel_index"</span>,
+      <span class="hljs-attr">"type"</span>: <span class="hljs-string">"index_parallel"</span>,
       <span class="hljs-attr">"inputSource"</span>: {
         <span class="hljs-attr">"type"</span>: <span class="hljs-string">"local"</span>,
         <span class="hljs-attr">"baseDir"</span>: <span class="hljs-string">"examples/indexing/"</span>,
@@ -354,7 +354,7 @@ documentation for each <a href="#ingestion-methods">ingestion method</a>.</li>
       }
     },
     <span class="hljs-attr">"tuningConfig"</span>: {
-      <span class="hljs-attr">"type"</span>: <span class="hljs-string">"parallel_index"</span>
+      <span class="hljs-attr">"type"</span>: <span class="hljs-string">"index_parallel"</span>
     }
   }
 }

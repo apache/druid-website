@@ -91,26 +91,123 @@
 <tr><td><code>druid.hadoop.security.kerberos.keytab</code></td><td><code>/etc/security/keytabs/druid.headlessUser.keytab</code></td><td>Path to keytab file</td><td>empty</td></tr>
 </tbody>
 </table>
-<p>If you are using the Hadoop indexer, set your output directory to be a location on Hadoop and it will work.
+<p>Besides the above settings, you also need to include all Hadoop configuration files (such as <code>core-site.xml</code>, <code>hdfs-site.xml</code>)
+in the Druid classpath. One way to do this is copying all those files under <code>${DRUID_HOME}/conf/_common</code>.</p>
+<p>If you are using the Hadoop ingestion, set your output directory to be a location on Hadoop and it will work.
 If you want to eagerly authenticate against a secured hadoop/hdfs cluster you must set <code>druid.hadoop.security.kerberos.principal</code> and <code>druid.hadoop.security.kerberos.keytab</code>, this is an alternative to the cron job method that runs <code>kinit</code> command periodically.</p>
-<h3><a class="anchor" aria-hidden="true" id="configuration-for-google-cloud-storage"></a><a href="#configuration-for-google-cloud-storage" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Configuration for Google Cloud Storage</h3>
-<p>The HDFS extension can also be used for GCS as deep storage.</p>
+<h3><a class="anchor" aria-hidden="true" id="configuration-for-cloud-storage"></a><a href="#configuration-for-cloud-storage" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Configuration for Cloud Storage</h3>
+<p>You can also use the AWS S3 or the Google Cloud Storage as the deep storage via HDFS.</p>
+<h4><a class="anchor" aria-hidden="true" id="configuration-for-aws-s3"></a><a href="#configuration-for-aws-s3" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Configuration for AWS S3</h4>
+<p>To use the AWS S3 as the deep storage, you need to configure <code>druid.storage.storageDirectory</code> properly.</p>
 <table>
 <thead>
 <tr><th>Property</th><th>Possible Values</th><th>Description</th><th>Default</th></tr>
 </thead>
 <tbody>
 <tr><td><code>druid.storage.type</code></td><td>hdfs</td><td></td><td>Must be set.</td></tr>
-<tr><td><code>druid.storage.storageDirectory</code></td><td></td><td><a href="gs://bucket/example/directory">gs://bucket/example/directory</a></td><td>Must be set.</td></tr>
+<tr><td><code>druid.storage.storageDirectory</code></td><td><a href="s3a://bucket/example/directory">s3a://bucket/example/directory</a> or <a href="s3n://bucket/example/directory">s3n://bucket/example/directory</a></td><td>Path to the deep storage</td><td>Must be set.</td></tr>
 </tbody>
 </table>
-<p>All services that need to access GCS need to have the <a href="https://cloud.google.com/hadoop/google-cloud-storage-connector#manualinstallation">GCS connector jar</a> in their class path. One option is to place this jar in <druid>/lib/ and <druid>/extensions/druid-hdfs-storage/</p>
-<p>Tested with Druid 0.9.0, Hadoop 2.7.2 and gcs-connector jar 1.4.4-hadoop2.</p>
-<h2><a class="anchor" aria-hidden="true" id="reading-data-from-hdfs"></a><a href="#reading-data-from-hdfs" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Reading data from HDFS</h2>
+<p>You also need to include the <a href="https://hadoop.apache.org/docs/current/hadoop-aws/tools/hadoop-aws/index.html">Hadoop AWS module</a>, especially the <code>hadoop-aws.jar</code> in the Druid classpath.
+Run the below command to install the <code>hadoop-aws.jar</code> file under <code>${DRUID_HOME}/extensions/druid-hdfs-storage</code> in all nodes.</p>
+<pre><code class="hljs css language-bash">java -classpath <span class="hljs-string">"<span class="hljs-variable">${DRUID_HOME}</span>lib/*"</span> org.apache.druid.cli.Main tools pull-deps -h <span class="hljs-string">"org.apache.hadoop:hadoop-aws:<span class="hljs-variable">${HADOOP_VERSION}</span>"</span>;
+cp <span class="hljs-variable">${DRUID_HOME}</span>/hadoop-dependencies/hadoop-aws/<span class="hljs-variable">${HADOOP_VERSION}</span>/hadoop-aws-<span class="hljs-variable">${HADOOP_VERSION}</span>.jar <span class="hljs-variable">${DRUID_HOME}</span>/extensions/druid-hdfs-storage/
+</code></pre>
+<p>Finally, you need to add the below properties in the <code>core-site.xml</code>.
+For more configurations, see the <a href="https://hadoop.apache.org/docs/current/hadoop-aws/tools/hadoop-aws/index.html">Hadoop AWS module</a>.</p>
+<pre><code class="hljs css language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">property</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>fs.s3a.impl<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>org.apache.hadoop.fs.s3a.S3AFileSystem<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">description</span>&gt;</span>The implementation class of the S3A Filesystem<span class="hljs-tag">&lt;/<span class="hljs-name">description</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">property</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>fs.AbstractFileSystem.s3a.impl<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>org.apache.hadoop.fs.s3a.S3A<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">description</span>&gt;</span>The implementation class of the S3A AbstractFileSystem.<span class="hljs-tag">&lt;/<span class="hljs-name">description</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">property</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>fs.s3a.access.key<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">description</span>&gt;</span>AWS access key ID. Omit for IAM role-based or provider-based authentication.<span class="hljs-tag">&lt;/<span class="hljs-name">description</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>your access key<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">property</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>fs.s3a.secret.key<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">description</span>&gt;</span>AWS secret key. Omit for IAM role-based or provider-based authentication.<span class="hljs-tag">&lt;/<span class="hljs-name">description</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>your secret key<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
+</code></pre>
+<h4><a class="anchor" aria-hidden="true" id="configuration-for-google-cloud-storage"></a><a href="#configuration-for-google-cloud-storage" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Configuration for Google Cloud Storage</h4>
+<p>To use the Google Cloud Storage as the deep storage, you need to configure <code>druid.storage.storageDirectory</code> properly.</p>
+<table>
+<thead>
+<tr><th>Property</th><th>Possible Values</th><th>Description</th><th>Default</th></tr>
+</thead>
+<tbody>
+<tr><td><code>druid.storage.type</code></td><td>hdfs</td><td></td><td>Must be set.</td></tr>
+<tr><td><code>druid.storage.storageDirectory</code></td><td><a href="gs://bucket/example/directory">gs://bucket/example/directory</a></td><td>Path to the deep storage</td><td>Must be set.</td></tr>
+</tbody>
+</table>
+<p>All services that need to access GCS need to have the <a href="https://cloud.google.com/dataproc/docs/concepts/connectors/cloud-storage#other_sparkhadoop_clusters">GCS connector jar</a> in their class path.
+Please read the <a href="https://github.com/GoogleCloudPlatform/bigdata-interop/blob/master/gcs/INSTALL.md">install instructions</a>
+to properly set up the necessary libraries and configurations.
+One option is to place this jar in <code>${DRUID_HOME}/lib/</code> and <code>${DRUID_HOME}/extensions/druid-hdfs-storage/</code>.</p>
+<p>Finally, you need to configure the <code>core-site.xml</code> file with the filesystem
+and authentication properties needed for GCS. You may want to copy the below
+example properties. Please follow the instructions at
+<a href="https://github.com/GoogleCloudPlatform/bigdata-interop/blob/master/gcs/INSTALL.md">https://github.com/GoogleCloudPlatform/bigdata-interop/blob/master/gcs/INSTALL.md</a>
+for more details.
+For more configurations, <a href="https://github.com/GoogleCloudPlatform/bigdata-interop/blob/master/gcs/conf/gcs-core-default.xml">GCS core default</a>
+and <a href="https://github.com/GoogleCloudPlatform/bdutil/blob/master/conf/hadoop2/gcs-core-template.xml">GCS core template</a>.</p>
+<pre><code class="hljs css language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">property</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>fs.gs.impl<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>com.google.cloud.hadoop.fs.gcs.GoogleHadoopFileSystem<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">description</span>&gt;</span>The FileSystem for gs: (GCS) uris.<span class="hljs-tag">&lt;/<span class="hljs-name">description</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">property</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>fs.AbstractFileSystem.gs.impl<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>com.google.cloud.hadoop.fs.gcs.GoogleHadoopFS<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">description</span>&gt;</span>The AbstractFileSystem for gs: uris.<span class="hljs-tag">&lt;/<span class="hljs-name">description</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">property</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>google.cloud.auth.service.account.enable<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>true<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">description</span>&gt;</span>
+    Whether to use a service account for GCS authorization.
+    Setting this property to `false` will disable use of service accounts for
+    authentication.
+  <span class="hljs-tag">&lt;/<span class="hljs-name">description</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">property</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>google.cloud.auth.service.account.json.keyfile<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>/path/to/keyfile<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">description</span>&gt;</span>
+    The JSON key file of the service account used for GCS
+    access when google.cloud.auth.service.account.enable is true.
+  <span class="hljs-tag">&lt;/<span class="hljs-name">description</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span>
+</code></pre>
+<p>Tested with Druid 0.17.0, Hadoop 2.8.5 and gcs-connector jar 2.0.0-hadoop2.</p>
+<h2><a class="anchor" aria-hidden="true" id="reading-data-from-hdfs-or-cloud-storage"></a><a href="#reading-data-from-hdfs-or-cloud-storage" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Reading data from HDFS or Cloud Storage</h2>
+<h3><a class="anchor" aria-hidden="true" id="native-batch-ingestion"></a><a href="#native-batch-ingestion" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Native batch ingestion</h3>
 <p>The <a href="/docs/latest/ingestion/native-batch.html#hdfs-input-source">HDFS input source</a> is supported by the <a href="/docs/latest/ingestion/native-batch.html#parallel-task">Parallel task</a>
-to read objects directly from HDFS Storage. If you use the <a href="/docs/latest/ingestion/hadoop.html">Hadoop task</a>,
-you can read data from HDFS by specifying the paths in your <a href="/docs/latest/ingestion/hadoop.html#inputspec"><code>inputSpec</code></a>.</p>
-</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/latest/development/extensions-core/google.html"><span class="arrow-prev">← </span><span>Google Cloud Storage</span></a><a class="docs-next button" href="/docs/latest/development/extensions-core/kafka-extraction-namespace.html"><span>Apache Kafka Lookups</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#deep-storage">Deep Storage</a><ul class="toc-headings"><li><a href="#configuration-for-hdfs">Configuration for HDFS</a></li><li><a href="#configuration-for-google-cloud-storage">Configuration for Google Cloud Storage</a></li></ul></li><li><a href="#reading-data-from-hdfs">Reading data from HDFS</a></li></ul></nav></div><footer class="nav-footer druid-footer" id="footer"><div class="container"><div class="text-center"><p><a href="/technology">Technology</a> · <a href="/use-cases">Use Cases</a> · <a href="/druid-powered">Powered by Druid</a> · <a href="/docs/latest/latest">Docs</a> · <a href="/community/">Community</a> · <a href="/downloads.html">Download</a> · <a href="/faq">FAQ</a></p></div><div class="text-center"><a title="Join the user group" href="https://groups.google.com/forum/#!forum/druid-user" target="_blank"><span class="fa fa-comments"></span></a> · <a title="Follow Druid" href="https://twitter.com/druidio" target="_blank"><span class="fab fa-twitter"></span></a> · <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/{{ site.druid_versions[0].versions[0].version }}/apache-druid-{{ site.druid_versions[0].versions[0].version }}-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a> · <a title="GitHub" href="https://github.com/apache/druid" target="_blank"><span class="fab fa-github"></span></a></div><div class="text-center license">Copyright © 2019 <a href="https://www.apache.org/" target="_blank">Apache Software Foundation</a>.<br/>Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>.<br/>Apache Druid, Druid, and the Druid logo are either registered trademarks or trademarks of The Apache Software Foundation in the United States and other countries.</div></div></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>
+to read files directly from the HDFS Storage. You may be able to read objects from cloud storage
+with the HDFS input source, but we highly recommend to use a proper
+<a href="/docs/latest/ingestion/native-batch.html#input-sources">Input Source</a> instead if possible because
+it is simple to set up. For now, only the <a href="/docs/latest/ingestion/native-batch.html#s3-input-source">S3 input source</a>
+and the <a href="/docs/latest/ingestion/native-batch.html#google-cloud-storage-input-source">Google Cloud Storage input source</a>
+are supported for cloud storage types, and so you may still want to use the HDFS input source
+to read from cloud storage other than those two.</p>
+<h3><a class="anchor" aria-hidden="true" id="hadoop-based-ingestion"></a><a href="#hadoop-based-ingestion" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Hadoop-based ingestion</h3>
+<p>If you use the <a href="/docs/latest/ingestion/hadoop.html">Hadoop ingestion</a>, you can read data from HDFS
+by specifying the paths in your <a href="/docs/latest/ingestion/hadoop.html#inputspec"><code>inputSpec</code></a>.
+See the <a href="/docs/latest/ingestion/hadoop.html#static">Static</a> inputSpec for details.</p>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/latest/development/extensions-core/google.html"><span class="arrow-prev">← </span><span>Google Cloud Storage</span></a><a class="docs-next button" href="/docs/latest/development/extensions-core/kafka-extraction-namespace.html"><span>Apache Kafka Lookups</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#deep-storage">Deep Storage</a><ul class="toc-headings"><li><a href="#configuration-for-hdfs">Configuration for HDFS</a></li><li><a href="#configuration-for-cloud-storage">Configuration for Cloud Storage</a></li></ul></li><li><a href="#reading-data-from-hdfs-or-cloud-storage">Reading data from HDFS or Cloud Storage</a><ul class="toc-headings"><li><a href="#native-batch-ingestion">Native batch ingestion</a></li><li><a href="#hadoop-based-ingestion">Hadoop-based ingestion</a></li></ul></li></ul></nav></div><footer class="nav-footer druid-footer" id="footer"><div class="container"><div class="text-center"><p><a href="/technology">Technology</a> · <a href="/use-cases">Use Cases</a> · <a href="/druid-powered">Powered by Druid</a> · <a href="/docs/latest/latest">Docs</a> · <a href="/community/">Community</a> · <a href="/downloads.html">Download</a> · <a href="/faq">FAQ</a></p></div><div class="text-center"><a title="Join the user group" href="https://groups.google.com/forum/#!forum/druid-user" target="_blank"><span class="fa fa-comments"></span></a> · <a title="Follow Druid" href="https://twitter.com/druidio" target="_blank"><span class="fab fa-twitter"></span></a> · <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/{{ site.druid_versions[0].versions[0].version }}/apache-druid-{{ site.druid_versions[0].versions[0].version }}-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a> · <a title="GitHub" href="https://github.com/apache/druid" target="_blank"><span class="fab fa-github"></span></a></div><div class="text-center license">Copyright © 2019 <a href="https://www.apache.org/" target="_blank">Apache Software Foundation</a>.<br/>Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>.<br/>Apache Druid, Druid, and the Druid logo are either registered trademarks or trademarks of The Apache Software Foundation in the United States and other countries.</div></div></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>
                 document.addEventListener('keyup', function(e) {
                   if (e.target !== document.body) {
                     return;
