@@ -120,33 +120,14 @@ the <a href="index.html">single-machine quickstart</a> and have it running on yo
 }
 </code></pre>
 <p>Let's call the tutorial datasource <code>ingestion-tutorial</code>.</p>
-<h3><a class="anchor" aria-hidden="true" id="choose-a-parser"></a><a href="#choose-a-parser" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Choose a parser</h3>
-<p>A <code>dataSchema</code> has a <code>parser</code> field, which defines the parser that Druid will use to interpret the input data.</p>
-<p>Since our input data is represented as JSON strings, we'll use a <code>string</code> parser with <code>json</code> format:</p>
-<pre><code class="hljs css language-json">"dataSchema" : {
-  "dataSource" : "ingestion-tutorial",
-  "parser" : {
-    "type" : "string",
-    "parseSpec" : {
-      "format" : "json"
-    }
-  }
-}
-</code></pre>
 <h3><a class="anchor" aria-hidden="true" id="time-column"></a><a href="#time-column" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Time column</h3>
-<p>The <code>parser</code> needs to know how to extract the main timestamp field from the input data. When using a <code>json</code> type <code>parseSpec</code>, the timestamp is defined in a <code>timestampSpec</code>.</p>
-<p>The timestamp column in our input data is named &quot;ts&quot;, containing ISO 8601 timestamps, so let's add a <code>timestampSpec</code> with that information to the <code>parseSpec</code>:</p>
+<p>The <code>dataSchema</code> needs to know how to extract the main timestamp field from the input data.</p>
+<p>The timestamp column in our input data is named &quot;ts&quot;, containing ISO 8601 timestamps, so let's add a <code>timestampSpec</code> with that information to the <code>dataSchema</code>:</p>
 <pre><code class="hljs css language-json">"dataSchema" : {
   "dataSource" : "ingestion-tutorial",
-  "parser" : {
-    "type" : "string",
-    "parseSpec" : {
-      "format" : "json",
-      "timestampSpec" : {
-        "format" : "iso",
-        "column" : "ts"
-      }
-    }
+  "timestampSpec" : {
+    "format" : "iso",
+    "column" : "ts"
   }
 }
 </code></pre>
@@ -161,24 +142,16 @@ the <a href="index.html">single-machine quickstart</a> and have it running on yo
 <li><p>If rollup is disabled, then all columns are treated as &quot;dimensions&quot; and no pre-aggregation occurs.</p></li>
 </ul>
 <p>For this tutorial, let's enable rollup. This is specified with a <code>granularitySpec</code> on the <code>dataSchema</code>.</p>
-<p>Note that the <code>granularitySpec</code> lies outside of the <code>parser</code>. We will revisit the <code>parser</code> soon when we define our dimensions and metrics.</p>
 <pre><code class="hljs css language-json">"dataSchema" : {
   "dataSource" : "ingestion-tutorial",
-  "parser" : {
-    "type" : "string",
-    "parseSpec" : {
-      "format" : "json",
-      "timestampSpec" : {
-        "format" : "iso",
-        "column" : "ts"
-      }
-    }
+  "timestampSpec" : {
+    "format" : "iso",
+    "column" : "ts"
   },
   "granularitySpec" : {
     "rollup" : true
   }
 }
-
 </code></pre>
 <h4><a class="anchor" aria-hidden="true" id="choosing-dimensions-and-metrics"></a><a href="#choosing-dimensions-and-metrics" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Choosing dimensions and metrics</h4>
 <p>For this example dataset, the following is a sensible split for &quot;dimensions&quot; and &quot;metrics&quot;:</p>
@@ -189,27 +162,21 @@ the <a href="index.html">single-machine quickstart</a> and have it running on yo
 <p>The dimensions here are a group of properties that identify a unidirectional flow of IP traffic, while the metrics represent facts about the IP traffic flow specified by a dimension grouping.</p>
 <p>Let's look at how to define these dimensions and metrics within the ingestion spec.</p>
 <h4><a class="anchor" aria-hidden="true" id="dimensions"></a><a href="#dimensions" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Dimensions</h4>
-<p>Dimensions are specified with a <code>dimensionsSpec</code> inside the <code>parseSpec</code>.</p>
+<p>Dimensions are specified with a <code>dimensionsSpec</code> inside the <code>dataSchema</code>.</p>
 <pre><code class="hljs css language-json">"dataSchema" : {
   "dataSource" : "ingestion-tutorial",
-  "parser" : {
-    "type" : "string",
-    "parseSpec" : {
-      "format" : "json",
-      "timestampSpec" : {
-        "format" : "iso",
-        "column" : "ts"
-      },
-      "dimensionsSpec" : {
-        "dimensions": [
-          "srcIP",
-          { "name" : "srcPort", "type" : "long" },
-          { "name" : "dstIP", "type" : "string" },
-          { "name" : "dstPort", "type" : "long" },
-          { "name" : "protocol", "type" : "string" }
-        ]
-      }
-    }
+  "timestampSpec" : {
+    "format" : "iso",
+    "column" : "ts"
+  },
+  "dimensionsSpec" : {
+    "dimensions": [
+      "srcIP",
+      { "name" : "srcPort", "type" : "long" },
+      { "name" : "dstIP", "type" : "string" },
+      { "name" : "dstPort", "type" : "long" },
+      { "name" : "protocol", "type" : "string" }
+    ]
   },
   "granularitySpec" : {
     "rollup" : true
@@ -230,24 +197,18 @@ the <a href="index.html">single-machine quickstart</a> and have it running on yo
 <p>Metrics are specified with a <code>metricsSpec</code> inside the <code>dataSchema</code>:</p>
 <pre><code class="hljs css language-json">"dataSchema" : {
   "dataSource" : "ingestion-tutorial",
-  "parser" : {
-    "type" : "string",
-    "parseSpec" : {
-      "format" : "json",
-      "timestampSpec" : {
-        "format" : "iso",
-        "column" : "ts"
-      },
-      "dimensionsSpec" : {
-        "dimensions": [
-          "srcIP",
-          { "name" : "srcPort", "type" : "long" },
-          { "name" : "dstIP", "type" : "string" },
-          { "name" : "dstPort", "type" : "long" },
-          { "name" : "protocol", "type" : "string" }
-        ]
-      }
-    }
+  "timestampSpec" : {
+    "format" : "iso",
+    "column" : "ts"
+  },
+  "dimensionsSpec" : {
+    "dimensions": [
+      "srcIP",
+      { "name" : "srcPort", "type" : "long" },
+      { "name" : "dstIP", "type" : "string" },
+      { "name" : "dstPort", "type" : "long" },
+      { "name" : "protocol", "type" : "string" }
+    ]
   },
   "metricsSpec" : [
     { "type" : "count", "name" : "count" },
@@ -291,24 +252,18 @@ the <a href="index.html">single-machine quickstart</a> and have it running on yo
 <p>Segment granularity is configured by the <code>segmentGranularity</code> property in the <code>granularitySpec</code>. For this tutorial, we'll create hourly segments:</p>
 <pre><code class="hljs css language-json">"dataSchema" : {
   "dataSource" : "ingestion-tutorial",
-  "parser" : {
-    "type" : "string",
-    "parseSpec" : {
-      "format" : "json",
-      "timestampSpec" : {
-        "format" : "iso",
-        "column" : "ts"
-      },
-      "dimensionsSpec" : {
-        "dimensions": [
-          "srcIP",
-          { "name" : "srcPort", "type" : "long" },
-          { "name" : "dstIP", "type" : "string" },
-          { "name" : "dstPort", "type" : "long" },
-          { "name" : "protocol", "type" : "string" }
-        ]
-      }
-    }
+  "timestampSpec" : {
+    "format" : "iso",
+    "column" : "ts"
+  },
+  "dimensionsSpec" : {
+    "dimensions": [
+      "srcIP",
+      { "name" : "srcPort", "type" : "long" },
+      { "name" : "dstIP", "type" : "string" },
+      { "name" : "dstPort", "type" : "long" },
+      { "name" : "protocol", "type" : "string" }
+    ]
   },
   "metricsSpec" : [
     { "type" : "count", "name" : "count" },
@@ -328,24 +283,18 @@ the <a href="index.html">single-machine quickstart</a> and have it running on yo
 <p>The query granularity is configured by the <code>queryGranularity</code> property in the <code>granularitySpec</code>. For this tutorial, let's use minute granularity:</p>
 <pre><code class="hljs css language-json">"dataSchema" : {
   "dataSource" : "ingestion-tutorial",
-  "parser" : {
-    "type" : "string",
-    "parseSpec" : {
-      "format" : "json",
-      "timestampSpec" : {
-        "format" : "iso",
-        "column" : "ts"
-      },
-      "dimensionsSpec" : {
-        "dimensions": [
-          "srcIP",
-          { "name" : "srcPort", "type" : "long" },
-          { "name" : "dstIP", "type" : "string" },
-          { "name" : "dstPort", "type" : "long" },
-          { "name" : "protocol", "type" : "string" }
-        ]
-      }
-    }
+  "timestampSpec" : {
+    "format" : "iso",
+    "column" : "ts"
+  },
+  "dimensionsSpec" : {
+    "dimensions": [
+      "srcIP",
+      { "name" : "srcPort", "type" : "long" },
+      { "name" : "dstIP", "type" : "string" },
+      { "name" : "dstPort", "type" : "long" },
+      { "name" : "protocol", "type" : "string" }
+    ]
   },
   "metricsSpec" : [
     { "type" : "count", "name" : "count" },
@@ -356,7 +305,7 @@ the <a href="index.html">single-machine quickstart</a> and have it running on yo
   "granularitySpec" : {
     "type" : "uniform",
     "segmentGranularity" : "HOUR",
-    "queryGranularity" : "MINUTE"
+    "queryGranularity" : "MINUTE",
     "rollup" : true
   }
 }
@@ -372,24 +321,18 @@ the <a href="index.html">single-machine quickstart</a> and have it running on yo
 <p>The interval is also specified in the <code>granularitySpec</code>:</p>
 <pre><code class="hljs css language-json">"dataSchema" : {
   "dataSource" : "ingestion-tutorial",
-  "parser" : {
-    "type" : "string",
-    "parseSpec" : {
-      "format" : "json",
-      "timestampSpec" : {
-        "format" : "iso",
-        "column" : "ts"
-      },
-      "dimensionsSpec" : {
-        "dimensions": [
-          "srcIP",
-          { "name" : "srcPort", "type" : "long" },
-          { "name" : "dstIP", "type" : "string" },
-          { "name" : "dstPort", "type" : "long" },
-          { "name" : "protocol", "type" : "string" }
-        ]
-      }
-    }
+  "timestampSpec" : {
+    "format" : "iso",
+    "column" : "ts"
+  },
+  "dimensionsSpec" : {
+    "dimensions": [
+      "srcIP",
+      { "name" : "srcPort", "type" : "long" },
+      { "name" : "dstIP", "type" : "string" },
+      { "name" : "dstPort", "type" : "long" },
+      { "name" : "protocol", "type" : "string" }
+    ]
   },
   "metricsSpec" : [
     { "type" : "count", "name" : "count" },
@@ -410,28 +353,22 @@ the <a href="index.html">single-machine quickstart</a> and have it running on yo
 <p>We've now finished defining our <code>dataSchema</code>. The remaining steps are to place the <code>dataSchema</code> we created into an ingestion task spec, and specify the input source.</p>
 <p>The <code>dataSchema</code> is shared across all task types, but each task type has its own specification format. For this tutorial, we will use the native batch ingestion task:</p>
 <pre><code class="hljs css language-json">{
-  <span class="hljs-attr">"type"</span> : <span class="hljs-string">"index"</span>,
+  <span class="hljs-attr">"type"</span> : <span class="hljs-string">"index_parallel"</span>,
   <span class="hljs-attr">"spec"</span> : {
     <span class="hljs-attr">"dataSchema"</span> : {
       <span class="hljs-attr">"dataSource"</span> : <span class="hljs-string">"ingestion-tutorial"</span>,
-      <span class="hljs-attr">"parser"</span> : {
-        <span class="hljs-attr">"type"</span> : <span class="hljs-string">"string"</span>,
-        <span class="hljs-attr">"parseSpec"</span> : {
-          <span class="hljs-attr">"format"</span> : <span class="hljs-string">"json"</span>,
-          <span class="hljs-attr">"timestampSpec"</span> : {
-            <span class="hljs-attr">"format"</span> : <span class="hljs-string">"iso"</span>,
-            <span class="hljs-attr">"column"</span> : <span class="hljs-string">"ts"</span>
-          },
-          <span class="hljs-attr">"dimensionsSpec"</span> : {
-            <span class="hljs-attr">"dimensions"</span>: [
-              <span class="hljs-string">"srcIP"</span>,
-              { <span class="hljs-attr">"name"</span> : <span class="hljs-string">"srcPort"</span>, <span class="hljs-attr">"type"</span> : <span class="hljs-string">"long"</span> },
-              { <span class="hljs-attr">"name"</span> : <span class="hljs-string">"dstIP"</span>, <span class="hljs-attr">"type"</span> : <span class="hljs-string">"string"</span> },
-              { <span class="hljs-attr">"name"</span> : <span class="hljs-string">"dstPort"</span>, <span class="hljs-attr">"type"</span> : <span class="hljs-string">"long"</span> },
-              { <span class="hljs-attr">"name"</span> : <span class="hljs-string">"protocol"</span>, <span class="hljs-attr">"type"</span> : <span class="hljs-string">"string"</span> }
-            ]
-          }
-        }
+      <span class="hljs-attr">"timestampSpec"</span> : {
+        <span class="hljs-attr">"format"</span> : <span class="hljs-string">"iso"</span>,
+        <span class="hljs-attr">"column"</span> : <span class="hljs-string">"ts"</span>
+      },
+      <span class="hljs-attr">"dimensionsSpec"</span> : {
+        <span class="hljs-attr">"dimensions"</span>: [
+          <span class="hljs-string">"srcIP"</span>,
+          { <span class="hljs-attr">"name"</span> : <span class="hljs-string">"srcPort"</span>, <span class="hljs-attr">"type"</span> : <span class="hljs-string">"long"</span> },
+          { <span class="hljs-attr">"name"</span> : <span class="hljs-string">"dstIP"</span>, <span class="hljs-attr">"type"</span> : <span class="hljs-string">"string"</span> },
+          { <span class="hljs-attr">"name"</span> : <span class="hljs-string">"dstPort"</span>, <span class="hljs-attr">"type"</span> : <span class="hljs-string">"long"</span> },
+          { <span class="hljs-attr">"name"</span> : <span class="hljs-string">"protocol"</span>, <span class="hljs-attr">"type"</span> : <span class="hljs-string">"string"</span> }
+        ]
       },
       <span class="hljs-attr">"metricsSpec"</span> : [
         { <span class="hljs-attr">"type"</span> : <span class="hljs-string">"count"</span>, <span class="hljs-attr">"name"</span> : <span class="hljs-string">"count"</span> },
@@ -451,39 +388,47 @@ the <a href="index.html">single-machine quickstart</a> and have it running on yo
 }
 </code></pre>
 <h2><a class="anchor" aria-hidden="true" id="define-the-input-source"></a><a href="#define-the-input-source" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Define the input source</h2>
-<p>Now let's define our input source, which is specified in an <code>ioConfig</code> object. Each task type has its own type of <code>ioConfig</code>. The native batch task uses &quot;firehoses&quot; to read input data, so let's configure a &quot;local&quot; firehose to read the example netflow data we saved earlier:</p>
+<p>Now let's define our input source, which is specified in an <code>ioConfig</code> object. Each task type has its own type of <code>ioConfig</code>. To read input data, we need to specify an <code>inputSource</code>. The example netflow data we saved earlier needs to be read from a local file, which is configured below:</p>
 <pre><code class="hljs css language-json">    "ioConfig" : {
-      "type" : "index",
-      "firehose" : {
+      "type" : "index_parallel",
+      "inputSource" : {
         "type" : "local",
         "baseDir" : "quickstart/",
         "filter" : "ingestion-tutorial-data.json"
       }
     }
 </code></pre>
+<h3><a class="anchor" aria-hidden="true" id="define-the-format-of-the-data"></a><a href="#define-the-format-of-the-data" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Define the format of the data</h3>
+<p>Since our input data is represented as JSON strings, we'll use a <code>inputFormat</code> to <code>json</code> format:</p>
+<pre><code class="hljs css language-json">    "ioConfig" : {
+      "type" : "index_parallel",
+      "inputSource" : {
+        "type" : "local",
+        "baseDir" : "quickstart/",
+        "filter" : "ingestion-tutorial-data.json"
+      },
+      "inputFormat" : {
+        "type" : "json"
+      }
+    }
+</code></pre>
 <pre><code class="hljs css language-json">{
-  <span class="hljs-attr">"type"</span> : <span class="hljs-string">"index"</span>,
+  <span class="hljs-attr">"type"</span> : <span class="hljs-string">"index_parallel"</span>,
   <span class="hljs-attr">"spec"</span> : {
     <span class="hljs-attr">"dataSchema"</span> : {
       <span class="hljs-attr">"dataSource"</span> : <span class="hljs-string">"ingestion-tutorial"</span>,
-      <span class="hljs-attr">"parser"</span> : {
-        <span class="hljs-attr">"type"</span> : <span class="hljs-string">"string"</span>,
-        <span class="hljs-attr">"parseSpec"</span> : {
-          <span class="hljs-attr">"format"</span> : <span class="hljs-string">"json"</span>,
-          <span class="hljs-attr">"timestampSpec"</span> : {
-            <span class="hljs-attr">"format"</span> : <span class="hljs-string">"iso"</span>,
-            <span class="hljs-attr">"column"</span> : <span class="hljs-string">"ts"</span>
-          },
-          <span class="hljs-attr">"dimensionsSpec"</span> : {
-            <span class="hljs-attr">"dimensions"</span>: [
-              <span class="hljs-string">"srcIP"</span>,
-              { <span class="hljs-attr">"name"</span> : <span class="hljs-string">"srcPort"</span>, <span class="hljs-attr">"type"</span> : <span class="hljs-string">"long"</span> },
-              { <span class="hljs-attr">"name"</span> : <span class="hljs-string">"dstIP"</span>, <span class="hljs-attr">"type"</span> : <span class="hljs-string">"string"</span> },
-              { <span class="hljs-attr">"name"</span> : <span class="hljs-string">"dstPort"</span>, <span class="hljs-attr">"type"</span> : <span class="hljs-string">"long"</span> },
-              { <span class="hljs-attr">"name"</span> : <span class="hljs-string">"protocol"</span>, <span class="hljs-attr">"type"</span> : <span class="hljs-string">"string"</span> }
-            ]
-          }
-        }
+      <span class="hljs-attr">"timestampSpec"</span> : {
+        <span class="hljs-attr">"format"</span> : <span class="hljs-string">"iso"</span>,
+        <span class="hljs-attr">"column"</span> : <span class="hljs-string">"ts"</span>
+      },
+      <span class="hljs-attr">"dimensionsSpec"</span> : {
+        <span class="hljs-attr">"dimensions"</span>: [
+          <span class="hljs-string">"srcIP"</span>,
+          { <span class="hljs-attr">"name"</span> : <span class="hljs-string">"srcPort"</span>, <span class="hljs-attr">"type"</span> : <span class="hljs-string">"long"</span> },
+          { <span class="hljs-attr">"name"</span> : <span class="hljs-string">"dstIP"</span>, <span class="hljs-attr">"type"</span> : <span class="hljs-string">"string"</span> },
+          { <span class="hljs-attr">"name"</span> : <span class="hljs-string">"dstPort"</span>, <span class="hljs-attr">"type"</span> : <span class="hljs-string">"long"</span> },
+          { <span class="hljs-attr">"name"</span> : <span class="hljs-string">"protocol"</span>, <span class="hljs-attr">"type"</span> : <span class="hljs-string">"string"</span> }
+        ]
       },
       <span class="hljs-attr">"metricsSpec"</span> : [
         { <span class="hljs-attr">"type"</span> : <span class="hljs-string">"count"</span>, <span class="hljs-attr">"name"</span> : <span class="hljs-string">"count"</span> },
@@ -500,11 +445,14 @@ the <a href="index.html">single-machine quickstart</a> and have it running on yo
       }
     },
     <span class="hljs-attr">"ioConfig"</span> : {
-      <span class="hljs-attr">"type"</span> : <span class="hljs-string">"index"</span>,
-      <span class="hljs-attr">"firehose"</span> : {
+      <span class="hljs-attr">"type"</span> : <span class="hljs-string">"index_parallel"</span>,
+      <span class="hljs-attr">"inputSource"</span> : {
         <span class="hljs-attr">"type"</span> : <span class="hljs-string">"local"</span>,
         <span class="hljs-attr">"baseDir"</span> : <span class="hljs-string">"quickstart/"</span>,
         <span class="hljs-attr">"filter"</span> : <span class="hljs-string">"ingestion-tutorial-data.json"</span>
+      },
+      <span class="hljs-attr">"inputFormat"</span> : {
+        <span class="hljs-attr">"type"</span> : <span class="hljs-string">"json"</span>
       }
     }
   }
@@ -514,7 +462,7 @@ the <a href="index.html">single-machine quickstart</a> and have it running on yo
 <p>Each ingestion task has a <code>tuningConfig</code> section that allows users to tune various ingestion parameters.</p>
 <p>As an example, let's add a <code>tuningConfig</code> that sets a target segment size for the native batch ingestion task:</p>
 <pre><code class="hljs css language-json">    "tuningConfig" : {
-      "type" : "index",
+      "type" : "index_parallel",
       "maxRowsPerSegment" : 5000000
     }
 </code></pre>
@@ -522,28 +470,22 @@ the <a href="index.html">single-machine quickstart</a> and have it running on yo
 <h2><a class="anchor" aria-hidden="true" id="final-spec"></a><a href="#final-spec" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Final spec</h2>
 <p>We've finished defining the ingestion spec, it should now look like the following:</p>
 <pre><code class="hljs css language-json">{
-  <span class="hljs-attr">"type"</span> : <span class="hljs-string">"index"</span>,
+  <span class="hljs-attr">"type"</span> : <span class="hljs-string">"index_parallel"</span>,
   <span class="hljs-attr">"spec"</span> : {
     <span class="hljs-attr">"dataSchema"</span> : {
       <span class="hljs-attr">"dataSource"</span> : <span class="hljs-string">"ingestion-tutorial"</span>,
-      <span class="hljs-attr">"parser"</span> : {
-        <span class="hljs-attr">"type"</span> : <span class="hljs-string">"string"</span>,
-        <span class="hljs-attr">"parseSpec"</span> : {
-          <span class="hljs-attr">"format"</span> : <span class="hljs-string">"json"</span>,
-          <span class="hljs-attr">"timestampSpec"</span> : {
-            <span class="hljs-attr">"format"</span> : <span class="hljs-string">"iso"</span>,
-            <span class="hljs-attr">"column"</span> : <span class="hljs-string">"ts"</span>
-          },
-          <span class="hljs-attr">"dimensionsSpec"</span> : {
-            <span class="hljs-attr">"dimensions"</span>: [
-              <span class="hljs-string">"srcIP"</span>,
-              { <span class="hljs-attr">"name"</span> : <span class="hljs-string">"srcPort"</span>, <span class="hljs-attr">"type"</span> : <span class="hljs-string">"long"</span> },
-              { <span class="hljs-attr">"name"</span> : <span class="hljs-string">"dstIP"</span>, <span class="hljs-attr">"type"</span> : <span class="hljs-string">"string"</span> },
-              { <span class="hljs-attr">"name"</span> : <span class="hljs-string">"dstPort"</span>, <span class="hljs-attr">"type"</span> : <span class="hljs-string">"long"</span> },
-              { <span class="hljs-attr">"name"</span> : <span class="hljs-string">"protocol"</span>, <span class="hljs-attr">"type"</span> : <span class="hljs-string">"string"</span> }
-            ]
-          }
-        }
+      <span class="hljs-attr">"timestampSpec"</span> : {
+        <span class="hljs-attr">"format"</span> : <span class="hljs-string">"iso"</span>,
+        <span class="hljs-attr">"column"</span> : <span class="hljs-string">"ts"</span>
+      },
+      <span class="hljs-attr">"dimensionsSpec"</span> : {
+        <span class="hljs-attr">"dimensions"</span>: [
+          <span class="hljs-string">"srcIP"</span>,
+          { <span class="hljs-attr">"name"</span> : <span class="hljs-string">"srcPort"</span>, <span class="hljs-attr">"type"</span> : <span class="hljs-string">"long"</span> },
+          { <span class="hljs-attr">"name"</span> : <span class="hljs-string">"dstIP"</span>, <span class="hljs-attr">"type"</span> : <span class="hljs-string">"string"</span> },
+          { <span class="hljs-attr">"name"</span> : <span class="hljs-string">"dstPort"</span>, <span class="hljs-attr">"type"</span> : <span class="hljs-string">"long"</span> },
+          { <span class="hljs-attr">"name"</span> : <span class="hljs-string">"protocol"</span>, <span class="hljs-attr">"type"</span> : <span class="hljs-string">"string"</span> }
+        ]
       },
       <span class="hljs-attr">"metricsSpec"</span> : [
         { <span class="hljs-attr">"type"</span> : <span class="hljs-string">"count"</span>, <span class="hljs-attr">"name"</span> : <span class="hljs-string">"count"</span> },
@@ -560,15 +502,18 @@ the <a href="index.html">single-machine quickstart</a> and have it running on yo
       }
     },
     <span class="hljs-attr">"ioConfig"</span> : {
-      <span class="hljs-attr">"type"</span> : <span class="hljs-string">"index"</span>,
-      <span class="hljs-attr">"firehose"</span> : {
+      <span class="hljs-attr">"type"</span> : <span class="hljs-string">"index_parallel"</span>,
+      <span class="hljs-attr">"inputSource"</span> : {
         <span class="hljs-attr">"type"</span> : <span class="hljs-string">"local"</span>,
         <span class="hljs-attr">"baseDir"</span> : <span class="hljs-string">"quickstart/"</span>,
         <span class="hljs-attr">"filter"</span> : <span class="hljs-string">"ingestion-tutorial-data.json"</span>
+      },
+      <span class="hljs-attr">"inputFormat"</span> : {
+        <span class="hljs-attr">"type"</span> : <span class="hljs-string">"json"</span>
       }
     },
     <span class="hljs-attr">"tuningConfig"</span> : {
-      <span class="hljs-attr">"type"</span> : <span class="hljs-string">"index"</span>,
+      <span class="hljs-attr">"type"</span> : <span class="hljs-string">"index_parallel"</span>,
       <span class="hljs-attr">"maxRowsPerSegment"</span> : <span class="hljs-number">5000000</span>
     }
   }
@@ -598,7 +543,7 @@ Retrieved 5 rows <span class="hljs-keyword">in</span> 0.12s.
 
 dsql&gt;
 </code></pre>
-</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/0.17.0/tutorials/tutorial-delete-data.html"><span class="arrow-prev">← </span><span>Deleting data</span></a><a class="docs-next button" href="/docs/0.17.0/tutorials/tutorial-transform-spec.html"><span>Transforming input data</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#example-data">Example data</a></li><li><a href="#defining-the-schema">Defining the schema</a><ul class="toc-headings"><li><a href="#datasource-name">Datasource name</a></li><li><a href="#choose-a-parser">Choose a parser</a></li><li><a href="#time-column">Time column</a></li><li><a href="#column-types">Column types</a></li><li><a href="#rollup">Rollup</a></li><li><a href="#no-rollup">No rollup</a></li><li><a href="#define-granularities">Define granularities</a></li></ul></li><li><a href="#define-the-task-type">Define the task type</a></li><li><a href="#define-the-input-source">Define the input source</a></li><li><a href="#additional-tuning">Additional tuning</a></li><li><a href="#final-spec">Final spec</a></li><li><a href="#submit-the-task-and-query-the-data">Submit the task and query the data</a></li></ul></nav></div><footer class="nav-footer druid-footer" id="footer"><div class="container"><div class="text-center"><p><a href="/technology">Technology</a> · <a href="/use-cases">Use Cases</a> · <a href="/druid-powered">Powered by Druid</a> · <a href="/docs/0.17.0/latest">Docs</a> · <a href="/community/">Community</a> · <a href="/downloads.html">Download</a> · <a href="/faq">FAQ</a></p></div><div class="text-center"><a title="Join the user group" href="https://groups.google.com/forum/#!forum/druid-user" target="_blank"><span class="fa fa-comments"></span></a> · <a title="Follow Druid" href="https://twitter.com/druidio" target="_blank"><span class="fab fa-twitter"></span></a> · <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/{{ site.druid_versions[0].versions[0].version }}/apache-druid-{{ site.druid_versions[0].versions[0].version }}-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a> · <a title="GitHub" href="https://github.com/apache/druid" target="_blank"><span class="fab fa-github"></span></a></div><div class="text-center license">Copyright © 2019 <a href="https://www.apache.org/" target="_blank">Apache Software Foundation</a>.<br/>Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>.<br/>Apache Druid, Druid, and the Druid logo are either registered trademarks or trademarks of The Apache Software Foundation in the United States and other countries.</div></div></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/0.17.0/tutorials/tutorial-delete-data.html"><span class="arrow-prev">← </span><span>Deleting data</span></a><a class="docs-next button" href="/docs/0.17.0/tutorials/tutorial-transform-spec.html"><span>Transforming input data</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#example-data">Example data</a></li><li><a href="#defining-the-schema">Defining the schema</a><ul class="toc-headings"><li><a href="#datasource-name">Datasource name</a></li><li><a href="#time-column">Time column</a></li><li><a href="#column-types">Column types</a></li><li><a href="#rollup">Rollup</a></li><li><a href="#no-rollup">No rollup</a></li><li><a href="#define-granularities">Define granularities</a></li></ul></li><li><a href="#define-the-task-type">Define the task type</a></li><li><a href="#define-the-input-source">Define the input source</a><ul class="toc-headings"><li><a href="#define-the-format-of-the-data">Define the format of the data</a></li></ul></li><li><a href="#additional-tuning">Additional tuning</a></li><li><a href="#final-spec">Final spec</a></li><li><a href="#submit-the-task-and-query-the-data">Submit the task and query the data</a></li></ul></nav></div><footer class="nav-footer druid-footer" id="footer"><div class="container"><div class="text-center"><p><a href="/technology">Technology</a> · <a href="/use-cases">Use Cases</a> · <a href="/druid-powered">Powered by Druid</a> · <a href="/docs/0.17.0/latest">Docs</a> · <a href="/community/">Community</a> · <a href="/downloads.html">Download</a> · <a href="/faq">FAQ</a></p></div><div class="text-center"><a title="Join the user group" href="https://groups.google.com/forum/#!forum/druid-user" target="_blank"><span class="fa fa-comments"></span></a> · <a title="Follow Druid" href="https://twitter.com/druidio" target="_blank"><span class="fab fa-twitter"></span></a> · <a title="Download via Apache" href="https://www.apache.org/dyn/closer.cgi?path=/incubator/druid/{{ site.druid_versions[0].versions[0].version }}/apache-druid-{{ site.druid_versions[0].versions[0].version }}-bin.tar.gz" target="_blank"><span class="fas fa-feather"></span></a> · <a title="GitHub" href="https://github.com/apache/druid" target="_blank"><span class="fab fa-github"></span></a></div><div class="text-center license">Copyright © 2019 <a href="https://www.apache.org/" target="_blank">Apache Software Foundation</a>.<br/>Except where otherwise noted, licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>.<br/>Apache Druid, Druid, and the Druid logo are either registered trademarks or trademarks of The Apache Software Foundation in the United States and other countries.</div></div></footer></div><script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script><script>
                 document.addEventListener('keyup', function(e) {
                   if (e.target !== document.body) {
                     return;

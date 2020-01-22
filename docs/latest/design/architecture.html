@@ -222,7 +222,7 @@ or a Historical process.</li>
 <p>You can inspect the state of currently active segments using the Druid SQL
 <a href="/docs/latest/querying/sql.html#segments-table"><code>sys.segments</code> table</a>. It includes the following flags:</p>
 <ul>
-<li><code>is_published</code>: True if segment metadata has been published to the metadata store and <code>used</code> is true.</li>
+<li><code>is_published</code>: True if segment metadata has been published to the metadata stored and <code>used</code> is true.</li>
 <li><code>is_available</code>: True if the segment is currently available for querying, either on a realtime task or Historical
 process.</li>
 <li><code>is_realtime</code>: True if the segment is <em>only</em> available on realtime tasks. For datasources that use realtime ingestion,
