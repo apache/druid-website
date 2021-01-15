@@ -193,6 +193,14 @@ It&#39;s a pleasure to work with Druid, extraordinarily efficient and exceptiona
 
 <p>Billy Mobile is a mobile advertising platform, excelling in the performance-based optimisation segment. We use Druid to power our real-time analytics dashboards, in which our publishers, advertisers and staff can get insights on how their campaigns, offers and traffic are performing, with sub-second query time and minute granularity . We are using a lambda-architecture aproach, ingesting the traffic in real time with Tranquility and Storm, and a batch layer via a tight integration with Hive and Hadoop, our Master Data Set. This way we can provide crucial fast access to data, while making sure to have the right numbers.</p>
 
+<h2 id="blueshift">Blueshift</h2>
+
+<p>Blueshift is an AI-powered customer data activation platform enabling CRM and product marketers to intelligently manage their audiences and orchestrate large-scale personalized messaging campaigns at scale. Blueshift offers real-time campaign analytics in the product powered by Druid. Additionally, we use the same analytics backend to power automatic traffic allocation capabilities using Bayesian bandits, perform cohort analysis over multiple dimensions, and generate internal reports to measure the impact of ROI of AI across different types of campaigns and industry verticals. </p>
+
+<ul>
+<li><a href="https://imply.io/post/blueshift-scaling-real-time-campaign-analytics-apache-druid">We operate a multi-tenant Druid cluster in AWS. Additionally, we have integrated our data lake (Hive/Hbase) with Druid to manage data backfills.</a></li>
+</ul>
+
 <h2 id="booking-com">Booking.com</h2>
 
 <ul>
@@ -320,6 +328,10 @@ Didi uses Druid as a core component of our real-time bigdata processing pipeline
 <h2 id="expedia">Expedia</h2>
 
 <p>Expedia built real-time customer segmentation into the Expedia Data Platform using Druid as its core component. It helps business and data science teams identify customers using many different criteria. </p>
+
+<ul>
+<li><a href="https://medium.com/expedia-group-tech/fast-approximate-counting-using-druid-and-datasketch-f5f163131acd">Fast Approximate Counting Usind Druid and Datasketch</a></li>
+</ul>
 
 <h2 id="facilityconnex">FacilityConneX</h2>
 
@@ -699,6 +711,14 @@ issue related to Druid setup and tuning.</p>
 
 <p>We introduced Druid to our technology stack while developing our new supply chain &amp; logistics visibility and intelligence solution. Combining Druid with other data storage, streaming &amp; processing platforms &amp; solutions for the IoT sensor data and 3rd party data helped us design an effective solution for our customers worldwide.</p>
 
+<h2 id="rubicon-project">Rubicon Project</h2>
+
+<p>Rubicon Project is the world’s largest independent sell-side advertising platform that helps premium websites and mobile apps sell ads easily and safely. Rubicon Project’s flagship reporting platform, Performance Analytics, is built on Apache Druid and is used by thousands of companies across the globe. Performance Analytics processed more than two trillion events per day during Black Friday. Druid delivers analytics from this data with an average response times under 600 ms, helping publishers maximize the yield of their digital ad inventory across the open internet and builds on our commitment to trust and transparency in the programmatic marketplace.</p>
+
+<ul>
+<li><a href="https://imply.io/post/modernizing-rubicon-projects-analytics-stack">Modernizing Rubicon Project’s Analytics Stack for Programmatic Advertising</a></li>
+</ul>
+
 <h2 id="sage-archer">Sage + Archer</h2>
 
 <p>We are using Druid as our single source of truth for both realtime statistics and data analysis. Our clients can see and filter detailed metrics in our <a href="https://www.sage-archer.com">self-service DSP</a>. The DSP is used for mobile and digital-out-of-home advertising campaigns. Druid is powering both the front-end and the optimization algorithms within the system.</p>
@@ -822,12 +842,6 @@ A one-stop shop taking advantage of proprietary technology to analyze and reach 
 <h2 id="tencent">Tencent</h2>
 
 <p>Tencent SCRM product use Druid for customer behavior analysis.</p>
-
-<h2 id="the-rubicon-project">The Rubicon Project</h2>
-
-<ul>
-<li><a href="https://imply.io/post/modernizing-rubicon-projects-analytics-stack">Modernizing Rubicon Project’s Analytics Stack for Programmatic Advertising</a></li>
-</ul>
 
 <h2 id="time-warner-cable">Time Warner Cable</h2>
 
