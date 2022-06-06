@@ -121,7 +121,7 @@
       
 
       
-      <p> Looking for the <a href="/docs/0.21.1/">latest stable documentation</a>?</p>
+      <p> Looking for the <a href="/docs/0.22.1/">latest stable documentation</a>?</p>
       
 
       <div class="row">
@@ -208,13 +208,13 @@ and <code>org.apache.druid.query.aggregation.BufferAggregator</code>.</li>
 <p>Check the <code>azure-storage</code>, <code>google-storage</code>, <code>cassandra-storage</code>, <code>hdfs-storage</code> and <code>s3-extensions</code> modules for examples of how to do this.</p>
 
 <p>The basic idea behind the extension is that you need to add bindings for your DataSegmentPusher and DataSegmentPuller objects.  The way to add them is something like (taken from HdfsStorageDruidModule)</p>
-<div class="highlight"><pre><code class="language-java" data-lang="java"><span></span><span class="n">Binders</span><span class="o">.</span><span class="na">dataSegmentPullerBinder</span><span class="o">(</span><span class="n">binder</span><span class="o">)</span>
-       <span class="o">.</span><span class="na">addBinding</span><span class="o">(</span><span class="s">&quot;hdfs&quot;</span><span class="o">)</span>
-       <span class="o">.</span><span class="na">to</span><span class="o">(</span><span class="n">HdfsDataSegmentPuller</span><span class="o">.</span><span class="na">class</span><span class="o">).</span><span class="na">in</span><span class="o">(</span><span class="n">LazySingleton</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span></span><span class="n">Binders</span><span class="p">.</span><span class="na">dataSegmentPullerBinder</span><span class="p">(</span><span class="n">binder</span><span class="p">)</span>
+       <span class="p">.</span><span class="na">addBinding</span><span class="p">(</span><span class="s">&quot;hdfs&quot;</span><span class="p">)</span>
+       <span class="p">.</span><span class="na">to</span><span class="p">(</span><span class="n">HdfsDataSegmentPuller</span><span class="p">.</span><span class="na">class</span><span class="p">).</span><span class="na">in</span><span class="p">(</span><span class="n">LazySingleton</span><span class="p">.</span><span class="na">class</span><span class="p">);</span>
 
-<span class="n">Binders</span><span class="o">.</span><span class="na">dataSegmentPusherBinder</span><span class="o">(</span><span class="n">binder</span><span class="o">)</span>
-       <span class="o">.</span><span class="na">addBinding</span><span class="o">(</span><span class="s">&quot;hdfs&quot;</span><span class="o">)</span>
-       <span class="o">.</span><span class="na">to</span><span class="o">(</span><span class="n">HdfsDataSegmentPusher</span><span class="o">.</span><span class="na">class</span><span class="o">).</span><span class="na">in</span><span class="o">(</span><span class="n">LazySingleton</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+<span class="n">Binders</span><span class="p">.</span><span class="na">dataSegmentPusherBinder</span><span class="p">(</span><span class="n">binder</span><span class="p">)</span>
+       <span class="p">.</span><span class="na">addBinding</span><span class="p">(</span><span class="s">&quot;hdfs&quot;</span><span class="p">)</span>
+       <span class="p">.</span><span class="na">to</span><span class="p">(</span><span class="n">HdfsDataSegmentPusher</span><span class="p">.</span><span class="na">class</span><span class="p">).</span><span class="na">in</span><span class="p">(</span><span class="n">LazySingleton</span><span class="p">.</span><span class="na">class</span><span class="p">);</span>
 </code></pre></div>
 <p><code>Binders.dataSegment*Binder()</code> is a call provided by the druid-api jar which sets up a Guice multibind &quot;MapBinder&quot;.  If that doesn&#39;t make sense, don&#39;t worry about it, just think of it as a magical incantation.</p>
 
@@ -284,12 +284,12 @@ T00:00:00.000Z/2015-04-14T02:41:09.484Z/0/index.zip] to [/opt/druid/zk_druid/dde
 
 <p>Adding a Firehose is done almost entirely through the Jackson Modules instead of Guice.  Specifically, note the implementation</p>
 <div class="highlight"><pre><code class="language-java" data-lang="java"><span></span><span class="nd">@Override</span>
-<span class="kd">public</span> <span class="n">List</span><span class="o">&lt;?</span> <span class="kd">extends</span> <span class="n">Module</span><span class="o">&gt;</span> <span class="nf">getJacksonModules</span><span class="o">()</span>
-<span class="o">{</span>
-  <span class="k">return</span> <span class="n">ImmutableList</span><span class="o">.</span><span class="na">of</span><span class="o">(</span>
-          <span class="k">new</span> <span class="n">SimpleModule</span><span class="o">().</span><span class="na">registerSubtypes</span><span class="o">(</span><span class="k">new</span> <span class="n">NamedType</span><span class="o">(</span><span class="n">StaticS3FirehoseFactory</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="s">&quot;static-s3&quot;</span><span class="o">))</span>
-  <span class="o">);</span>
-<span class="o">}</span>
+<span class="kd">public</span> <span class="n">List</span><span class="o">&lt;?</span> <span class="kd">extends</span> <span class="n">Module</span><span class="o">&gt;</span> <span class="nf">getJacksonModules</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="k">return</span> <span class="n">ImmutableList</span><span class="p">.</span><span class="na">of</span><span class="p">(</span>
+          <span class="k">new</span> <span class="n">SimpleModule</span><span class="p">().</span><span class="na">registerSubtypes</span><span class="p">(</span><span class="k">new</span> <span class="n">NamedType</span><span class="p">(</span><span class="n">StaticS3FirehoseFactory</span><span class="p">.</span><span class="na">class</span><span class="p">,</span> <span class="s">&quot;static-s3&quot;</span><span class="p">))</span>
+  <span class="p">);</span>
+<span class="p">}</span>
 </code></pre></div>
 <p>This is registering the FirehoseFactory with Jackson&#39;s polymorphic serde layer.  More concretely, having this will mean that if you specify a <code>&quot;firehose&quot;: { &quot;type&quot;: &quot;static-s3&quot;, ... }</code> in your realtime config, then the system will load this FirehoseFactory for your firehose.</p>
 
@@ -314,32 +314,32 @@ T00:00:00.000Z/2015-04-14T02:41:09.484Z/0/index.zip] to [/opt/druid/zk_druid/dde
 </ol>
 
 <p>Registering these uses the same general strategy as a deep storage mechanism does.  You do something like</p>
-<div class="highlight"><pre><code class="language-java" data-lang="java"><span></span><span class="n">DruidBinders</span><span class="o">.</span><span class="na">queryToolChestBinder</span><span class="o">(</span><span class="n">binder</span><span class="o">)</span>
-            <span class="o">.</span><span class="na">addBinding</span><span class="o">(</span><span class="n">SegmentMetadataQuery</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
-            <span class="o">.</span><span class="na">to</span><span class="o">(</span><span class="n">SegmentMetadataQueryQueryToolChest</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span></span><span class="n">DruidBinders</span><span class="p">.</span><span class="na">queryToolChestBinder</span><span class="p">(</span><span class="n">binder</span><span class="p">)</span>
+            <span class="p">.</span><span class="na">addBinding</span><span class="p">(</span><span class="n">SegmentMetadataQuery</span><span class="p">.</span><span class="na">class</span><span class="p">)</span>
+            <span class="p">.</span><span class="na">to</span><span class="p">(</span><span class="n">SegmentMetadataQueryQueryToolChest</span><span class="p">.</span><span class="na">class</span><span class="p">);</span>
 
-<span class="n">DruidBinders</span><span class="o">.</span><span class="na">queryRunnerFactoryBinder</span><span class="o">(</span><span class="n">binder</span><span class="o">)</span>
-            <span class="o">.</span><span class="na">addBinding</span><span class="o">(</span><span class="n">SegmentMetadataQuery</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
-            <span class="o">.</span><span class="na">to</span><span class="o">(</span><span class="n">SegmentMetadataQueryRunnerFactory</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+<span class="n">DruidBinders</span><span class="p">.</span><span class="na">queryRunnerFactoryBinder</span><span class="p">(</span><span class="n">binder</span><span class="p">)</span>
+            <span class="p">.</span><span class="na">addBinding</span><span class="p">(</span><span class="n">SegmentMetadataQuery</span><span class="p">.</span><span class="na">class</span><span class="p">)</span>
+            <span class="p">.</span><span class="na">to</span><span class="p">(</span><span class="n">SegmentMetadataQueryRunnerFactory</span><span class="p">.</span><span class="na">class</span><span class="p">);</span>
 </code></pre></div>
 <p>The first one binds the SegmentMetadataQueryQueryToolChest for usage when a SegmentMetadataQuery is used.  The second one does the same thing but for the QueryRunnerFactory instead.</p>
 
 <h3 id="adding-new-jersey-resources">Adding new Jersey resources</h3>
 
 <p>Adding new Jersey resources to a module requires calling the following code to bind the resource in the module:</p>
-<div class="highlight"><pre><code class="language-java" data-lang="java"><span></span><span class="n">Jerseys</span><span class="o">.</span><span class="na">addResource</span><span class="o">(</span><span class="n">binder</span><span class="o">,</span> <span class="n">NewResource</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span></span><span class="n">Jerseys</span><span class="p">.</span><span class="na">addResource</span><span class="p">(</span><span class="n">binder</span><span class="p">,</span> <span class="n">NewResource</span><span class="p">.</span><span class="na">class</span><span class="p">);</span>
 </code></pre></div>
 <h3 id="adding-a-new-password-provider-implementation">Adding a new Password Provider implementation</h3>
 
 <p>You will need to implement <code>org.apache.druid.metadata.PasswordProvider</code> interface. For every place where Druid uses PasswordProvider, a new instance of the implementation will be created,
 thus make sure all the necessary information required for fetching each password is supplied during object instantiation.
 In your implementation of <code>org.apache.druid.initialization.DruidModule</code>, <code>getJacksonModules</code> should look something like this -</p>
-<div class="highlight"><pre><code class="language-java" data-lang="java"><span></span>    <span class="k">return</span> <span class="n">ImmutableList</span><span class="o">.</span><span class="na">of</span><span class="o">(</span>
-        <span class="k">new</span> <span class="n">SimpleModule</span><span class="o">(</span><span class="s">&quot;SomePasswordProviderModule&quot;</span><span class="o">)</span>
-            <span class="o">.</span><span class="na">registerSubtypes</span><span class="o">(</span>
-                <span class="k">new</span> <span class="n">NamedType</span><span class="o">(</span><span class="n">SomePasswordProvider</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="s">&quot;some&quot;</span><span class="o">)</span>
-            <span class="o">)</span>
-    <span class="o">);</span>
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span></span>    <span class="k">return</span> <span class="n">ImmutableList</span><span class="p">.</span><span class="na">of</span><span class="p">(</span>
+        <span class="k">new</span> <span class="n">SimpleModule</span><span class="p">(</span><span class="s">&quot;SomePasswordProviderModule&quot;</span><span class="p">)</span>
+            <span class="p">.</span><span class="na">registerSubtypes</span><span class="p">(</span>
+                <span class="k">new</span> <span class="n">NamedType</span><span class="p">(</span><span class="n">SomePasswordProvider</span><span class="p">.</span><span class="na">class</span><span class="p">,</span> <span class="s">&quot;some&quot;</span><span class="p">)</span>
+            <span class="p">)</span>
+    <span class="p">);</span>
 </code></pre></div>
 <p>where <code>SomePasswordProvider</code> is the implementation of <code>PasswordProvider</code> interface, you can have a look at <code>org.apache.druid.metadata.EnvironmentVariablePasswordProvider</code> for example.</p>
 

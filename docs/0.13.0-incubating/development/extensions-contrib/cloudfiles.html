@@ -121,7 +121,7 @@
       
 
       
-      <p> Looking for the <a href="/docs/0.21.1/">latest stable documentation</a>?</p>
+      <p> Looking for the <a href="/docs/0.22.1/">latest stable documentation</a>?</p>
       
 
       <div class="row">
@@ -234,17 +234,17 @@
 Since each split represents an object in this firehose, each worker task of <code>index_parallel</code> will read an object.</p>
 
 <p>Sample spec:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;firehose&quot;</span> <span class="err">:</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="nt">&quot;firehose&quot;</span> <span class="p">:</span> <span class="p">{</span>
     <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;static-cloudfiles&quot;</span><span class="p">,</span>
     <span class="nt">&quot;blobs&quot;</span><span class="p">:</span> <span class="p">[</span>
         <span class="p">{</span>
-          <span class="nt">&quot;region&quot;</span><span class="p">:</span> <span class="s2">&quot;DFW&quot;</span>
-          <span class="s2">&quot;container&quot;</span><span class="p">:</span> <span class="s2">&quot;container&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;region&quot;</span><span class="p">:</span> <span class="nt">&quot;DFW&quot;</span>
+          <span class="nt">&quot;container&quot;</span><span class="p">:</span> <span class="s2">&quot;container&quot;</span><span class="p">,</span>
           <span class="nt">&quot;path&quot;</span><span class="p">:</span> <span class="s2">&quot;/path/to/your/file.json&quot;</span>
         <span class="p">},</span>
         <span class="p">{</span>
-          <span class="nt">&quot;region&quot;</span><span class="p">:</span> <span class="s2">&quot;ORD&quot;</span>
-          <span class="s2">&quot;container&quot;</span><span class="p">:</span> <span class="s2">&quot;anothercontainer&quot;</span><span class="p">,</span>
+          <span class="nt">&quot;region&quot;</span><span class="p">:</span> <span class="nt">&quot;ORD&quot;</span>
+          <span class="nt">&quot;container&quot;</span><span class="p">:</span> <span class="s2">&quot;anothercontainer&quot;</span><span class="p">,</span>
           <span class="nt">&quot;path&quot;</span><span class="p">:</span> <span class="s2">&quot;/another/path.json&quot;</span>
         <span class="p">}</span>
     <span class="p">]</span>
