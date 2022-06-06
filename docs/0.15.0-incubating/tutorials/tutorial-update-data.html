@@ -121,7 +121,7 @@
       
 
       
-      <p> Looking for the <a href="/docs/0.21.1/">latest stable documentation</a>?</p>
+      <p> Looking for the <a href="/docs/0.22.1/">latest stable documentation</a>?</p>
       
 
       <div class="row">
@@ -179,7 +179,7 @@ the <a href="index.html">single-machine quickstart</a> and have it running on yo
 │ <span class="m">2018</span>-01-01T03:01:00.000Z │ aardvark │     <span class="m">1</span> │     <span class="m">42</span> │
 │ <span class="m">2018</span>-01-01T03:01:00.000Z │ giraffe  │     <span class="m">1</span> │  <span class="m">14124</span> │
 └──────────────────────────┴──────────┴───────┴────────┘
-Retrieved <span class="m">3</span> rows in <span class="m">1</span>.42s.
+Retrieved <span class="m">3</span> rows <span class="k">in</span> <span class="m">1</span>.42s.
 </code></pre></div>
 <h3 id="overwrite-the-initial-data">Overwrite the initial data</h3>
 
@@ -201,7 +201,7 @@ Retrieved <span class="m">3</span> rows in <span class="m">1</span>.42s.
 │ <span class="m">2018</span>-01-01T03:01:00.000Z │ aardvark │     <span class="m">1</span> │   <span class="m">9999</span> │
 │ <span class="m">2018</span>-01-01T04:01:00.000Z │ bear     │     <span class="m">1</span> │    <span class="m">111</span> │
 └──────────────────────────┴──────────┴───────┴────────┘
-Retrieved <span class="m">3</span> rows in <span class="m">0</span>.02s.
+Retrieved <span class="m">3</span> rows <span class="k">in</span> <span class="m">0</span>.02s.
 </code></pre></div>
 <h2 id="combine-old-data-with-new-data-and-overwrite">Combine old data with new data and overwrite</h2>
 
@@ -224,7 +224,7 @@ Retrieved <span class="m">3</span> rows in <span class="m">0</span>.02s.
 │ <span class="m">2018</span>-01-01T06:01:00.000Z │ snake    │     <span class="m">1</span> │   <span class="m">1234</span> │
 │ <span class="m">2018</span>-01-01T07:01:00.000Z │ octopus  │     <span class="m">1</span> │    <span class="m">115</span> │
 └──────────────────────────┴──────────┴───────┴────────┘
-Retrieved <span class="m">6</span> rows in <span class="m">0</span>.02s.
+Retrieved <span class="m">6</span> rows <span class="k">in</span> <span class="m">0</span>.02s.
 </code></pre></div>
 <h2 id="append-to-the-data">Append to the data</h2>
 
@@ -249,7 +249,7 @@ Retrieved <span class="m">6</span> rows in <span class="m">0</span>.02s.
 │ <span class="m">2018</span>-01-01T04:01:00.000Z │ bear     │     <span class="m">1</span> │    <span class="m">222</span> │
 │ <span class="m">2018</span>-01-01T09:01:00.000Z │ falcon   │     <span class="m">1</span> │   <span class="m">1241</span> │
 └──────────────────────────┴──────────┴───────┴────────┘
-Retrieved <span class="m">8</span> rows in <span class="m">0</span>.02s.
+Retrieved <span class="m">8</span> rows <span class="k">in</span> <span class="m">0</span>.02s.
 </code></pre></div>
 <p>If we run a GroupBy query instead of a <code>select *</code>, we can see that the &quot;bear&quot; rows will group together at query time:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>dsql&gt; <span class="k">select</span> __time, animal, SUM<span class="o">(</span><span class="s2">&quot;count&quot;</span><span class="o">)</span>, SUM<span class="o">(</span><span class="s2">&quot;number&quot;</span><span class="o">)</span> from <span class="s2">&quot;updates-tutorial&quot;</span> group by __time, animal<span class="p">;</span>
@@ -264,7 +264,7 @@ Retrieved <span class="m">8</span> rows in <span class="m">0</span>.02s.
 │ <span class="m">2018</span>-01-01T07:01:00.000Z │ octopus  │      <span class="m">1</span> │    <span class="m">115</span> │
 │ <span class="m">2018</span>-01-01T09:01:00.000Z │ falcon   │      <span class="m">1</span> │   <span class="m">1241</span> │
 └──────────────────────────┴──────────┴────────┴────────┘
-Retrieved <span class="m">7</span> rows in <span class="m">0</span>.23s.
+Retrieved <span class="m">7</span> rows <span class="k">in</span> <span class="m">0</span>.23s.
 </code></pre></div>
         </div>
         <div class="col-md-3">
