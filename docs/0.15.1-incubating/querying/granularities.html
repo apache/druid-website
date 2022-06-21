@@ -121,7 +121,7 @@
       
 
       
-      <p> Looking for the <a href="/docs/0.22.1/">latest stable documentation</a>?</p>
+      <p> Looking for the <a href="/docs/0.23.0/">latest stable documentation</a>?</p>
       
 
       <div class="row">
@@ -308,10 +308,10 @@ See <code>queryGranularity</code> in <a href="../ingestion/ingestion-spec.html#g
 <p>Duration granularities are specified as an exact duration in milliseconds and timestamps are returned as UTC. Duration granularity values are in millis.</p>
 
 <p>They also support specifying an optional origin, which defines where to start counting time buckets from (defaults to 1970-01-01T00:00:00Z).</p>
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span></span><span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;duration&quot;</span><span class="p">,</span> <span class="s2">&quot;duration&quot;</span><span class="o">:</span> <span class="mi">7200000</span><span class="p">}</span>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span></span><span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;duration&quot;</span><span class="p">,</span> <span class="s2">&quot;duration&quot;</span><span class="o">:</span> <span class="mf">7200000</span><span class="p">}</span>
 </code></pre></div>
 <p>This chunks up every 2 hours.</p>
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span></span><span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;duration&quot;</span><span class="p">,</span> <span class="s2">&quot;duration&quot;</span><span class="o">:</span> <span class="mi">3600000</span><span class="p">,</span> <span class="s2">&quot;origin&quot;</span><span class="o">:</span> <span class="s2">&quot;2012-01-01T00:30:00Z&quot;</span><span class="p">}</span>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span></span><span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;duration&quot;</span><span class="p">,</span> <span class="s2">&quot;duration&quot;</span><span class="o">:</span> <span class="mf">3600000</span><span class="p">,</span> <span class="s2">&quot;origin&quot;</span><span class="o">:</span> <span class="s2">&quot;2012-01-01T00:30:00Z&quot;</span><span class="p">}</span>
 </code></pre></div>
 <p>This chunks up every hour on the half-hour.</p>
 

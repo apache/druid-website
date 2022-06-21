@@ -121,7 +121,7 @@
       
 
       
-      <p> Looking for the <a href="/docs/0.22.1/">latest stable documentation</a>?</p>
+      <p> Looking for the <a href="/docs/0.23.0/">latest stable documentation</a>?</p>
       
 
       <div class="row">
@@ -188,7 +188,7 @@
 <h1 id="dataschema">DataSchema</h1>
 
 <p>An example dataSchema is shown below:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;dataSchema&quot;</span> <span class="err">:</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="nt">&quot;dataSchema&quot;</span> <span class="p">:</span> <span class="p">{</span>
   <span class="nt">&quot;dataSource&quot;</span> <span class="p">:</span> <span class="s2">&quot;wikipedia&quot;</span><span class="p">,</span>
   <span class="nt">&quot;parser&quot;</span> <span class="p">:</span> <span class="p">{</span>
     <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span>
@@ -602,7 +602,7 @@ bitmap indexes; they are not supported for numeric columns.</p>
 <p>For example, the following <code>dimensionsSpec</code> section from a <code>dataSchema</code> ingests one column as Long (<code>countryNum</code>), two
 columns as Float (<code>userLatitude</code>, <code>userLongitude</code>), and the other columns as Strings, with bitmap indexes disabled
 for the <code>comment</code> column.</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;dimensionsSpec&quot;</span> <span class="err">:</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="nt">&quot;dimensionsSpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
   <span class="nt">&quot;dimensions&quot;</span><span class="p">:</span> <span class="p">[</span>
     <span class="s2">&quot;page&quot;</span><span class="p">,</span>
     <span class="s2">&quot;language&quot;</span><span class="p">,</span>

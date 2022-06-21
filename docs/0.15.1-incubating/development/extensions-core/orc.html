@@ -121,7 +121,7 @@
       
 
       
-      <p> Looking for the <a href="/docs/0.22.1/">latest stable documentation</a>?</p>
+      <p> Looking for the <a href="/docs/0.23.0/">latest stable documentation</a>?</p>
       
 
       <div class="row">
@@ -204,8 +204,8 @@ primitives, as well as any flatten expressions defined in the <code>flattenSpec<
 <code>-org.apache.hadoop.hive.</code> to instruct Hadoop to load <code>org.apache.hadoop.hive</code> classes from the application jars instead
 of system jars, e.g.</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="err">...</span>
-    <span class="s2">&quot;mapreduce.job.classloader&quot;</span><span class="err">:</span> <span class="s2">&quot;true&quot;</span><span class="err">,</span>
-    <span class="s2">&quot;mapreduce.job.classloader.system.classes&quot;</span> <span class="err">:</span> <span class="s2">&quot;java., javax.accessibility., javax.activation., javax.activity., javax.annotation., javax.annotation.processing., javax.crypto., javax.imageio., javax.jws., javax.lang.model., -javax.management.j2ee., javax.management., javax.naming., javax.net., javax.print., javax.rmi., javax.script., -javax.security.auth.message., javax.security.auth., javax.security.cert., javax.security.sasl., javax.sound., javax.sql., javax.swing., javax.tools., javax.transaction., -javax.xml.registry., -javax.xml.rpc., javax.xml., org.w3c.dom., org.xml.sax., org.apache.commons.logging., org.apache.log4j., -org.apache.hadoop.hbase., -org.apache.hadoop.hive., org.apache.hadoop., core-default.xml, hdfs-default.xml, mapred-default.xml, yarn-default.xml&quot;</span><span class="err">,</span>
+    <span class="nt">&quot;mapreduce.job.classloader&quot;</span><span class="p">:</span> <span class="s2">&quot;true&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;mapreduce.job.classloader.system.classes&quot;</span> <span class="p">:</span> <span class="s2">&quot;java., javax.accessibility., javax.activation., javax.activity., javax.annotation., javax.annotation.processing., javax.crypto., javax.imageio., javax.jws., javax.lang.model., -javax.management.j2ee., javax.management., javax.naming., javax.net., javax.print., javax.rmi., javax.script., -javax.security.auth.message., javax.security.auth., javax.security.cert., javax.security.sasl., javax.sound., javax.sql., javax.swing., javax.tools., javax.transaction., -javax.xml.registry., -javax.xml.rpc., javax.xml., org.w3c.dom., org.xml.sax., org.apache.commons.logging., org.apache.log4j., -org.apache.hadoop.hbase., -org.apache.hadoop.hive., org.apache.hadoop., core-default.xml, hdfs-default.xml, mapred-default.xml, yarn-default.xml&quot;</span><span class="p">,</span>
 <span class="err">...</span>
 </code></pre></div>
 <p>This is due to the <code>hive-storage-api</code> dependency of the
@@ -256,10 +256,10 @@ setting <code>&quot;mapreduce.job.user.classpath.first&quot;: &quot;true&quot;</
       <span class="p">},</span>
       <span class="err">...</span>
     <span class="p">},</span>
-    <span class="nt">&quot;tuningConfig&quot;</span><span class="p">:</span> <span class="err">&lt;hadoop-tuning-config&gt;</span>
+    <span class="nt">&quot;tuningConfig&quot;</span><span class="p">:</span> <span class="err">&lt;hadoop</span><span class="mi">-</span><span class="kc">tun</span><span class="err">i</span><span class="kc">n</span><span class="err">g</span><span class="mi">-</span><span class="err">co</span><span class="kc">nf</span><span class="err">ig&gt;</span>
     <span class="p">}</span>
   <span class="p">}</span>
-<span class="err">}</span>
+<span class="p">}</span>
 </code></pre></div>
 <h4 id="orc-parser-orc-parsespec-field-discovery-with-no-flattenspec-or-dimensionspec"><code>orc</code> parser, <code>orc</code> parseSpec, field discovery with no flattenSpec or dimensionSpec</h4>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
@@ -288,10 +288,10 @@ setting <code>&quot;mapreduce.job.user.classpath.first&quot;: &quot;true&quot;</
       <span class="p">},</span>
       <span class="err">...</span>
     <span class="p">},</span>
-    <span class="nt">&quot;tuningConfig&quot;</span><span class="p">:</span> <span class="err">&lt;hadoop-tuning-config&gt;</span>
+    <span class="nt">&quot;tuningConfig&quot;</span><span class="p">:</span> <span class="err">&lt;hadoop</span><span class="mi">-</span><span class="kc">tun</span><span class="err">i</span><span class="kc">n</span><span class="err">g</span><span class="mi">-</span><span class="err">co</span><span class="kc">nf</span><span class="err">ig&gt;</span>
     <span class="p">}</span>
   <span class="p">}</span>
-<span class="err">}</span>
+<span class="p">}</span>
 </code></pre></div>
 <h4 id="orc-parser-orc-parsespec-no-autodiscovery"><code>orc</code> parser, <code>orc</code> parseSpec, no autodiscovery</h4>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
@@ -345,10 +345,10 @@ setting <code>&quot;mapreduce.job.user.classpath.first&quot;: &quot;true&quot;</
       <span class="p">},</span>
       <span class="err">...</span>
     <span class="p">},</span>
-    <span class="nt">&quot;tuningConfig&quot;</span><span class="p">:</span> <span class="err">&lt;hadoop-tuning-config&gt;</span>
+    <span class="nt">&quot;tuningConfig&quot;</span><span class="p">:</span> <span class="err">&lt;hadoop</span><span class="mi">-</span><span class="kc">tun</span><span class="err">i</span><span class="kc">n</span><span class="err">g</span><span class="mi">-</span><span class="err">co</span><span class="kc">nf</span><span class="err">ig&gt;</span>
     <span class="p">}</span>
   <span class="p">}</span>
-<span class="err">}</span>
+<span class="p">}</span>
 </code></pre></div>
 <h4 id="orc-parser-timeanddims-parsespec"><code>orc</code> parser, <code>timeAndDims</code> parseSpec</h4>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
@@ -387,7 +387,7 @@ setting <code>&quot;mapreduce.job.user.classpath.first&quot;: &quot;true&quot;</
       <span class="p">},</span>
       <span class="err">...</span>
     <span class="p">},</span>
-    <span class="nt">&quot;tuningConfig&quot;</span><span class="p">:</span> <span class="err">&lt;hadoop-tuning-config&gt;</span>
+    <span class="nt">&quot;tuningConfig&quot;</span><span class="p">:</span> <span class="err">&lt;hadoop</span><span class="mi">-</span><span class="kc">tun</span><span class="err">i</span><span class="kc">n</span><span class="err">g</span><span class="mi">-</span><span class="err">co</span><span class="kc">nf</span><span class="err">ig&gt;</span>
   <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
@@ -408,7 +408,7 @@ facilitated column renaming. In the &#39;core&#39; extension, column renaming ca
 <a href="../../ingestion/flatten-json.html"><code>flattenSpec</code> expressions</a>. For example, <code>&quot;typeString&quot;:&quot;struct&lt;time:string,name:string&gt;&quot;</code>
 with the actual schema <code>struct&lt;_col0:string,_col1:string&gt;</code>, to preserve Druid schema would need replaced with:</li>
 </ul>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;flattenSpec&quot;</span><span class="err">:</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="nt">&quot;flattenSpec&quot;</span><span class="p">:</span> <span class="p">{</span>
   <span class="nt">&quot;fields&quot;</span><span class="p">:</span> <span class="p">[</span>
     <span class="p">{</span>
       <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;path&quot;</span><span class="p">,</span>
@@ -430,7 +430,7 @@ flatten <code>OrcMap</code> columns with primitive types. This functionality has
 <a href="../../ingestion/flatten-json.html"><code>flattenSpec</code> expressions</a>. For example: <code>&quot;mapFieldNameFormat&quot;: &quot;&lt;PARENT&gt;_&lt;CHILD&gt;&quot;</code>
 for a dimension <code>nestedData_dim1</code>, to preserve Druid schema could be replaced with </li>
 </ul>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;flattenSpec&quot;</span><span class="err">:</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="nt">&quot;flattenSpec&quot;</span><span class="p">:</span> <span class="p">{</span>
   <span class="nt">&quot;fields&quot;</span><span class="p">:</span> <span class="p">[</span>
     <span class="p">{</span>
       <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;path&quot;</span><span class="p">,</span>

@@ -289,22 +289,22 @@ com.metamx.druid.http.ComputeMain
 <span class="p">}]</span>
 </code></pre></div>
 <h3 id="datasource">dataSource</h3>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;dataSource&quot;</span><span class="err">:</span><span class="s2">&quot;druidtest&quot;</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="nt">&quot;dataSource&quot;</span><span class="p">:</span><span class="s2">&quot;druidtest&quot;</span>
 </code></pre></div>
 <p>Our dataSource tells us the name of the relation/table, or &#39;source of data&#39;, to query in both our realtime.spec and query.body!</p>
 
 <h3 id="aggregations">aggregations</h3>
 
 <p>Note the <a href="/docs/latest/Aggregations.html">aggregations</a> in our query:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span>    <span class="s2">&quot;aggregations&quot;</span><span class="err">:</span> <span class="p">[</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span>    <span class="nt">&quot;aggregations&quot;</span><span class="p">:</span> <span class="p">[</span>
         <span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;count&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;rows&quot;</span><span class="p">},</span>
         <span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;longSum&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;imps&quot;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span><span class="p">:</span> <span class="s2">&quot;impressions&quot;</span><span class="p">},</span>
         <span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;doubleSum&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;wp&quot;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span><span class="p">:</span> <span class="s2">&quot;wp&quot;</span><span class="p">}</span>
-    <span class="p">]</span><span class="err">,</span>
+    <span class="p">],</span>
 </code></pre></div>
 <p>this matches up to the aggregators in the schema of our realtime.spec!</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;aggregators&quot;</span><span class="err">:</span><span class="p">[</span> <span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;count&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="s2">&quot;impressions&quot;</span><span class="p">},</span>
-                                  <span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;doubleSum&quot;</span><span class="p">,</span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="s2">&quot;wp&quot;</span><span class="p">,</span><span class="nt">&quot;fieldName&quot;</span><span class="p">:</span><span class="s2">&quot;wp&quot;</span><span class="p">}]</span><span class="err">,</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="nt">&quot;aggregators&quot;</span><span class="p">:[</span> <span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;count&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="s2">&quot;impressions&quot;</span><span class="p">},</span>
+                                  <span class="p">{</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;doubleSum&quot;</span><span class="p">,</span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="s2">&quot;wp&quot;</span><span class="p">,</span><span class="nt">&quot;fieldName&quot;</span><span class="p">:</span><span class="s2">&quot;wp&quot;</span><span class="p">}],</span>
 </code></pre></div>
 <h3 id="dimensions">dimensions</h3>
 

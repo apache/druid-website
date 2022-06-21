@@ -154,11 +154,11 @@
 <h2 id="extracting-the-streamflow-data">Extracting the Streamflow Data</h2>
 
 <p>In R, load the waterData package, then run <code>importDVs()</code>:</p>
-<div class="highlight"><pre><code class="language-r" data-lang="r"><span></span><span class="o">&gt;</span> install.packages<span class="p">(</span><span class="s">&quot;waterData&quot;</span><span class="p">)</span>
+<div class="highlight"><pre><code class="language-r" data-lang="r"><span></span><span class="o">&gt;</span> <span class="nf">install.packages</span><span class="p">(</span><span class="s">&quot;waterData&quot;</span><span class="p">)</span>
 <span class="kc">...</span>
-<span class="o">&gt;</span> <span class="kn">library</span><span class="p">(</span>waterData<span class="p">)</span>
+<span class="o">&gt;</span> <span class="nf">library</span><span class="p">(</span><span class="n">waterData</span><span class="p">)</span>
 <span class="kc">...</span>
-<span class="o">&gt;</span> napa_flow <span class="o">&lt;-</span> importDVs<span class="p">(</span><span class="s">&quot;11458000&quot;</span><span class="p">,</span> code<span class="o">=</span><span class="s">&quot;00060&quot;</span><span class="p">,</span> stat<span class="o">=</span><span class="s">&quot;00003&quot;</span><span class="p">,</span> sdate<span class="o">=</span><span class="s">&quot;1963-01-01&quot;</span><span class="p">,</span> edate<span class="o">=</span><span class="s">&quot;2013-12-31&quot;</span><span class="p">)</span>
+<span class="o">&gt;</span> <span class="n">napa_flow</span> <span class="o">&lt;-</span> <span class="nf">importDVs</span><span class="p">(</span><span class="s">&quot;11458000&quot;</span><span class="p">,</span> <span class="n">code</span><span class="o">=</span><span class="s">&quot;00060&quot;</span><span class="p">,</span> <span class="n">stat</span><span class="o">=</span><span class="s">&quot;00003&quot;</span><span class="p">,</span> <span class="n">sdate</span><span class="o">=</span><span class="s">&quot;1963-01-01&quot;</span><span class="p">,</span> <span class="n">edate</span><span class="o">=</span><span class="s">&quot;2013-12-31&quot;</span><span class="p">)</span>
 </code></pre></div>
 <p>The last line uses the function <code>waterData.importDVs()</code> to get sensor (or &quot;streamgage&quot;) data directly from the USGS datasource. This function has the following arguments:</p>
 
@@ -172,8 +172,8 @@
 <p>The information on the specific site and sensor should provide information on the type of data available and the start-end dates for the full historical record.</p>
 
 <p>You can now analyse and visualize the streamflow data. For example, we ran:</p>
-<div class="highlight"><pre><code class="language-r" data-lang="r"><span></span><span class="o">&gt;</span> myWater.plot <span class="o">&lt;-</span> plotParam<span class="p">(</span>napa_flow<span class="p">)</span>
-<span class="o">&gt;</span> <span class="kp">print</span><span class="p">(</span>myWater.plot<span class="p">)</span>
+<div class="highlight"><pre><code class="language-r" data-lang="r"><span></span><span class="o">&gt;</span> <span class="n">myWater.plot</span> <span class="o">&lt;-</span> <span class="nf">plotParam</span><span class="p">(</span><span class="n">napa_flow</span><span class="p">)</span>
+<span class="o">&gt;</span> <span class="nf">print</span><span class="p">(</span><span class="n">myWater.plot</span><span class="p">)</span>
 </code></pre></div>
 <p>to get:</p>
 
@@ -184,22 +184,22 @@
 <h2 id="transforming-the-data-for-druid">Transforming the Data for Druid</h2>
 
 <p>We first want to have a look at the content of the data frame:</p>
-<div class="highlight"><pre><code class="language-r" data-lang="r"><span></span><span class="o">&gt;</span> <span class="kp">head</span><span class="p">(</span>napa_flow<span class="p">)</span>
-     staid val      dates qualcode
-<span class="m">1</span> <span class="m">11458000</span>  <span class="m">90</span> <span class="m">1963-01-01</span>        A
-<span class="m">2</span> <span class="m">11458000</span>  <span class="m">87</span> <span class="m">1963-01-02</span>        A
-<span class="m">3</span> <span class="m">11458000</span>  <span class="m">85</span> <span class="m">1963-01-03</span>        A
-<span class="m">4</span> <span class="m">11458000</span>  <span class="m">80</span> <span class="m">1963-01-04</span>        A
-<span class="m">5</span> <span class="m">11458000</span>  <span class="m">76</span> <span class="m">1963-01-05</span>        A
-<span class="m">6</span> <span class="m">11458000</span>  <span class="m">75</span> <span class="m">1963-01-06</span>        A
+<div class="highlight"><pre><code class="language-r" data-lang="r"><span></span><span class="o">&gt;</span> <span class="nf">head</span><span class="p">(</span><span class="n">napa_flow</span><span class="p">)</span>
+     <span class="n">staid</span> <span class="n">val</span>      <span class="n">dates</span> <span class="n">qualcode</span>
+<span class="m">1</span> <span class="m">11458000</span>  <span class="m">90</span> <span class="m">1963-01-01</span>        <span class="n">A</span>
+<span class="m">2</span> <span class="m">11458000</span>  <span class="m">87</span> <span class="m">1963-01-02</span>        <span class="n">A</span>
+<span class="m">3</span> <span class="m">11458000</span>  <span class="m">85</span> <span class="m">1963-01-03</span>        <span class="n">A</span>
+<span class="m">4</span> <span class="m">11458000</span>  <span class="m">80</span> <span class="m">1963-01-04</span>        <span class="n">A</span>
+<span class="m">5</span> <span class="m">11458000</span>  <span class="m">76</span> <span class="m">1963-01-05</span>        <span class="n">A</span>
+<span class="m">6</span> <span class="m">11458000</span>  <span class="m">75</span> <span class="m">1963-01-06</span>        <span class="n">A</span>
 </code></pre></div>
 <p>We don&#39;t have any use for the qualcode (the <a href="http://help.waterdata.usgs.gov/codes-and-parameters/daily-value-qualification-code-dv_rmk_cd">Daily Value Qualification Code</a>), column:</p>
-<div class="highlight"><pre><code class="language-r" data-lang="r"><span></span><span class="o">&gt;</span> napa_flow_subset <span class="o">&lt;-</span> napa_flow<span class="p">[,</span><span class="kt">c</span><span class="p">(</span><span class="m">1</span><span class="o">:</span><span class="m">3</span><span class="p">)]</span>
+<div class="highlight"><pre><code class="language-r" data-lang="r"><span></span><span class="o">&gt;</span> <span class="n">napa_flow_subset</span> <span class="o">&lt;-</span> <span class="n">napa_flow</span><span class="p">[,</span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="o">:</span><span class="m">3</span><span class="p">)]</span>
 </code></pre></div>
 <p>It may look like we also don&#39;t need the staid column, either, since it&#39;s all the same sensor ID. However, we&#39;ll keep it because at some later time we may want to load similar data from other sensors.</p>
 
 <p>Now we can export the data to a file, removing the header and row names:</p>
-<div class="highlight"><pre><code class="language-r" data-lang="r"><span></span>write.table<span class="p">(</span>napa_flow_subset<span class="p">,</span> file<span class="o">=</span><span class="s">&quot;~/napa-flow.tsv&quot;</span><span class="p">,</span> sep<span class="o">=</span><span class="s">&quot;\t&quot;</span><span class="p">,</span> col.names <span class="o">=</span> <span class="bp">F</span><span class="p">,</span> row.names <span class="o">=</span> <span class="bp">F</span><span class="p">)</span>
+<div class="highlight"><pre><code class="language-r" data-lang="r"><span></span><span class="nf">write.table</span><span class="p">(</span><span class="n">napa_flow_subset</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="s">&quot;~/napa-flow.tsv&quot;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s">&quot;\t&quot;</span><span class="p">,</span> <span class="n">col.names</span> <span class="o">=</span> <span class="bp">F</span><span class="p">,</span> <span class="n">row.names</span> <span class="o">=</span> <span class="bp">F</span><span class="p">)</span>
 </code></pre></div>
 <p>And here&#39;s our file:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>$ head ~/napa-flow.tsv

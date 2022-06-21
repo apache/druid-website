@@ -121,7 +121,7 @@
       
 
       
-      <p> Looking for the <a href="/docs/0.22.1/">latest stable documentation</a>?</p>
+      <p> Looking for the <a href="/docs/0.23.0/">latest stable documentation</a>?</p>
       
 
       <div class="row">
@@ -172,7 +172,7 @@
 <p>The parser extracts these fields into a map, giving the measurement the key <code>measurement</code> and the timestamp the key <code>_ts</code>. The tag and measurement keys are copied verbatim, so users should take care to avoid name collisions. It is up to the ingestion spec to decide which fields should be treated as dimensions and which should be treated as metrics (typically tags correspond to dimensions and measurements correspond to metrics).</p>
 
 <p>The parser is configured like so:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;parser&quot;</span><span class="err">:</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="nt">&quot;parser&quot;</span><span class="p">:</span> <span class="p">{</span>
       <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span>
       <span class="nt">&quot;parseSpec&quot;</span><span class="p">:</span> <span class="p">{</span>
         <span class="nt">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;influx&quot;</span><span class="p">,</span>

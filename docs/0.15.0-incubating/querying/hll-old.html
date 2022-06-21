@@ -121,7 +121,7 @@
       
 
       
-      <p> Looking for the <a href="/docs/0.22.1/">latest stable documentation</a>?</p>
+      <p> Looking for the <a href="/docs/0.23.0/">latest stable documentation</a>?</p>
       
 
       <div class="row">
@@ -159,9 +159,9 @@ instead of the cardinality aggregator if you do not care about the individual va
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;cardinality&quot;</span><span class="p">,</span>
   <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;output_name&gt;&quot;</span><span class="p">,</span>
-  <span class="nt">&quot;fields&quot;</span><span class="p">:</span> <span class="p">[</span> <span class="err">&lt;dimension</span><span class="mi">1</span><span class="err">&gt;</span><span class="p">,</span> <span class="err">&lt;dimension</span><span class="mi">2</span><span class="err">&gt;</span><span class="p">,</span> <span class="err">...</span> <span class="p">],</span>
-  <span class="nt">&quot;byRow&quot;</span><span class="p">:</span> <span class="err">&lt;</span><span class="kc">false</span> <span class="err">|</span> <span class="kc">true</span><span class="err">&gt;</span> <span class="err">#</span> <span class="err">(optional</span><span class="p">,</span> <span class="err">defaults</span> <span class="err">to</span> <span class="err">false),</span>
-  <span class="nt">&quot;round&quot;</span><span class="p">:</span> <span class="err">&lt;</span><span class="kc">false</span> <span class="err">|</span> <span class="kc">true</span><span class="err">&gt;</span> <span class="err">#</span> <span class="err">(optional</span><span class="p">,</span> <span class="err">defaults</span> <span class="err">to</span> <span class="err">false)</span>
+  <span class="nt">&quot;fields&quot;</span><span class="p">:</span> <span class="p">[</span> <span class="err">&lt;dime</span><span class="kc">ns</span><span class="err">io</span><span class="kc">n</span><span class="mi">1</span><span class="err">&gt;</span><span class="p">,</span> <span class="err">&lt;dime</span><span class="kc">ns</span><span class="err">io</span><span class="kc">n</span><span class="mi">2</span><span class="err">&gt;</span><span class="p">,</span> <span class="err">...</span> <span class="p">],</span>
+  <span class="nt">&quot;byRow&quot;</span><span class="p">:</span> <span class="err">&lt;</span><span class="kc">false</span> <span class="err">|</span> <span class="kc">true</span><span class="err">&gt;</span> <span class="err">#</span> <span class="err">(op</span><span class="kc">t</span><span class="err">io</span><span class="kc">nal</span><span class="p">,</span> <span class="err">de</span><span class="kc">faults</span> <span class="kc">t</span><span class="err">o</span> <span class="kc">false</span><span class="err">)</span><span class="p">,</span>
+  <span class="nt">&quot;round&quot;</span><span class="p">:</span> <span class="err">&lt;</span><span class="kc">false</span> <span class="err">|</span> <span class="kc">true</span><span class="err">&gt;</span> <span class="err">#</span> <span class="err">(op</span><span class="kc">t</span><span class="err">io</span><span class="kc">nal</span><span class="p">,</span> <span class="err">de</span><span class="kc">faults</span> <span class="kc">t</span><span class="err">o</span> <span class="kc">false</span><span class="err">)</span>
 <span class="p">}</span>
 </code></pre></div>
 <p>Each individual element of the &quot;fields&quot; list can be a String or <a href="../querying/dimensionspecs.html">DimensionSpec</a>. A String dimension in the fields list is equivalent to a DefaultDimensionSpec (no transformations).</p>
@@ -233,8 +233,8 @@ This is equivalent to something akin to</p>
 <p>Uses <a href="http://algo.inria.fr/flajolet/Publications/FlFuGaMe07.pdf">HyperLogLog</a> to compute the estimated cardinality of a dimension that has been aggregated as a &quot;hyperUnique&quot; metric at indexing time.</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span> 
   <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;hyperUnique&quot;</span><span class="p">,</span>
-  <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="err">&lt;output_name&gt;</span><span class="p">,</span>
-  <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="err">&lt;metric_name&gt;</span><span class="p">,</span>
+  <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="err">&lt;ou</span><span class="kc">t</span><span class="err">pu</span><span class="kc">t</span><span class="err">_</span><span class="kc">na</span><span class="err">me&gt;</span><span class="p">,</span>
+  <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="err">&lt;me</span><span class="kc">tr</span><span class="err">ic_</span><span class="kc">na</span><span class="err">me&gt;</span><span class="p">,</span>
   <span class="nt">&quot;isInputHyperUnique&quot;</span> <span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
   <span class="nt">&quot;round&quot;</span> <span class="p">:</span> <span class="kc">false</span>
 <span class="p">}</span>
