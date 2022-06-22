@@ -121,7 +121,7 @@
       
 
       
-      <p> Looking for the <a href="/docs/0.22.1/">latest stable documentation</a>?</p>
+      <p> Looking for the <a href="/docs/0.23.0/">latest stable documentation</a>?</p>
       
 
       <div class="row">
@@ -157,7 +157,7 @@
 <p>The simplest filter is a selector filter. The selector filter will match a specific dimension with a specific value. Selector filters can be used as the base filters for more complex Boolean expressions of filters.</p>
 
 <p>The grammar for a SELECTOR filter is as follows:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;filter&quot;</span><span class="err">:</span> <span class="p">{</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;selector&quot;</span><span class="p">,</span> <span class="nt">&quot;dimension&quot;</span><span class="p">:</span> <span class="err">&lt;dimension_string&gt;</span><span class="p">,</span> <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="err">&lt;dimension_value_string&gt;</span> <span class="p">}</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="nt">&quot;filter&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;selector&quot;</span><span class="p">,</span> <span class="nt">&quot;dimension&quot;</span><span class="p">:</span> <span class="err">&lt;dime</span><span class="kc">ns</span><span class="err">io</span><span class="kc">n</span><span class="err">_s</span><span class="kc">tr</span><span class="err">i</span><span class="kc">n</span><span class="err">g&gt;</span><span class="p">,</span> <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="err">&lt;dime</span><span class="kc">ns</span><span class="err">io</span><span class="kc">n</span><span class="err">_value_s</span><span class="kc">tr</span><span class="err">i</span><span class="kc">n</span><span class="err">g&gt;</span> <span class="p">}</span>
 </code></pre></div>
 <p>This is the equivalent of <code>WHERE &lt;dimension_string&gt; = &#39;&lt;dimension_value_string&gt;&#39;</code>.</p>
 
@@ -166,7 +166,7 @@
 <h3 id="column-comparison-filter">Column Comparison filter</h3>
 
 <p>The column comparison filter is similar to the selector filter, but instead compares dimensions to each other. For example:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;filter&quot;</span><span class="err">:</span> <span class="p">{</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;columnComparison&quot;</span><span class="p">,</span> <span class="nt">&quot;dimensions&quot;</span><span class="p">:</span> <span class="p">[</span><span class="err">&lt;dimension_a&gt;</span><span class="p">,</span> <span class="err">&lt;dimension_b&gt;</span><span class="p">]</span> <span class="p">}</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="nt">&quot;filter&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;columnComparison&quot;</span><span class="p">,</span> <span class="nt">&quot;dimensions&quot;</span><span class="p">:</span> <span class="p">[</span><span class="err">&lt;dime</span><span class="kc">ns</span><span class="err">io</span><span class="kc">n</span><span class="err">_a&gt;</span><span class="p">,</span> <span class="err">&lt;dime</span><span class="kc">ns</span><span class="err">io</span><span class="kc">n</span><span class="err">_b&gt;</span><span class="p">]</span> <span class="p">}</span>
 </code></pre></div>
 <p>This is the equivalent of <code>WHERE &lt;dimension_a&gt; = &lt;dimension_b&gt;</code>.</p>
 
@@ -175,7 +175,7 @@
 <h3 id="regular-expression-filter">Regular expression filter</h3>
 
 <p>The regular expression filter is similar to the selector filter, but using regular expressions. It matches the specified dimension with the given pattern. The pattern can be any standard <a href="http://docs.oracle.com/javase/6/docs/api/java/util/regex/Pattern.html">Java regular expression</a>.</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;filter&quot;</span><span class="err">:</span> <span class="p">{</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;regex&quot;</span><span class="p">,</span> <span class="nt">&quot;dimension&quot;</span><span class="p">:</span> <span class="err">&lt;dimension_string&gt;</span><span class="p">,</span> <span class="nt">&quot;pattern&quot;</span><span class="p">:</span> <span class="err">&lt;pattern_string&gt;</span> <span class="p">}</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="nt">&quot;filter&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;regex&quot;</span><span class="p">,</span> <span class="nt">&quot;dimension&quot;</span><span class="p">:</span> <span class="err">&lt;dime</span><span class="kc">ns</span><span class="err">io</span><span class="kc">n</span><span class="err">_s</span><span class="kc">tr</span><span class="err">i</span><span class="kc">n</span><span class="err">g&gt;</span><span class="p">,</span> <span class="nt">&quot;pattern&quot;</span><span class="p">:</span> <span class="err">&lt;pa</span><span class="kc">ttern</span><span class="err">_s</span><span class="kc">tr</span><span class="err">i</span><span class="kc">n</span><span class="err">g&gt;</span> <span class="p">}</span>
 </code></pre></div>
 <p>The regex filter supports the use of extraction functions, see <a href="#filtering-with-extraction-functions">Filtering with Extraction Functions</a> for details.</p>
 
@@ -184,21 +184,21 @@
 <h4 id="and">AND</h4>
 
 <p>The grammar for an AND filter is as follows:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;filter&quot;</span><span class="err">:</span> <span class="p">{</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;and&quot;</span><span class="p">,</span> <span class="nt">&quot;fields&quot;</span><span class="p">:</span> <span class="p">[</span><span class="err">&lt;filter&gt;</span><span class="p">,</span> <span class="err">&lt;filter&gt;</span><span class="p">,</span> <span class="err">...</span><span class="p">]</span> <span class="p">}</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="nt">&quot;filter&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;and&quot;</span><span class="p">,</span> <span class="nt">&quot;fields&quot;</span><span class="p">:</span> <span class="p">[</span><span class="err">&lt;</span><span class="kc">f</span><span class="err">il</span><span class="kc">ter</span><span class="err">&gt;</span><span class="p">,</span> <span class="err">&lt;</span><span class="kc">f</span><span class="err">il</span><span class="kc">ter</span><span class="err">&gt;</span><span class="p">,</span> <span class="err">...</span><span class="p">]</span> <span class="p">}</span>
 </code></pre></div>
 <p>The filters in fields can be any other filter defined on this page.</p>
 
 <h4 id="or">OR</h4>
 
 <p>The grammar for an OR filter is as follows:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;filter&quot;</span><span class="err">:</span> <span class="p">{</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;or&quot;</span><span class="p">,</span> <span class="nt">&quot;fields&quot;</span><span class="p">:</span> <span class="p">[</span><span class="err">&lt;filter&gt;</span><span class="p">,</span> <span class="err">&lt;filter&gt;</span><span class="p">,</span> <span class="err">...</span><span class="p">]</span> <span class="p">}</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="nt">&quot;filter&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;or&quot;</span><span class="p">,</span> <span class="nt">&quot;fields&quot;</span><span class="p">:</span> <span class="p">[</span><span class="err">&lt;</span><span class="kc">f</span><span class="err">il</span><span class="kc">ter</span><span class="err">&gt;</span><span class="p">,</span> <span class="err">&lt;</span><span class="kc">f</span><span class="err">il</span><span class="kc">ter</span><span class="err">&gt;</span><span class="p">,</span> <span class="err">...</span><span class="p">]</span> <span class="p">}</span>
 </code></pre></div>
 <p>The filters in fields can be any other filter defined on this page.</p>
 
 <h4 id="not">NOT</h4>
 
 <p>The grammar for a NOT filter is as follows:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;filter&quot;</span><span class="err">:</span> <span class="p">{</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;not&quot;</span><span class="p">,</span> <span class="nt">&quot;field&quot;</span><span class="p">:</span> <span class="err">&lt;filter&gt;</span> <span class="p">}</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="nt">&quot;filter&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;not&quot;</span><span class="p">,</span> <span class="nt">&quot;field&quot;</span><span class="p">:</span> <span class="err">&lt;</span><span class="kc">f</span><span class="err">il</span><span class="kc">ter</span><span class="err">&gt;</span> <span class="p">}</span>
 </code></pre></div>
 <p>The filter specified at field can be any other filter defined on this page.</p>
 
@@ -209,7 +209,7 @@
 <p>The function takes a single argument, the dimension value, and returns either true or false.</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;javascript&quot;</span><span class="p">,</span>
-  <span class="nt">&quot;dimension&quot;</span> <span class="p">:</span> <span class="err">&lt;dimension_string&gt;</span><span class="p">,</span>
+  <span class="nt">&quot;dimension&quot;</span> <span class="p">:</span> <span class="err">&lt;dime</span><span class="kc">ns</span><span class="err">io</span><span class="kc">n</span><span class="err">_s</span><span class="kc">tr</span><span class="err">i</span><span class="kc">n</span><span class="err">g&gt;</span><span class="p">,</span>
   <span class="nt">&quot;function&quot;</span> <span class="p">:</span> <span class="s2">&quot;function(value) { &lt;...&gt; }&quot;</span>
 <span class="p">}</span>
 </code></pre></div>
@@ -699,14 +699,14 @@ converted into a numeric predicate and will be applied to the numeric column val
 the &quot;regex&quot; filter) the numeric column values will be converted to strings during the scan.</p>
 
 <p>For example, filtering on a specific value, <code>myFloatColumn = 10.1</code>:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;filter&quot;</span><span class="err">:</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="nt">&quot;filter&quot;</span><span class="p">:</span> <span class="p">{</span>
   <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;selector&quot;</span><span class="p">,</span>
   <span class="nt">&quot;dimension&quot;</span><span class="p">:</span> <span class="s2">&quot;myFloatColumn&quot;</span><span class="p">,</span>
   <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;10.1&quot;</span>
 <span class="p">}</span>
 </code></pre></div>
 <p>Filtering on a range of values, <code>10 &lt;= myFloatColumn &lt; 20</code>:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;filter&quot;</span><span class="err">:</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="nt">&quot;filter&quot;</span><span class="p">:</span> <span class="p">{</span>
   <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;bound&quot;</span><span class="p">,</span>
   <span class="nt">&quot;dimension&quot;</span><span class="p">:</span> <span class="s2">&quot;myFloatColumn&quot;</span><span class="p">,</span>
   <span class="nt">&quot;ordering&quot;</span><span class="p">:</span> <span class="s2">&quot;numeric&quot;</span><span class="p">,</span>
@@ -725,14 +725,14 @@ should be specified as if the timestamp values were strings.</p>
 <p>If the user wishes to interpret the timestamp with a specific format, timezone, or locale, the <a href="./dimensionspecs.html#time-format-extraction-function">Time Format Extraction Function</a> is useful.</p>
 
 <p>For example, filtering on a long timestamp value:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;filter&quot;</span><span class="err">:</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="nt">&quot;filter&quot;</span><span class="p">:</span> <span class="p">{</span>
   <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;selector&quot;</span><span class="p">,</span>
   <span class="nt">&quot;dimension&quot;</span><span class="p">:</span> <span class="s2">&quot;__time&quot;</span><span class="p">,</span>
   <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;124457387532&quot;</span>
 <span class="p">}</span>
 </code></pre></div>
 <p>Filtering on day of week:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;filter&quot;</span><span class="err">:</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="nt">&quot;filter&quot;</span><span class="p">:</span> <span class="p">{</span>
   <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;selector&quot;</span><span class="p">,</span>
   <span class="nt">&quot;dimension&quot;</span><span class="p">:</span> <span class="s2">&quot;__time&quot;</span><span class="p">,</span>
   <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;Friday&quot;</span><span class="p">,</span>

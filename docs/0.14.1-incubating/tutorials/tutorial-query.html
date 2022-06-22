@@ -121,7 +121,7 @@
       
 
       
-      <p> Looking for the <a href="/docs/0.22.1/">latest stable documentation</a>?</p>
+      <p> Looking for the <a href="/docs/0.23.0/">latest stable documentation</a>?</p>
       
 
       <div class="row">
@@ -302,7 +302,7 @@ dsql&gt;
 │ Wikipedia:In the news/Candidates                         │    <span class="m">17</span> │
 │ Wikipedia:Requests <span class="k">for</span> page protection                   │    <span class="m">17</span> │
 └──────────────────────────────────────────────────────────┴───────┘
-Retrieved <span class="m">10</span> rows in <span class="m">0</span>.06s.
+Retrieved <span class="m">10</span> rows <span class="k">in</span> <span class="m">0</span>.06s.
 </code></pre></div>
 <h3 id="additional-druid-sql-queries">Additional Druid SQL queries</h3>
 
@@ -338,7 +338,7 @@ Retrieved <span class="m">10</span> rows in <span class="m">0</span>.06s.
 │ <span class="m">2015</span>-09-12T22:00:00.000Z │        <span class="m">16379</span> │
 │ <span class="m">2015</span>-09-12T23:00:00.000Z │        <span class="m">15289</span> │
 └──────────────────────────┴──────────────┘
-Retrieved <span class="m">24</span> rows in <span class="m">0</span>.08s.
+Retrieved <span class="m">24</span> rows <span class="k">in</span> <span class="m">0</span>.08s.
 </code></pre></div>
 <h4 id="groupby">GroupBy</h4>
 
@@ -353,7 +353,7 @@ Retrieved <span class="m">24</span> rows in <span class="m">0</span>.08s.
 │ <span class="c1">#ru.wikipedia │  640698 │</span>
 │ <span class="c1">#es.wikipedia │  634670 │</span>
 └───────────────┴─────────┘
-Retrieved <span class="m">5</span> rows in <span class="m">0</span>.05s.
+Retrieved <span class="m">5</span> rows <span class="k">in</span> <span class="m">0</span>.05s.
 </code></pre></div>
 <h4 id="scan">Scan</h4>
 
@@ -368,7 +368,7 @@ Retrieved <span class="m">5</span> rows in <span class="m">0</span>.05s.
 │ Lowercase sigmabot III │ User talk:ErrantX                                      │
 │ BattyBot               │ Hans W. Jung                                           │
 └────────────────────────┴────────────────────────────────────────────────────────┘
-Retrieved <span class="m">5</span> rows in <span class="m">0</span>.04s.
+Retrieved <span class="m">5</span> rows <span class="k">in</span> <span class="m">0</span>.04s.
 </code></pre></div>
 <h4 id="explain-plan-for">EXPLAIN PLAN FOR</h4>
 
@@ -383,7 +383,7 @@ Retrieved <span class="m">5</span> rows in <span class="m">0</span>.04s.
 ├─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
 │ DruidQueryRel<span class="o">(</span><span class="nv">query</span><span class="o">=[{</span><span class="s2">&quot;queryType&quot;</span>:<span class="s2">&quot;topN&quot;</span>,<span class="s2">&quot;dataSource&quot;</span>:<span class="o">{</span><span class="s2">&quot;type&quot;</span>:<span class="s2">&quot;table&quot;</span>,<span class="s2">&quot;name&quot;</span>:<span class="s2">&quot;wikipedia&quot;</span><span class="o">}</span>,<span class="s2">&quot;virtualColumns&quot;</span>:<span class="o">[]</span>,<span class="s2">&quot;dimension&quot;</span>:<span class="o">{</span><span class="s2">&quot;type&quot;</span>:<span class="s2">&quot;default&quot;</span>,<span class="s2">&quot;dimension&quot;</span>:<span class="s2">&quot;page&quot;</span>,<span class="s2">&quot;outputName&quot;</span>:<span class="s2">&quot;d0&quot;</span>,<span class="s2">&quot;outputType&quot;</span>:<span class="s2">&quot;STRING&quot;</span><span class="o">}</span>,<span class="s2">&quot;metric&quot;</span>:<span class="o">{</span><span class="s2">&quot;type&quot;</span>:<span class="s2">&quot;numeric&quot;</span>,<span class="s2">&quot;metric&quot;</span>:<span class="s2">&quot;a0&quot;</span><span class="o">}</span>,<span class="s2">&quot;threshold&quot;</span>:10,<span class="s2">&quot;intervals&quot;</span>:<span class="o">{</span><span class="s2">&quot;type&quot;</span>:<span class="s2">&quot;intervals&quot;</span>,<span class="s2">&quot;intervals&quot;</span>:<span class="o">[</span><span class="s2">&quot;2015-09-12T00:00:00.000Z/2015-09-13T00:00:00.001Z&quot;</span><span class="o">]}</span>,<span class="s2">&quot;filter&quot;</span>:null,<span class="s2">&quot;granularity&quot;</span>:<span class="o">{</span><span class="s2">&quot;type&quot;</span>:<span class="s2">&quot;all&quot;</span><span class="o">}</span>,<span class="s2">&quot;aggregations&quot;</span>:<span class="o">[{</span><span class="s2">&quot;type&quot;</span>:<span class="s2">&quot;count&quot;</span>,<span class="s2">&quot;name&quot;</span>:<span class="s2">&quot;a0&quot;</span><span class="o">}]</span>,<span class="s2">&quot;postAggregations&quot;</span>:<span class="o">[]</span>,<span class="s2">&quot;context&quot;</span>:<span class="o">{}</span>,<span class="s2">&quot;descending&quot;</span>:false<span class="o">}]</span>, <span class="nv">signature</span><span class="o">=[{</span>d0:STRING, a0:LONG<span class="o">}])</span> │
 └─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
-Retrieved <span class="m">1</span> row in <span class="m">0</span>.03s.
+Retrieved <span class="m">1</span> row <span class="k">in</span> <span class="m">0</span>.03s.
 </code></pre></div>
 <h2 id="further-reading">Further reading</h2>
 
