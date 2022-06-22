@@ -222,7 +222,7 @@ See <a href="../ingestion/command-line-hadoop-indexer.html">here</a> for more in
       <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;hadoop&quot;</span>
     <span class="p">}</span>
   <span class="p">},</span>
-  <span class="nt">&quot;hadoopDependencyCoordinates&quot;</span><span class="p">:</span> <span class="err">&lt;my_hadoop_versio</span><span class="kc">n</span><span class="err">&gt;</span>
+  <span class="nt">&quot;hadoopDependencyCoordinates&quot;</span><span class="p">:</span> <span class="err">&lt;my_hadoop_version&gt;</span>
 <span class="p">}</span>
 </code></pre></div>
 <table><thead>
@@ -512,7 +512,7 @@ s3n://billy-bucket/the/data/is/here/y=2012/m=06/d=01/H=23
 </tbody></table>
 
 <h3 id="jobproperties-field-of-tuningconfig">jobProperties field of TuningConfig</h3>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span>   <span class="nt">&quot;tuningConfig&quot;</span> <span class="p">:</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span>   <span class="s2">&quot;tuningConfig&quot;</span> <span class="err">:</span> <span class="p">{</span>
      <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;hadoop&quot;</span><span class="p">,</span>
      <span class="nt">&quot;jobProperties&quot;</span><span class="p">:</span> <span class="p">{</span>
        <span class="nt">&quot;&lt;hadoop-property-a&gt;&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;value-a&gt;&quot;</span><span class="p">,</span>
@@ -616,7 +616,7 @@ hash of all dimensions in each row), and &quot;dimension&quot; (based on ranges 
 sized data segments relative to single-dimension partitioning.</p>
 
 <h3 id="hash-based-partitioning">Hash-based partitioning</h3>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span>  <span class="nt">&quot;partitionsSpec&quot;</span><span class="p">:</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span>  <span class="s2">&quot;partitionsSpec&quot;</span><span class="err">:</span> <span class="p">{</span>
      <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;hashed&quot;</span><span class="p">,</span>
      <span class="nt">&quot;targetPartitionSize&quot;</span><span class="p">:</span> <span class="mi">5000000</span>
    <span class="p">}</span>
@@ -657,7 +657,7 @@ cardinality of the input set and a target partition size.</p>
 </tbody></table>
 
 <h3 id="single-dimension-partitioning">Single-dimension partitioning</h3>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span>  <span class="nt">&quot;partitionsSpec&quot;</span><span class="p">:</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span>  <span class="s2">&quot;partitionsSpec&quot;</span><span class="err">:</span> <span class="p">{</span>
      <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;dimension&quot;</span><span class="p">,</span>
      <span class="nt">&quot;targetPartitionSize&quot;</span><span class="p">:</span> <span class="mi">5000000</span>
    <span class="p">}</span>
