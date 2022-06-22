@@ -172,13 +172,13 @@ that the filter can hold can decrease this false positive rate in exchange for o
 this implementation uses Murmur3 as the hash algorithm.</p>
 
 <p>To construct a BloomKFilter externally with Java to use as a filter in a Druid query:</p>
-<div class="highlight"><pre><code class="language-java" data-lang="java"><span></span><span class="n">BloomKFilter</span> <span class="n">bloomFilter</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BloomKFilter</span><span class="p">(</span><span class="mi">1500</span><span class="p">);</span>
-<span class="n">bloomFilter</span><span class="p">.</span><span class="na">addString</span><span class="p">(</span><span class="s">&quot;value 1&quot;</span><span class="p">);</span>
-<span class="n">bloomFilter</span><span class="p">.</span><span class="na">addString</span><span class="p">(</span><span class="s">&quot;value 2&quot;</span><span class="p">);</span>
-<span class="n">bloomFilter</span><span class="p">.</span><span class="na">addString</span><span class="p">(</span><span class="s">&quot;value 3&quot;</span><span class="p">);</span>
-<span class="n">ByteArrayOutputStream</span> <span class="n">byteArrayOutputStream</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ByteArrayOutputStream</span><span class="p">();</span>
-<span class="n">BloomKFilter</span><span class="p">.</span><span class="na">serialize</span><span class="p">(</span><span class="n">byteArrayOutputStream</span><span class="p">,</span> <span class="n">bloomFilter</span><span class="p">);</span>
-<span class="n">String</span> <span class="n">base64Serialized</span> <span class="o">=</span> <span class="n">Base64</span><span class="p">.</span><span class="na">encodeBase64String</span><span class="p">(</span><span class="n">byteArrayOutputStream</span><span class="p">.</span><span class="na">toByteArray</span><span class="p">());</span>
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span></span><span class="n">BloomKFilter</span> <span class="n">bloomFilter</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BloomKFilter</span><span class="o">(</span><span class="mi">1500</span><span class="o">);</span>
+<span class="n">bloomFilter</span><span class="o">.</span><span class="na">addString</span><span class="o">(</span><span class="s">&quot;value 1&quot;</span><span class="o">);</span>
+<span class="n">bloomFilter</span><span class="o">.</span><span class="na">addString</span><span class="o">(</span><span class="s">&quot;value 2&quot;</span><span class="o">);</span>
+<span class="n">bloomFilter</span><span class="o">.</span><span class="na">addString</span><span class="o">(</span><span class="s">&quot;value 3&quot;</span><span class="o">);</span>
+<span class="n">ByteArrayOutputStream</span> <span class="n">byteArrayOutputStream</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ByteArrayOutputStream</span><span class="o">();</span>
+<span class="n">BloomKFilter</span><span class="o">.</span><span class="na">serialize</span><span class="o">(</span><span class="n">byteArrayOutputStream</span><span class="o">,</span> <span class="n">bloomFilter</span><span class="o">);</span>
+<span class="n">String</span> <span class="n">base64Serialized</span> <span class="o">=</span> <span class="n">Base64</span><span class="o">.</span><span class="na">encodeBase64String</span><span class="o">(</span><span class="n">byteArrayOutputStream</span><span class="o">.</span><span class="na">toByteArray</span><span class="o">());</span>
 </code></pre></div>
 <p>This string can then be used in the native or sql Druid query.</p>
 
@@ -187,9 +187,9 @@ this implementation uses Murmur3 as the hash algorithm.</p>
 <h3 id="json-specification-of-bloom-filter">JSON Specification of Bloom Filter</h3>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;bloom&quot;</span><span class="p">,</span>
-  <span class="nt">&quot;dimension&quot;</span> <span class="p">:</span> <span class="err">&lt;dime</span><span class="kc">ns</span><span class="err">io</span><span class="kc">n</span><span class="err">_</span><span class="kc">na</span><span class="err">me&gt;</span><span class="p">,</span>
-  <span class="nt">&quot;bloomKFilter&quot;</span> <span class="p">:</span> <span class="err">&lt;serialized_by</span><span class="kc">tes</span><span class="err">_</span><span class="kc">f</span><span class="err">or_BloomKFil</span><span class="kc">ter</span><span class="err">&gt;</span><span class="p">,</span>
-  <span class="nt">&quot;extractionFn&quot;</span> <span class="p">:</span> <span class="err">&lt;ex</span><span class="kc">tra</span><span class="err">c</span><span class="kc">t</span><span class="err">io</span><span class="kc">n</span><span class="err">_</span><span class="kc">fn</span><span class="err">&gt;</span>
+  <span class="nt">&quot;dimension&quot;</span> <span class="p">:</span> <span class="err">&lt;dimension_name&gt;</span><span class="p">,</span>
+  <span class="nt">&quot;bloomKFilter&quot;</span> <span class="p">:</span> <span class="err">&lt;serialized_bytes_for_BloomKFilter&gt;</span><span class="p">,</span>
+  <span class="nt">&quot;extractionFn&quot;</span> <span class="p">:</span> <span class="err">&lt;extraction_fn&gt;</span>
 <span class="p">}</span>
 </code></pre></div>
 <table><thead>
@@ -255,9 +255,9 @@ for the query. </p>
 <h3 id="json-specification-of-bloom-filter-aggregator">JSON Specification of Bloom Filter Aggregator</h3>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
       <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;bloom&quot;</span><span class="p">,</span>
-      <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="err">&lt;ou</span><span class="kc">t</span><span class="err">pu</span><span class="kc">t</span><span class="err">_</span><span class="kc">f</span><span class="err">ield_</span><span class="kc">na</span><span class="err">me&gt;</span><span class="p">,</span>
-      <span class="nt">&quot;maxNumEntries&quot;</span><span class="p">:</span> <span class="err">&lt;maximum_</span><span class="kc">nu</span><span class="err">mber_o</span><span class="kc">f</span><span class="err">_eleme</span><span class="kc">nts</span><span class="err">_</span><span class="kc">f</span><span class="err">or_BloomKFil</span><span class="kc">ter</span><span class="err">&gt;</span>
-      <span class="nt">&quot;field&quot;</span><span class="p">:</span> <span class="err">&lt;dime</span><span class="kc">ns</span><span class="err">io</span><span class="kc">n</span><span class="err">_spec&gt;</span>
+      <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="err">&lt;output_field_name&gt;</span><span class="p">,</span>
+      <span class="nt">&quot;maxNumEntries&quot;</span><span class="p">:</span> <span class="err">&lt;maximum_number_of_elements_for_BloomKFilter&gt;</span>
+      <span class="s2">&quot;field&quot;</span><span class="p">:</span> <span class="err">&lt;dimension_spec&gt;</span>
     <span class="p">}</span>
 </code></pre></div>
 <table><thead>

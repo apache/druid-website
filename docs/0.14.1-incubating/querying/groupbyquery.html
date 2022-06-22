@@ -277,10 +277,10 @@ groupBy. Their performance may be better in some cases. See <a href="#alternativ
     <span class="nt">&quot;version&quot;</span> <span class="p">:</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span>
     <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2012-01-01T00:00:00.000Z&quot;</span><span class="p">,</span>
     <span class="nt">&quot;event&quot;</span> <span class="p">:</span> <span class="p">{</span>
-      <span class="nt">&quot;country&quot;</span> <span class="p">:</span> <span class="err">&lt;some_dim_value_o</span><span class="kc">ne</span><span class="err">&gt;</span><span class="p">,</span>
-      <span class="nt">&quot;device&quot;</span> <span class="p">:</span> <span class="err">&lt;some_dim_value_</span><span class="kc">t</span><span class="err">wo&gt;</span><span class="p">,</span>
-      <span class="nt">&quot;total_usage&quot;</span> <span class="p">:</span> <span class="err">&lt;some_value_o</span><span class="kc">ne</span><span class="err">&gt;</span><span class="p">,</span>
-      <span class="nt">&quot;data_transfer&quot;</span> <span class="p">:</span><span class="err">&lt;some_value_</span><span class="kc">t</span><span class="err">wo&gt;</span><span class="p">,</span>
+      <span class="nt">&quot;country&quot;</span> <span class="p">:</span> <span class="err">&lt;some_dim_value_one&gt;</span><span class="p">,</span>
+      <span class="nt">&quot;device&quot;</span> <span class="p">:</span> <span class="err">&lt;some_dim_value_two&gt;</span><span class="p">,</span>
+      <span class="nt">&quot;total_usage&quot;</span> <span class="p">:</span> <span class="err">&lt;some_value_one&gt;</span><span class="p">,</span>
+      <span class="nt">&quot;data_transfer&quot;</span> <span class="p">:</span><span class="err">&lt;some_value_two&gt;</span><span class="p">,</span>
       <span class="nt">&quot;avg_usage&quot;</span> <span class="p">:</span> <span class="err">&lt;some_avg_usage_value&gt;</span>
     <span class="p">}</span>
   <span class="p">},</span> 
@@ -288,11 +288,11 @@ groupBy. Their performance may be better in some cases. See <a href="#alternativ
     <span class="nt">&quot;version&quot;</span> <span class="p">:</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span>
     <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;2012-01-01T00:00:12.000Z&quot;</span><span class="p">,</span>
     <span class="nt">&quot;event&quot;</span> <span class="p">:</span> <span class="p">{</span>
-      <span class="nt">&quot;dim1&quot;</span> <span class="p">:</span> <span class="err">&lt;some_o</span><span class="kc">t</span><span class="err">her_dim_value_o</span><span class="kc">ne</span><span class="err">&gt;</span><span class="p">,</span>
-      <span class="nt">&quot;dim2&quot;</span> <span class="p">:</span> <span class="err">&lt;some_o</span><span class="kc">t</span><span class="err">her_dim_value_</span><span class="kc">t</span><span class="err">wo&gt;</span><span class="p">,</span>
-      <span class="nt">&quot;sample_name1&quot;</span> <span class="p">:</span> <span class="err">&lt;some_o</span><span class="kc">t</span><span class="err">her_value_o</span><span class="kc">ne</span><span class="err">&gt;</span><span class="p">,</span>
-      <span class="nt">&quot;sample_name2&quot;</span> <span class="p">:</span><span class="err">&lt;some_o</span><span class="kc">t</span><span class="err">her_value_</span><span class="kc">t</span><span class="err">wo&gt;</span><span class="p">,</span>
-      <span class="nt">&quot;avg_usage&quot;</span> <span class="p">:</span> <span class="err">&lt;some_o</span><span class="kc">t</span><span class="err">her_avg_usage_value&gt;</span>
+      <span class="nt">&quot;dim1&quot;</span> <span class="p">:</span> <span class="err">&lt;some_other_dim_value_one&gt;</span><span class="p">,</span>
+      <span class="nt">&quot;dim2&quot;</span> <span class="p">:</span> <span class="err">&lt;some_other_dim_value_two&gt;</span><span class="p">,</span>
+      <span class="nt">&quot;sample_name1&quot;</span> <span class="p">:</span> <span class="err">&lt;some_other_value_one&gt;</span><span class="p">,</span>
+      <span class="nt">&quot;sample_name2&quot;</span> <span class="p">:</span><span class="err">&lt;some_other_value_two&gt;</span><span class="p">,</span>
+      <span class="nt">&quot;avg_usage&quot;</span> <span class="p">:</span> <span class="err">&lt;some_other_avg_usage_value&gt;</span>
     <span class="p">}</span>
   <span class="p">},</span>
 <span class="err">...</span>
@@ -326,7 +326,7 @@ improve performance.</p>
   <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;extraction&quot;</span><span class="p">,</span>
   <span class="nt">&quot;dimension&quot;</span> <span class="p">:</span> <span class="s2">&quot;d2col&quot;</span><span class="p">,</span>
   <span class="nt">&quot;outputName&quot;</span> <span class="p">:</span>  <span class="s2">&quot;D2&quot;</span><span class="p">,</span>
-  <span class="nt">&quot;extractionFn&quot;</span> <span class="p">:</span> <span class="err">ex</span><span class="kc">tra</span><span class="err">c</span><span class="kc">t</span><span class="err">io</span><span class="kc">n</span><span class="err">_</span><span class="kc">fun</span><span class="err">c</span>
+  <span class="nt">&quot;extractionFn&quot;</span> <span class="p">:</span> <span class="err">extraction_func</span>
   <span class="p">},</span>
   <span class="p">{</span>
   <span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;lookup&quot;</span><span class="p">,</span>
@@ -337,10 +337,10 @@ improve performance.</p>
 <span class="p">],</span>
 <span class="err">...</span>
 <span class="err">...</span>
-<span class="nt">&quot;subtotalsSpec&quot;</span><span class="p">:[</span> <span class="p">[</span><span class="s2">&quot;D1&quot;</span><span class="p">,</span> <span class="s2">&quot;D2&quot;</span><span class="p">,</span> <span class="err">D</span><span class="mi">3</span><span class="s2">&quot;], [&quot;</span><span class="err">D</span><span class="mi">1</span><span class="s2">&quot;, &quot;</span><span class="err">D</span><span class="mi">3</span><span class="s2">&quot;], [&quot;</span><span class="err">D</span><span class="mi">3</span><span class="err">&quot;]],</span>
+<span class="nt">&quot;subtotalsSpec&quot;</span><span class="p">:[</span> <span class="p">[</span><span class="s2">&quot;D1&quot;</span><span class="p">,</span> <span class="s2">&quot;D2&quot;</span><span class="p">,</span> <span class="err">D</span><span class="mi">3</span><span class="s2">&quot;], [&quot;</span><span class="err">D</span><span class="mi">1</span><span class="s2">&quot;, &quot;</span><span class="err">D</span><span class="mi">3</span><span class="s2">&quot;], [&quot;</span><span class="err">D</span><span class="mi">3</span><span class="err">&quot;</span><span class="p">]],</span>
 <span class="err">..</span>
 
-<span class="err">}</span>
+<span class="p">}</span>
 </code></pre></div>
 <p>Response returned would be equivalent to concatenating result of 3 groupBy queries with &quot;dimensions&quot; field being [&quot;D1&quot;, &quot;D2&quot;, D3&quot;], [&quot;D1&quot;, &quot;D3&quot;] and [&quot;D3&quot;] with appropriate <code>DimensionSpec</code> json blob as used in above query.
 Response for above query would look something like below...</p>
@@ -350,13 +350,13 @@ Response for above query would look something like below...</p>
     <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;t1&quot;</span><span class="p">,</span>
     <span class="nt">&quot;event&quot;</span> <span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;D1&quot;</span><span class="p">:</span> <span class="s2">&quot;..&quot;</span><span class="p">,</span> <span class="nt">&quot;D2&quot;</span><span class="p">:</span> <span class="s2">&quot;..&quot;</span><span class="p">,</span> <span class="nt">&quot;D3&quot;</span><span class="p">:</span> <span class="s2">&quot;..&quot;</span> <span class="p">}</span>
     <span class="p">}</span>
-  <span class="p">},</span>
+  <span class="err">}</span><span class="p">,</span>
     <span class="p">{</span>
     <span class="nt">&quot;version&quot;</span> <span class="p">:</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span>
     <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;t2&quot;</span><span class="p">,</span>
     <span class="nt">&quot;event&quot;</span> <span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;D1&quot;</span><span class="p">:</span> <span class="s2">&quot;..&quot;</span><span class="p">,</span> <span class="nt">&quot;D2&quot;</span><span class="p">:</span> <span class="s2">&quot;..&quot;</span><span class="p">,</span> <span class="nt">&quot;D3&quot;</span><span class="p">:</span> <span class="s2">&quot;..&quot;</span> <span class="p">}</span>
     <span class="p">}</span>
-  <span class="p">},</span>
+  <span class="err">}</span><span class="p">,</span>
   <span class="err">...</span>
   <span class="err">...</span>
 
@@ -365,13 +365,13 @@ Response for above query would look something like below...</p>
     <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;t1&quot;</span><span class="p">,</span>
     <span class="nt">&quot;event&quot;</span> <span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;D1&quot;</span><span class="p">:</span> <span class="s2">&quot;..&quot;</span><span class="p">,</span> <span class="nt">&quot;D3&quot;</span><span class="p">:</span> <span class="s2">&quot;..&quot;</span> <span class="p">}</span>
     <span class="p">}</span>
-  <span class="p">},</span>
+  <span class="err">}</span><span class="p">,</span>
     <span class="p">{</span>
     <span class="nt">&quot;version&quot;</span> <span class="p">:</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span>
     <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;t2&quot;</span><span class="p">,</span>
     <span class="nt">&quot;event&quot;</span> <span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;D1&quot;</span><span class="p">:</span> <span class="s2">&quot;..&quot;</span><span class="p">,</span> <span class="nt">&quot;D3&quot;</span><span class="p">:</span> <span class="s2">&quot;..&quot;</span> <span class="p">}</span>
     <span class="p">}</span>
-  <span class="p">},</span>
+  <span class="err">}</span><span class="p">,</span>
   <span class="err">...</span>
   <span class="err">...</span>
 
@@ -380,13 +380,13 @@ Response for above query would look something like below...</p>
     <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;t1&quot;</span><span class="p">,</span>
     <span class="nt">&quot;event&quot;</span> <span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;D3&quot;</span><span class="p">:</span> <span class="s2">&quot;..&quot;</span> <span class="p">}</span>
     <span class="p">}</span>
-  <span class="p">},</span>
+  <span class="err">}</span><span class="p">,</span>
     <span class="p">{</span>
     <span class="nt">&quot;version&quot;</span> <span class="p">:</span> <span class="s2">&quot;v1&quot;</span><span class="p">,</span>
     <span class="nt">&quot;timestamp&quot;</span> <span class="p">:</span> <span class="s2">&quot;t2&quot;</span><span class="p">,</span>
     <span class="nt">&quot;event&quot;</span> <span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;D3&quot;</span><span class="p">:</span> <span class="s2">&quot;..&quot;</span> <span class="p">}</span>
     <span class="p">}</span>
-  <span class="p">},</span>
+  <span class="err">}</span><span class="p">,</span>
 <span class="err">...</span>
 <span class="p">]</span>
 </code></pre></div>

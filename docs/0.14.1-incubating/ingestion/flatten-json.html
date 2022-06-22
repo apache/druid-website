@@ -226,7 +226,7 @@
 <p>The column &quot;metrica&quot; is a Long metric column, &quot;hello&quot; is an array of Double metrics, and &quot;nestmet.val&quot; is a nested Long metric. All other columns are dimensions.</p>
 
 <p>To flatten this JSON, the parseSpec could be defined as follows:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="nt">&quot;parseSpec&quot;</span><span class="p">:</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;parseSpec&quot;</span><span class="err">:</span> <span class="p">{</span>
   <span class="nt">&quot;format&quot;</span><span class="p">:</span> <span class="s2">&quot;json&quot;</span><span class="p">,</span>
   <span class="nt">&quot;flattenSpec&quot;</span><span class="p">:</span> <span class="p">{</span>
     <span class="nt">&quot;useFieldDiscovery&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
@@ -307,7 +307,7 @@
 <p>&quot;ignore_me&quot; will be automatically discovered but excluded as specified by dimensionsExclusions.</p>
 
 <p>Aggregators should use the metric column names as defined in the flattenSpec. Using the example above:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="nt">&quot;metricsSpec&quot;</span> <span class="p">:</span> <span class="p">[</span> 
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;metricsSpec&quot;</span> <span class="err">:</span> <span class="p">[</span> 
 <span class="p">{</span>
   <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;longSum&quot;</span><span class="p">,</span>
   <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;path-metric-sum&quot;</span><span class="p">,</span>

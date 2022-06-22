@@ -192,7 +192,7 @@ parsing data will not be as efficient as writing a native Java parser or using a
 <p>All forms of Druid ingestion require some form of schema object. The format of the data to be ingested is specified using the<code>parseSpec</code> entry in your <code>dataSchema</code>.</p>
 
 <h3 id="json">JSON</h3>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span>  <span class="nt">&quot;parseSpec&quot;</span><span class="p">:{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span>  <span class="s2">&quot;parseSpec&quot;</span><span class="err">:</span><span class="p">{</span>
     <span class="nt">&quot;format&quot;</span> <span class="p">:</span> <span class="s2">&quot;json&quot;</span><span class="p">,</span>
     <span class="nt">&quot;timestampSpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
       <span class="nt">&quot;column&quot;</span> <span class="p">:</span> <span class="s2">&quot;timestamp&quot;</span>
@@ -205,7 +205,7 @@ parsing data will not be as efficient as writing a native Java parser or using a
 <p>If you have nested JSON, <a href="flatten-json.html">Druid can automatically flatten it for you</a>.</p>
 
 <h3 id="csv">CSV</h3>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span>  <span class="nt">&quot;parseSpec&quot;</span><span class="p">:</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span>  <span class="s2">&quot;parseSpec&quot;</span><span class="err">:</span> <span class="p">{</span>
     <span class="nt">&quot;format&quot;</span> <span class="p">:</span> <span class="s2">&quot;csv&quot;</span><span class="p">,</span>
     <span class="nt">&quot;timestampSpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
       <span class="nt">&quot;column&quot;</span> <span class="p">:</span> <span class="s2">&quot;timestamp&quot;</span>
@@ -234,7 +234,7 @@ tasks will fail with an exception.</p>
 <p>The <code>columns</code> field must be included and and ensure that the order of the fields matches the columns of your input data in the same order.</p>
 
 <h3 id="tsv-delimited">TSV (Delimited)</h3>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span>  <span class="nt">&quot;parseSpec&quot;</span><span class="p">:</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span>  <span class="s2">&quot;parseSpec&quot;</span><span class="err">:</span> <span class="p">{</span>
     <span class="nt">&quot;format&quot;</span> <span class="p">:</span> <span class="s2">&quot;tsv&quot;</span><span class="p">,</span>
     <span class="nt">&quot;timestampSpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
       <span class="nt">&quot;column&quot;</span> <span class="p">:</span> <span class="s2">&quot;timestamp&quot;</span>
@@ -266,23 +266,23 @@ tasks will fail with an exception.</p>
 <p>The <code>columns</code> field must be included and and ensure that the order of the fields matches the columns of your input data in the same order.</p>
 
 <h3 id="regex">Regex</h3>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span>  <span class="nt">&quot;parseSpec&quot;</span><span class="p">:{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span>  <span class="s2">&quot;parseSpec&quot;</span><span class="err">:</span><span class="p">{</span>
     <span class="nt">&quot;format&quot;</span> <span class="p">:</span> <span class="s2">&quot;regex&quot;</span><span class="p">,</span>
     <span class="nt">&quot;timestampSpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
       <span class="nt">&quot;column&quot;</span> <span class="p">:</span> <span class="s2">&quot;timestamp&quot;</span>
     <span class="p">},</span>        
     <span class="nt">&quot;dimensionsSpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
-      <span class="nt">&quot;dimensions&quot;</span> <span class="p">:</span> <span class="p">[</span><span class="err">&lt;your_lis</span><span class="kc">t</span><span class="err">_o</span><span class="kc">f</span><span class="err">_dime</span><span class="kc">ns</span><span class="err">io</span><span class="kc">ns</span><span class="err">&gt;</span><span class="p">]</span>
+      <span class="nt">&quot;dimensions&quot;</span> <span class="p">:</span> <span class="p">[</span><span class="err">&lt;your_list_of_dimensions&gt;</span><span class="p">]</span>
     <span class="p">},</span>
-    <span class="nt">&quot;columns&quot;</span> <span class="p">:</span> <span class="p">[</span><span class="err">&lt;your_colum</span><span class="kc">ns</span><span class="err">_here&gt;</span><span class="p">],</span>
-    <span class="nt">&quot;pattern&quot;</span> <span class="p">:</span> <span class="err">&lt;regex</span> <span class="err">pa</span><span class="kc">ttern</span> <span class="kc">f</span><span class="err">or</span> <span class="err">par</span><span class="kc">t</span><span class="err">i</span><span class="kc">t</span><span class="err">io</span><span class="kc">n</span><span class="err">i</span><span class="kc">n</span><span class="err">g</span> <span class="err">da</span><span class="kc">ta</span><span class="err">&gt;</span>
+    <span class="nt">&quot;columns&quot;</span> <span class="p">:</span> <span class="p">[</span><span class="err">&lt;your_columns_here&gt;</span><span class="p">],</span>
+    <span class="nt">&quot;pattern&quot;</span> <span class="p">:</span> <span class="err">&lt;regex</span> <span class="err">pattern</span> <span class="err">for</span> <span class="err">partitioning</span> <span class="err">data&gt;</span>
   <span class="p">}</span>
 </code></pre></div>
 <p>The <code>columns</code> field must match the columns of your regex matching groups in the same order. If columns are not provided, default 
 columns names (&quot;column_1&quot;, &quot;column2&quot;, ... &quot;column_n&quot;) will be assigned. Ensure that your column names include all your dimensions. </p>
 
 <h3 id="javascript">JavaScript</h3>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span>  <span class="nt">&quot;parseSpec&quot;</span><span class="p">:{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span>  <span class="s2">&quot;parseSpec&quot;</span><span class="err">:</span><span class="p">{</span>
     <span class="nt">&quot;format&quot;</span> <span class="p">:</span> <span class="s2">&quot;javascript&quot;</span><span class="p">,</span>
     <span class="nt">&quot;timestampSpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
       <span class="nt">&quot;column&quot;</span> <span class="p">:</span> <span class="s2">&quot;timestamp&quot;</span>
