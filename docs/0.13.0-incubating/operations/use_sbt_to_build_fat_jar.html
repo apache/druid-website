@@ -121,7 +121,7 @@
       
 
       
-      <p> Looking for the <a href="/docs/0.22.1/">latest stable documentation</a>?</p>
+      <p> Looking for the <a href="/docs/24.0.0/">latest stable documentation</a>?</p>
       
 
       <div class="row">
@@ -149,106 +149,106 @@
   -->
 
 <h1 id="content-for-build-sbt">Content for build.sbt</h1>
-<div class="highlight"><pre><code class="language-scala" data-lang="scala"><span></span><span class="n">libraryDependencies</span> <span class="o">++=</span> <span class="nc">Seq</span><span class="p">(</span>
-  <span class="s">&quot;com.amazonaws&quot;</span> <span class="o">%</span> <span class="s">&quot;aws-java-sdk&quot;</span> <span class="o">%</span> <span class="s">&quot;1.9.23&quot;</span> <span class="n">exclude</span><span class="p">(</span><span class="s">&quot;common-logging&quot;</span><span class="p">,</span> <span class="s">&quot;common-logging&quot;</span><span class="p">),</span>
-  <span class="s">&quot;org.joda&quot;</span> <span class="o">%</span> <span class="s">&quot;joda-convert&quot;</span> <span class="o">%</span> <span class="s">&quot;1.7&quot;</span><span class="p">,</span>
-  <span class="s">&quot;joda-time&quot;</span> <span class="o">%</span> <span class="s">&quot;joda-time&quot;</span> <span class="o">%</span> <span class="s">&quot;2.7&quot;</span><span class="p">,</span>
-  <span class="s">&quot;org.apache.druid&quot;</span> <span class="o">%</span> <span class="s">&quot;druid&quot;</span> <span class="o">%</span> <span class="s">&quot;0.8.1&quot;</span> <span class="n">excludeAll</span> <span class="p">(</span>
-    <span class="nc">ExclusionRule</span><span class="p">(</span><span class="s">&quot;org.ow2.asm&quot;</span><span class="p">),</span>
-    <span class="nc">ExclusionRule</span><span class="p">(</span><span class="s">&quot;com.fasterxml.jackson.core&quot;</span><span class="p">),</span>
-    <span class="nc">ExclusionRule</span><span class="p">(</span><span class="s">&quot;com.fasterxml.jackson.datatype&quot;</span><span class="p">),</span>
-    <span class="nc">ExclusionRule</span><span class="p">(</span><span class="s">&quot;com.fasterxml.jackson.dataformat&quot;</span><span class="p">),</span>
-    <span class="nc">ExclusionRule</span><span class="p">(</span><span class="s">&quot;com.fasterxml.jackson.jaxrs&quot;</span><span class="p">),</span>
-    <span class="nc">ExclusionRule</span><span class="p">(</span><span class="s">&quot;com.fasterxml.jackson.module&quot;</span><span class="p">)</span>
-  <span class="p">),</span>
-  <span class="s">&quot;org.apache.druid&quot;</span> <span class="o">%</span> <span class="s">&quot;druid-services&quot;</span> <span class="o">%</span> <span class="s">&quot;0.8.1&quot;</span> <span class="n">excludeAll</span> <span class="p">(</span>
-    <span class="nc">ExclusionRule</span><span class="p">(</span><span class="s">&quot;org.ow2.asm&quot;</span><span class="p">),</span>
-    <span class="nc">ExclusionRule</span><span class="p">(</span><span class="s">&quot;com.fasterxml.jackson.core&quot;</span><span class="p">),</span>
-    <span class="nc">ExclusionRule</span><span class="p">(</span><span class="s">&quot;com.fasterxml.jackson.datatype&quot;</span><span class="p">),</span>
-    <span class="nc">ExclusionRule</span><span class="p">(</span><span class="s">&quot;com.fasterxml.jackson.dataformat&quot;</span><span class="p">),</span>
-    <span class="nc">ExclusionRule</span><span class="p">(</span><span class="s">&quot;com.fasterxml.jackson.jaxrs&quot;</span><span class="p">),</span>
-    <span class="nc">ExclusionRule</span><span class="p">(</span><span class="s">&quot;com.fasterxml.jackson.module&quot;</span><span class="p">)</span>
-  <span class="p">),</span>
-  <span class="s">&quot;org.apache.druid&quot;</span> <span class="o">%</span> <span class="s">&quot;druid-indexing-service&quot;</span> <span class="o">%</span> <span class="s">&quot;0.8.1&quot;</span> <span class="n">excludeAll</span> <span class="p">(</span>
-    <span class="nc">ExclusionRule</span><span class="p">(</span><span class="s">&quot;org.ow2.asm&quot;</span><span class="p">),</span>
-    <span class="nc">ExclusionRule</span><span class="p">(</span><span class="s">&quot;com.fasterxml.jackson.core&quot;</span><span class="p">),</span>
-    <span class="nc">ExclusionRule</span><span class="p">(</span><span class="s">&quot;com.fasterxml.jackson.datatype&quot;</span><span class="p">),</span>
-    <span class="nc">ExclusionRule</span><span class="p">(</span><span class="s">&quot;com.fasterxml.jackson.dataformat&quot;</span><span class="p">),</span>
-    <span class="nc">ExclusionRule</span><span class="p">(</span><span class="s">&quot;com.fasterxml.jackson.jaxrs&quot;</span><span class="p">),</span>
-    <span class="nc">ExclusionRule</span><span class="p">(</span><span class="s">&quot;com.fasterxml.jackson.module&quot;</span><span class="p">)</span>
-  <span class="p">),</span>
-  <span class="s">&quot;org.apache.druid&quot;</span> <span class="o">%</span> <span class="s">&quot;druid-indexing-hadoop&quot;</span> <span class="o">%</span> <span class="s">&quot;0.8.1&quot;</span> <span class="n">excludeAll</span> <span class="p">(</span>
-    <span class="nc">ExclusionRule</span><span class="p">(</span><span class="s">&quot;org.ow2.asm&quot;</span><span class="p">),</span>
-    <span class="nc">ExclusionRule</span><span class="p">(</span><span class="s">&quot;com.fasterxml.jackson.core&quot;</span><span class="p">),</span>
-    <span class="nc">ExclusionRule</span><span class="p">(</span><span class="s">&quot;com.fasterxml.jackson.datatype&quot;</span><span class="p">),</span>
-    <span class="nc">ExclusionRule</span><span class="p">(</span><span class="s">&quot;com.fasterxml.jackson.dataformat&quot;</span><span class="p">),</span>
-    <span class="nc">ExclusionRule</span><span class="p">(</span><span class="s">&quot;com.fasterxml.jackson.jaxrs&quot;</span><span class="p">),</span>
-    <span class="nc">ExclusionRule</span><span class="p">(</span><span class="s">&quot;com.fasterxml.jackson.module&quot;</span><span class="p">)</span>
-  <span class="p">),</span>
-  <span class="s">&quot;org.apache.druid.extensions&quot;</span> <span class="o">%</span> <span class="s">&quot;mysql-metadata-storage&quot;</span> <span class="o">%</span> <span class="s">&quot;0.8.1&quot;</span> <span class="n">excludeAll</span> <span class="p">(</span>
-    <span class="nc">ExclusionRule</span><span class="p">(</span><span class="s">&quot;org.ow2.asm&quot;</span><span class="p">),</span>
-    <span class="nc">ExclusionRule</span><span class="p">(</span><span class="s">&quot;com.fasterxml.jackson.core&quot;</span><span class="p">),</span>
-    <span class="nc">ExclusionRule</span><span class="p">(</span><span class="s">&quot;com.fasterxml.jackson.datatype&quot;</span><span class="p">),</span>
-    <span class="nc">ExclusionRule</span><span class="p">(</span><span class="s">&quot;com.fasterxml.jackson.dataformat&quot;</span><span class="p">),</span>
-    <span class="nc">ExclusionRule</span><span class="p">(</span><span class="s">&quot;com.fasterxml.jackson.jaxrs&quot;</span><span class="p">),</span>
-    <span class="nc">ExclusionRule</span><span class="p">(</span><span class="s">&quot;com.fasterxml.jackson.module&quot;</span><span class="p">)</span>
-  <span class="p">),</span>
-  <span class="s">&quot;org.apache.druid.extensions&quot;</span> <span class="o">%</span> <span class="s">&quot;druid-s3-extensions&quot;</span> <span class="o">%</span> <span class="s">&quot;0.8.1&quot;</span> <span class="n">excludeAll</span> <span class="p">(</span>
-    <span class="nc">ExclusionRule</span><span class="p">(</span><span class="s">&quot;org.ow2.asm&quot;</span><span class="p">),</span>
-    <span class="nc">ExclusionRule</span><span class="p">(</span><span class="s">&quot;com.fasterxml.jackson.core&quot;</span><span class="p">),</span>
-    <span class="nc">ExclusionRule</span><span class="p">(</span><span class="s">&quot;com.fasterxml.jackson.datatype&quot;</span><span class="p">),</span>
-    <span class="nc">ExclusionRule</span><span class="p">(</span><span class="s">&quot;com.fasterxml.jackson.dataformat&quot;</span><span class="p">),</span>
-    <span class="nc">ExclusionRule</span><span class="p">(</span><span class="s">&quot;com.fasterxml.jackson.jaxrs&quot;</span><span class="p">),</span>
-    <span class="nc">ExclusionRule</span><span class="p">(</span><span class="s">&quot;com.fasterxml.jackson.module&quot;</span><span class="p">)</span>
-  <span class="p">),</span>
-  <span class="s">&quot;org.apache.druid.extensions&quot;</span> <span class="o">%</span> <span class="s">&quot;druid-histogram&quot;</span> <span class="o">%</span> <span class="s">&quot;0.8.1&quot;</span> <span class="n">excludeAll</span> <span class="p">(</span>
-    <span class="nc">ExclusionRule</span><span class="p">(</span><span class="s">&quot;org.ow2.asm&quot;</span><span class="p">),</span>
-    <span class="nc">ExclusionRule</span><span class="p">(</span><span class="s">&quot;com.fasterxml.jackson.core&quot;</span><span class="p">),</span>
-    <span class="nc">ExclusionRule</span><span class="p">(</span><span class="s">&quot;com.fasterxml.jackson.datatype&quot;</span><span class="p">),</span>
-    <span class="nc">ExclusionRule</span><span class="p">(</span><span class="s">&quot;com.fasterxml.jackson.dataformat&quot;</span><span class="p">),</span>
-    <span class="nc">ExclusionRule</span><span class="p">(</span><span class="s">&quot;com.fasterxml.jackson.jaxrs&quot;</span><span class="p">),</span>
-    <span class="nc">ExclusionRule</span><span class="p">(</span><span class="s">&quot;com.fasterxml.jackson.module&quot;</span><span class="p">)</span>
-  <span class="p">),</span>
-  <span class="s">&quot;org.apache.druid.extensions&quot;</span> <span class="o">%</span> <span class="s">&quot;druid-hdfs-storage&quot;</span> <span class="o">%</span> <span class="s">&quot;0.8.1&quot;</span> <span class="n">excludeAll</span> <span class="p">(</span>
-    <span class="nc">ExclusionRule</span><span class="p">(</span><span class="s">&quot;org.ow2.asm&quot;</span><span class="p">),</span>
-    <span class="nc">ExclusionRule</span><span class="p">(</span><span class="s">&quot;com.fasterxml.jackson.core&quot;</span><span class="p">),</span>
-    <span class="nc">ExclusionRule</span><span class="p">(</span><span class="s">&quot;com.fasterxml.jackson.datatype&quot;</span><span class="p">),</span>
-    <span class="nc">ExclusionRule</span><span class="p">(</span><span class="s">&quot;com.fasterxml.jackson.dataformat&quot;</span><span class="p">),</span>
-    <span class="nc">ExclusionRule</span><span class="p">(</span><span class="s">&quot;com.fasterxml.jackson.jaxrs&quot;</span><span class="p">),</span>
-    <span class="nc">ExclusionRule</span><span class="p">(</span><span class="s">&quot;com.fasterxml.jackson.module&quot;</span><span class="p">)</span>
-  <span class="p">),</span>
-  <span class="s">&quot;com.fasterxml.jackson.core&quot;</span> <span class="o">%</span> <span class="s">&quot;jackson-annotations&quot;</span> <span class="o">%</span> <span class="s">&quot;2.3.0&quot;</span><span class="p">,</span>
-  <span class="s">&quot;com.fasterxml.jackson.core&quot;</span> <span class="o">%</span> <span class="s">&quot;jackson-core&quot;</span> <span class="o">%</span> <span class="s">&quot;2.3.0&quot;</span><span class="p">,</span>
-  <span class="s">&quot;com.fasterxml.jackson.core&quot;</span> <span class="o">%</span> <span class="s">&quot;jackson-databind&quot;</span> <span class="o">%</span> <span class="s">&quot;2.3.0&quot;</span><span class="p">,</span>
-  <span class="s">&quot;com.fasterxml.jackson.datatype&quot;</span> <span class="o">%</span> <span class="s">&quot;jackson-datatype-guava&quot;</span> <span class="o">%</span> <span class="s">&quot;2.3.0&quot;</span><span class="p">,</span>
-  <span class="s">&quot;com.fasterxml.jackson.datatype&quot;</span> <span class="o">%</span> <span class="s">&quot;jackson-datatype-joda&quot;</span> <span class="o">%</span> <span class="s">&quot;2.3.0&quot;</span><span class="p">,</span>
-  <span class="s">&quot;com.fasterxml.jackson.jaxrs&quot;</span> <span class="o">%</span> <span class="s">&quot;jackson-jaxrs-base&quot;</span> <span class="o">%</span> <span class="s">&quot;2.3.0&quot;</span><span class="p">,</span>
-  <span class="s">&quot;com.fasterxml.jackson.jaxrs&quot;</span> <span class="o">%</span> <span class="s">&quot;jackson-jaxrs-json-provider&quot;</span> <span class="o">%</span> <span class="s">&quot;2.3.0&quot;</span><span class="p">,</span>
-  <span class="s">&quot;com.fasterxml.jackson.jaxrs&quot;</span> <span class="o">%</span> <span class="s">&quot;jackson-jaxrs-smile-provider&quot;</span> <span class="o">%</span> <span class="s">&quot;2.3.0&quot;</span><span class="p">,</span>
-  <span class="s">&quot;com.fasterxml.jackson.module&quot;</span> <span class="o">%</span> <span class="s">&quot;jackson-module-jaxb-annotations&quot;</span> <span class="o">%</span> <span class="s">&quot;2.3.0&quot;</span><span class="p">,</span>
-  <span class="s">&quot;com.sun.jersey&quot;</span> <span class="o">%</span> <span class="s">&quot;jersey-servlet&quot;</span> <span class="o">%</span> <span class="s">&quot;1.17.1&quot;</span><span class="p">,</span>
-  <span class="s">&quot;mysql&quot;</span> <span class="o">%</span> <span class="s">&quot;mysql-connector-java&quot;</span> <span class="o">%</span> <span class="s">&quot;5.1.34&quot;</span><span class="p">,</span>
-  <span class="s">&quot;org.scalatest&quot;</span> <span class="o">%%</span> <span class="s">&quot;scalatest&quot;</span> <span class="o">%</span> <span class="s">&quot;2.2.3&quot;</span> <span class="o">%</span> <span class="s">&quot;test&quot;</span><span class="p">,</span>
+<div class="highlight"><pre><code class="language-scala" data-lang="scala"><span></span><span class="n">libraryDependencies</span> <span class="o">++=</span> <span class="nc">Seq</span><span class="o">(</span>
+  <span class="s">&quot;com.amazonaws&quot;</span> <span class="o">%</span> <span class="s">&quot;aws-java-sdk&quot;</span> <span class="o">%</span> <span class="s">&quot;1.9.23&quot;</span> <span class="n">exclude</span><span class="o">(</span><span class="s">&quot;common-logging&quot;</span><span class="o">,</span> <span class="s">&quot;common-logging&quot;</span><span class="o">),</span>
+  <span class="s">&quot;org.joda&quot;</span> <span class="o">%</span> <span class="s">&quot;joda-convert&quot;</span> <span class="o">%</span> <span class="s">&quot;1.7&quot;</span><span class="o">,</span>
+  <span class="s">&quot;joda-time&quot;</span> <span class="o">%</span> <span class="s">&quot;joda-time&quot;</span> <span class="o">%</span> <span class="s">&quot;2.7&quot;</span><span class="o">,</span>
+  <span class="s">&quot;org.apache.druid&quot;</span> <span class="o">%</span> <span class="s">&quot;druid&quot;</span> <span class="o">%</span> <span class="s">&quot;0.8.1&quot;</span> <span class="n">excludeAll</span> <span class="o">(</span>
+    <span class="nc">ExclusionRule</span><span class="o">(</span><span class="s">&quot;org.ow2.asm&quot;</span><span class="o">),</span>
+    <span class="nc">ExclusionRule</span><span class="o">(</span><span class="s">&quot;com.fasterxml.jackson.core&quot;</span><span class="o">),</span>
+    <span class="nc">ExclusionRule</span><span class="o">(</span><span class="s">&quot;com.fasterxml.jackson.datatype&quot;</span><span class="o">),</span>
+    <span class="nc">ExclusionRule</span><span class="o">(</span><span class="s">&quot;com.fasterxml.jackson.dataformat&quot;</span><span class="o">),</span>
+    <span class="nc">ExclusionRule</span><span class="o">(</span><span class="s">&quot;com.fasterxml.jackson.jaxrs&quot;</span><span class="o">),</span>
+    <span class="nc">ExclusionRule</span><span class="o">(</span><span class="s">&quot;com.fasterxml.jackson.module&quot;</span><span class="o">)</span>
+  <span class="o">),</span>
+  <span class="s">&quot;org.apache.druid&quot;</span> <span class="o">%</span> <span class="s">&quot;druid-services&quot;</span> <span class="o">%</span> <span class="s">&quot;0.8.1&quot;</span> <span class="n">excludeAll</span> <span class="o">(</span>
+    <span class="nc">ExclusionRule</span><span class="o">(</span><span class="s">&quot;org.ow2.asm&quot;</span><span class="o">),</span>
+    <span class="nc">ExclusionRule</span><span class="o">(</span><span class="s">&quot;com.fasterxml.jackson.core&quot;</span><span class="o">),</span>
+    <span class="nc">ExclusionRule</span><span class="o">(</span><span class="s">&quot;com.fasterxml.jackson.datatype&quot;</span><span class="o">),</span>
+    <span class="nc">ExclusionRule</span><span class="o">(</span><span class="s">&quot;com.fasterxml.jackson.dataformat&quot;</span><span class="o">),</span>
+    <span class="nc">ExclusionRule</span><span class="o">(</span><span class="s">&quot;com.fasterxml.jackson.jaxrs&quot;</span><span class="o">),</span>
+    <span class="nc">ExclusionRule</span><span class="o">(</span><span class="s">&quot;com.fasterxml.jackson.module&quot;</span><span class="o">)</span>
+  <span class="o">),</span>
+  <span class="s">&quot;org.apache.druid&quot;</span> <span class="o">%</span> <span class="s">&quot;druid-indexing-service&quot;</span> <span class="o">%</span> <span class="s">&quot;0.8.1&quot;</span> <span class="n">excludeAll</span> <span class="o">(</span>
+    <span class="nc">ExclusionRule</span><span class="o">(</span><span class="s">&quot;org.ow2.asm&quot;</span><span class="o">),</span>
+    <span class="nc">ExclusionRule</span><span class="o">(</span><span class="s">&quot;com.fasterxml.jackson.core&quot;</span><span class="o">),</span>
+    <span class="nc">ExclusionRule</span><span class="o">(</span><span class="s">&quot;com.fasterxml.jackson.datatype&quot;</span><span class="o">),</span>
+    <span class="nc">ExclusionRule</span><span class="o">(</span><span class="s">&quot;com.fasterxml.jackson.dataformat&quot;</span><span class="o">),</span>
+    <span class="nc">ExclusionRule</span><span class="o">(</span><span class="s">&quot;com.fasterxml.jackson.jaxrs&quot;</span><span class="o">),</span>
+    <span class="nc">ExclusionRule</span><span class="o">(</span><span class="s">&quot;com.fasterxml.jackson.module&quot;</span><span class="o">)</span>
+  <span class="o">),</span>
+  <span class="s">&quot;org.apache.druid&quot;</span> <span class="o">%</span> <span class="s">&quot;druid-indexing-hadoop&quot;</span> <span class="o">%</span> <span class="s">&quot;0.8.1&quot;</span> <span class="n">excludeAll</span> <span class="o">(</span>
+    <span class="nc">ExclusionRule</span><span class="o">(</span><span class="s">&quot;org.ow2.asm&quot;</span><span class="o">),</span>
+    <span class="nc">ExclusionRule</span><span class="o">(</span><span class="s">&quot;com.fasterxml.jackson.core&quot;</span><span class="o">),</span>
+    <span class="nc">ExclusionRule</span><span class="o">(</span><span class="s">&quot;com.fasterxml.jackson.datatype&quot;</span><span class="o">),</span>
+    <span class="nc">ExclusionRule</span><span class="o">(</span><span class="s">&quot;com.fasterxml.jackson.dataformat&quot;</span><span class="o">),</span>
+    <span class="nc">ExclusionRule</span><span class="o">(</span><span class="s">&quot;com.fasterxml.jackson.jaxrs&quot;</span><span class="o">),</span>
+    <span class="nc">ExclusionRule</span><span class="o">(</span><span class="s">&quot;com.fasterxml.jackson.module&quot;</span><span class="o">)</span>
+  <span class="o">),</span>
+  <span class="s">&quot;org.apache.druid.extensions&quot;</span> <span class="o">%</span> <span class="s">&quot;mysql-metadata-storage&quot;</span> <span class="o">%</span> <span class="s">&quot;0.8.1&quot;</span> <span class="n">excludeAll</span> <span class="o">(</span>
+    <span class="nc">ExclusionRule</span><span class="o">(</span><span class="s">&quot;org.ow2.asm&quot;</span><span class="o">),</span>
+    <span class="nc">ExclusionRule</span><span class="o">(</span><span class="s">&quot;com.fasterxml.jackson.core&quot;</span><span class="o">),</span>
+    <span class="nc">ExclusionRule</span><span class="o">(</span><span class="s">&quot;com.fasterxml.jackson.datatype&quot;</span><span class="o">),</span>
+    <span class="nc">ExclusionRule</span><span class="o">(</span><span class="s">&quot;com.fasterxml.jackson.dataformat&quot;</span><span class="o">),</span>
+    <span class="nc">ExclusionRule</span><span class="o">(</span><span class="s">&quot;com.fasterxml.jackson.jaxrs&quot;</span><span class="o">),</span>
+    <span class="nc">ExclusionRule</span><span class="o">(</span><span class="s">&quot;com.fasterxml.jackson.module&quot;</span><span class="o">)</span>
+  <span class="o">),</span>
+  <span class="s">&quot;org.apache.druid.extensions&quot;</span> <span class="o">%</span> <span class="s">&quot;druid-s3-extensions&quot;</span> <span class="o">%</span> <span class="s">&quot;0.8.1&quot;</span> <span class="n">excludeAll</span> <span class="o">(</span>
+    <span class="nc">ExclusionRule</span><span class="o">(</span><span class="s">&quot;org.ow2.asm&quot;</span><span class="o">),</span>
+    <span class="nc">ExclusionRule</span><span class="o">(</span><span class="s">&quot;com.fasterxml.jackson.core&quot;</span><span class="o">),</span>
+    <span class="nc">ExclusionRule</span><span class="o">(</span><span class="s">&quot;com.fasterxml.jackson.datatype&quot;</span><span class="o">),</span>
+    <span class="nc">ExclusionRule</span><span class="o">(</span><span class="s">&quot;com.fasterxml.jackson.dataformat&quot;</span><span class="o">),</span>
+    <span class="nc">ExclusionRule</span><span class="o">(</span><span class="s">&quot;com.fasterxml.jackson.jaxrs&quot;</span><span class="o">),</span>
+    <span class="nc">ExclusionRule</span><span class="o">(</span><span class="s">&quot;com.fasterxml.jackson.module&quot;</span><span class="o">)</span>
+  <span class="o">),</span>
+  <span class="s">&quot;org.apache.druid.extensions&quot;</span> <span class="o">%</span> <span class="s">&quot;druid-histogram&quot;</span> <span class="o">%</span> <span class="s">&quot;0.8.1&quot;</span> <span class="n">excludeAll</span> <span class="o">(</span>
+    <span class="nc">ExclusionRule</span><span class="o">(</span><span class="s">&quot;org.ow2.asm&quot;</span><span class="o">),</span>
+    <span class="nc">ExclusionRule</span><span class="o">(</span><span class="s">&quot;com.fasterxml.jackson.core&quot;</span><span class="o">),</span>
+    <span class="nc">ExclusionRule</span><span class="o">(</span><span class="s">&quot;com.fasterxml.jackson.datatype&quot;</span><span class="o">),</span>
+    <span class="nc">ExclusionRule</span><span class="o">(</span><span class="s">&quot;com.fasterxml.jackson.dataformat&quot;</span><span class="o">),</span>
+    <span class="nc">ExclusionRule</span><span class="o">(</span><span class="s">&quot;com.fasterxml.jackson.jaxrs&quot;</span><span class="o">),</span>
+    <span class="nc">ExclusionRule</span><span class="o">(</span><span class="s">&quot;com.fasterxml.jackson.module&quot;</span><span class="o">)</span>
+  <span class="o">),</span>
+  <span class="s">&quot;org.apache.druid.extensions&quot;</span> <span class="o">%</span> <span class="s">&quot;druid-hdfs-storage&quot;</span> <span class="o">%</span> <span class="s">&quot;0.8.1&quot;</span> <span class="n">excludeAll</span> <span class="o">(</span>
+    <span class="nc">ExclusionRule</span><span class="o">(</span><span class="s">&quot;org.ow2.asm&quot;</span><span class="o">),</span>
+    <span class="nc">ExclusionRule</span><span class="o">(</span><span class="s">&quot;com.fasterxml.jackson.core&quot;</span><span class="o">),</span>
+    <span class="nc">ExclusionRule</span><span class="o">(</span><span class="s">&quot;com.fasterxml.jackson.datatype&quot;</span><span class="o">),</span>
+    <span class="nc">ExclusionRule</span><span class="o">(</span><span class="s">&quot;com.fasterxml.jackson.dataformat&quot;</span><span class="o">),</span>
+    <span class="nc">ExclusionRule</span><span class="o">(</span><span class="s">&quot;com.fasterxml.jackson.jaxrs&quot;</span><span class="o">),</span>
+    <span class="nc">ExclusionRule</span><span class="o">(</span><span class="s">&quot;com.fasterxml.jackson.module&quot;</span><span class="o">)</span>
+  <span class="o">),</span>
+  <span class="s">&quot;com.fasterxml.jackson.core&quot;</span> <span class="o">%</span> <span class="s">&quot;jackson-annotations&quot;</span> <span class="o">%</span> <span class="s">&quot;2.3.0&quot;</span><span class="o">,</span>
+  <span class="s">&quot;com.fasterxml.jackson.core&quot;</span> <span class="o">%</span> <span class="s">&quot;jackson-core&quot;</span> <span class="o">%</span> <span class="s">&quot;2.3.0&quot;</span><span class="o">,</span>
+  <span class="s">&quot;com.fasterxml.jackson.core&quot;</span> <span class="o">%</span> <span class="s">&quot;jackson-databind&quot;</span> <span class="o">%</span> <span class="s">&quot;2.3.0&quot;</span><span class="o">,</span>
+  <span class="s">&quot;com.fasterxml.jackson.datatype&quot;</span> <span class="o">%</span> <span class="s">&quot;jackson-datatype-guava&quot;</span> <span class="o">%</span> <span class="s">&quot;2.3.0&quot;</span><span class="o">,</span>
+  <span class="s">&quot;com.fasterxml.jackson.datatype&quot;</span> <span class="o">%</span> <span class="s">&quot;jackson-datatype-joda&quot;</span> <span class="o">%</span> <span class="s">&quot;2.3.0&quot;</span><span class="o">,</span>
+  <span class="s">&quot;com.fasterxml.jackson.jaxrs&quot;</span> <span class="o">%</span> <span class="s">&quot;jackson-jaxrs-base&quot;</span> <span class="o">%</span> <span class="s">&quot;2.3.0&quot;</span><span class="o">,</span>
+  <span class="s">&quot;com.fasterxml.jackson.jaxrs&quot;</span> <span class="o">%</span> <span class="s">&quot;jackson-jaxrs-json-provider&quot;</span> <span class="o">%</span> <span class="s">&quot;2.3.0&quot;</span><span class="o">,</span>
+  <span class="s">&quot;com.fasterxml.jackson.jaxrs&quot;</span> <span class="o">%</span> <span class="s">&quot;jackson-jaxrs-smile-provider&quot;</span> <span class="o">%</span> <span class="s">&quot;2.3.0&quot;</span><span class="o">,</span>
+  <span class="s">&quot;com.fasterxml.jackson.module&quot;</span> <span class="o">%</span> <span class="s">&quot;jackson-module-jaxb-annotations&quot;</span> <span class="o">%</span> <span class="s">&quot;2.3.0&quot;</span><span class="o">,</span>
+  <span class="s">&quot;com.sun.jersey&quot;</span> <span class="o">%</span> <span class="s">&quot;jersey-servlet&quot;</span> <span class="o">%</span> <span class="s">&quot;1.17.1&quot;</span><span class="o">,</span>
+  <span class="s">&quot;mysql&quot;</span> <span class="o">%</span> <span class="s">&quot;mysql-connector-java&quot;</span> <span class="o">%</span> <span class="s">&quot;5.1.34&quot;</span><span class="o">,</span>
+  <span class="s">&quot;org.scalatest&quot;</span> <span class="o">%%</span> <span class="s">&quot;scalatest&quot;</span> <span class="o">%</span> <span class="s">&quot;2.2.3&quot;</span> <span class="o">%</span> <span class="s">&quot;test&quot;</span><span class="o">,</span>
   <span class="s">&quot;org.mockito&quot;</span> <span class="o">%</span> <span class="s">&quot;mockito-core&quot;</span> <span class="o">%</span> <span class="s">&quot;1.10.19&quot;</span> <span class="o">%</span> <span class="s">&quot;test&quot;</span>
-<span class="p">)</span>
+<span class="o">)</span>
 
-<span class="n">assemblyMergeStrategy</span> <span class="n">in</span> <span class="n">assembly</span> <span class="o">:=</span> <span class="p">{</span>
-  <span class="k">case</span> <span class="n">path</span> <span class="k">if</span> <span class="n">path</span> <span class="n">contains</span> <span class="s">&quot;pom.&quot;</span> <span class="o">=&gt;</span> <span class="nc">MergeStrategy</span><span class="p">.</span><span class="n">first</span>
-  <span class="k">case</span> <span class="n">path</span> <span class="k">if</span> <span class="n">path</span> <span class="n">contains</span> <span class="s">&quot;javax.inject.Named&quot;</span> <span class="o">=&gt;</span> <span class="nc">MergeStrategy</span><span class="p">.</span><span class="n">first</span>
-  <span class="k">case</span> <span class="n">path</span> <span class="k">if</span> <span class="n">path</span> <span class="n">contains</span> <span class="s">&quot;mime.types&quot;</span> <span class="o">=&gt;</span> <span class="nc">MergeStrategy</span><span class="p">.</span><span class="n">first</span>
-  <span class="k">case</span> <span class="n">path</span> <span class="k">if</span> <span class="n">path</span> <span class="n">contains</span> <span class="s">&quot;org/apache/commons/logging/impl/SimpleLog.class&quot;</span> <span class="o">=&gt;</span> <span class="nc">MergeStrategy</span><span class="p">.</span><span class="n">first</span>
-  <span class="k">case</span> <span class="n">path</span> <span class="k">if</span> <span class="n">path</span> <span class="n">contains</span> <span class="s">&quot;org/apache/commons/logging/impl/SimpleLog$1.class&quot;</span> <span class="o">=&gt;</span> <span class="nc">MergeStrategy</span><span class="p">.</span><span class="n">first</span>
-  <span class="k">case</span> <span class="n">path</span> <span class="k">if</span> <span class="n">path</span> <span class="n">contains</span> <span class="s">&quot;org/apache/commons/logging/impl/NoOpLog.class&quot;</span> <span class="o">=&gt;</span> <span class="nc">MergeStrategy</span><span class="p">.</span><span class="n">first</span>
-  <span class="k">case</span> <span class="n">path</span> <span class="k">if</span> <span class="n">path</span> <span class="n">contains</span> <span class="s">&quot;org/apache/commons/logging/LogFactory.class&quot;</span> <span class="o">=&gt;</span> <span class="nc">MergeStrategy</span><span class="p">.</span><span class="n">first</span>
-  <span class="k">case</span> <span class="n">path</span> <span class="k">if</span> <span class="n">path</span> <span class="n">contains</span> <span class="s">&quot;org/apache/commons/logging/LogConfigurationException.class&quot;</span> <span class="o">=&gt;</span> <span class="nc">MergeStrategy</span><span class="p">.</span><span class="n">first</span>
-  <span class="k">case</span> <span class="n">path</span> <span class="k">if</span> <span class="n">path</span> <span class="n">contains</span> <span class="s">&quot;org/apache/commons/logging/Log.class&quot;</span> <span class="o">=&gt;</span> <span class="nc">MergeStrategy</span><span class="p">.</span><span class="n">first</span>
-  <span class="k">case</span> <span class="n">path</span> <span class="k">if</span> <span class="n">path</span> <span class="n">contains</span> <span class="s">&quot;META-INF/jersey-module-version&quot;</span> <span class="o">=&gt;</span> <span class="nc">MergeStrategy</span><span class="p">.</span><span class="n">first</span>
-  <span class="k">case</span> <span class="n">path</span> <span class="k">if</span> <span class="n">path</span> <span class="n">contains</span> <span class="s">&quot;.properties&quot;</span> <span class="o">=&gt;</span> <span class="nc">MergeStrategy</span><span class="p">.</span><span class="n">first</span>
-  <span class="k">case</span> <span class="n">path</span> <span class="k">if</span> <span class="n">path</span> <span class="n">contains</span> <span class="s">&quot;.class&quot;</span> <span class="o">=&gt;</span> <span class="nc">MergeStrategy</span><span class="p">.</span><span class="n">first</span>
-  <span class="k">case</span> <span class="n">x</span> <span class="o">=&gt;</span>
-    <span class="kd">val</span> <span class="n">oldStrategy</span> <span class="o">=</span> <span class="p">(</span><span class="n">assemblyMergeStrategy</span> <span class="n">in</span> <span class="n">assembly</span><span class="p">).</span><span class="n">value</span>
-    <span class="n">oldStrategy</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-<span class="p">}</span>
+<span class="n">assemblyMergeStrategy</span> <span class="n">in</span> <span class="n">assembly</span> <span class="o">:=</span> <span class="o">{</span>
+  <span class="k">case</span> <span class="n">path</span> <span class="k">if</span> <span class="n">path</span> <span class="n">contains</span> <span class="s">&quot;pom.&quot;</span> <span class="k">=&gt;</span> <span class="nc">MergeStrategy</span><span class="o">.</span><span class="n">first</span>
+  <span class="k">case</span> <span class="n">path</span> <span class="k">if</span> <span class="n">path</span> <span class="n">contains</span> <span class="s">&quot;javax.inject.Named&quot;</span> <span class="k">=&gt;</span> <span class="nc">MergeStrategy</span><span class="o">.</span><span class="n">first</span>
+  <span class="k">case</span> <span class="n">path</span> <span class="k">if</span> <span class="n">path</span> <span class="n">contains</span> <span class="s">&quot;mime.types&quot;</span> <span class="k">=&gt;</span> <span class="nc">MergeStrategy</span><span class="o">.</span><span class="n">first</span>
+  <span class="k">case</span> <span class="n">path</span> <span class="k">if</span> <span class="n">path</span> <span class="n">contains</span> <span class="s">&quot;org/apache/commons/logging/impl/SimpleLog.class&quot;</span> <span class="k">=&gt;</span> <span class="nc">MergeStrategy</span><span class="o">.</span><span class="n">first</span>
+  <span class="k">case</span> <span class="n">path</span> <span class="k">if</span> <span class="n">path</span> <span class="n">contains</span> <span class="s">&quot;org/apache/commons/logging/impl/SimpleLog$1.class&quot;</span> <span class="k">=&gt;</span> <span class="nc">MergeStrategy</span><span class="o">.</span><span class="n">first</span>
+  <span class="k">case</span> <span class="n">path</span> <span class="k">if</span> <span class="n">path</span> <span class="n">contains</span> <span class="s">&quot;org/apache/commons/logging/impl/NoOpLog.class&quot;</span> <span class="k">=&gt;</span> <span class="nc">MergeStrategy</span><span class="o">.</span><span class="n">first</span>
+  <span class="k">case</span> <span class="n">path</span> <span class="k">if</span> <span class="n">path</span> <span class="n">contains</span> <span class="s">&quot;org/apache/commons/logging/LogFactory.class&quot;</span> <span class="k">=&gt;</span> <span class="nc">MergeStrategy</span><span class="o">.</span><span class="n">first</span>
+  <span class="k">case</span> <span class="n">path</span> <span class="k">if</span> <span class="n">path</span> <span class="n">contains</span> <span class="s">&quot;org/apache/commons/logging/LogConfigurationException.class&quot;</span> <span class="k">=&gt;</span> <span class="nc">MergeStrategy</span><span class="o">.</span><span class="n">first</span>
+  <span class="k">case</span> <span class="n">path</span> <span class="k">if</span> <span class="n">path</span> <span class="n">contains</span> <span class="s">&quot;org/apache/commons/logging/Log.class&quot;</span> <span class="k">=&gt;</span> <span class="nc">MergeStrategy</span><span class="o">.</span><span class="n">first</span>
+  <span class="k">case</span> <span class="n">path</span> <span class="k">if</span> <span class="n">path</span> <span class="n">contains</span> <span class="s">&quot;META-INF/jersey-module-version&quot;</span> <span class="k">=&gt;</span> <span class="nc">MergeStrategy</span><span class="o">.</span><span class="n">first</span>
+  <span class="k">case</span> <span class="n">path</span> <span class="k">if</span> <span class="n">path</span> <span class="n">contains</span> <span class="s">&quot;.properties&quot;</span> <span class="k">=&gt;</span> <span class="nc">MergeStrategy</span><span class="o">.</span><span class="n">first</span>
+  <span class="k">case</span> <span class="n">path</span> <span class="k">if</span> <span class="n">path</span> <span class="n">contains</span> <span class="s">&quot;.class&quot;</span> <span class="k">=&gt;</span> <span class="nc">MergeStrategy</span><span class="o">.</span><span class="n">first</span>
+  <span class="k">case</span> <span class="n">x</span> <span class="k">=&gt;</span>
+    <span class="k">val</span> <span class="n">oldStrategy</span> <span class="k">=</span> <span class="o">(</span><span class="n">assemblyMergeStrategy</span> <span class="n">in</span> <span class="n">assembly</span><span class="o">).</span><span class="n">value</span>
+    <span class="n">oldStrategy</span><span class="o">(</span><span class="n">x</span><span class="o">)</span>
+<span class="o">}</span>
 </code></pre></div>
         </div>
         <div class="col-md-3">

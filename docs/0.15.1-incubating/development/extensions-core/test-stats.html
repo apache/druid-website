@@ -121,7 +121,7 @@
       
 
       
-      <p> Looking for the <a href="/docs/0.22.1/">latest stable documentation</a>?</p>
+      <p> Looking for the <a href="/docs/24.0.0/">latest stable documentation</a>?</p>
       
 
       <div class="row">
@@ -175,10 +175,10 @@ Please note S.E. stands for standard error where </p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;zscore2sample&quot;</span><span class="p">,</span>
   <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;output_name&gt;&quot;</span><span class="p">,</span>
-  <span class="nt">&quot;successCount1&quot;</span><span class="p">:</span> <span class="err">&lt;pos</span><span class="kc">t</span><span class="err">_aggrega</span><span class="kc">t</span><span class="err">or&gt;</span> <span class="err">success</span> <span class="err">cou</span><span class="kc">nt</span> <span class="err">o</span><span class="kc">f</span> <span class="err">sample</span> <span class="mi">1</span><span class="p">,</span>
-  <span class="nt">&quot;sample1Size&quot;</span><span class="p">:</span> <span class="err">&lt;pos</span><span class="kc">t</span><span class="err">_aggregaror&gt;</span> <span class="err">sample</span> <span class="mi">1</span> <span class="err">size</span><span class="p">,</span>
-  <span class="nt">&quot;successCount2&quot;</span><span class="p">:</span> <span class="err">&lt;pos</span><span class="kc">t</span><span class="err">_aggrega</span><span class="kc">t</span><span class="err">or&gt;</span> <span class="err">success</span> <span class="err">cou</span><span class="kc">nt</span> <span class="err">o</span><span class="kc">f</span> <span class="err">sample</span> <span class="mi">2</span><span class="p">,</span>
-  <span class="nt">&quot;sample2Size&quot;</span> <span class="p">:</span> <span class="err">&lt;pos</span><span class="kc">t</span><span class="err">_aggrega</span><span class="kc">t</span><span class="err">or&gt;</span> <span class="err">sample</span> <span class="mi">2</span> <span class="err">size</span>
+  <span class="nt">&quot;successCount1&quot;</span><span class="p">:</span> <span class="err">&lt;post_aggregator&gt;</span> <span class="err">success</span> <span class="err">count</span> <span class="err">of</span> <span class="err">sample</span> <span class="mi">1</span><span class="p">,</span>
+  <span class="nt">&quot;sample1Size&quot;</span><span class="p">:</span> <span class="err">&lt;post_aggregaror&gt;</span> <span class="err">sample</span> <span class="mi">1</span> <span class="err">size</span><span class="p">,</span>
+  <span class="nt">&quot;successCount2&quot;</span><span class="p">:</span> <span class="err">&lt;post_aggregator&gt;</span> <span class="err">success</span> <span class="err">count</span> <span class="err">of</span> <span class="err">sample</span> <span class="mi">2</span><span class="p">,</span>
+  <span class="nt">&quot;sample2Size&quot;</span> <span class="p">:</span> <span class="err">&lt;post_aggregator&gt;</span> <span class="err">sample</span> <span class="mi">2</span> <span class="err">size</span>
 <span class="p">}</span>
 </code></pre></div>
 <p>Please note the post aggregator will be converting binary variables to continuous variables for two population proportions.  Specifically</p>
@@ -199,7 +199,7 @@ Please note S.E. stands for standard error where </p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;pvalue2tailedZtest&quot;</span><span class="p">,</span>
   <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;output_name&gt;&quot;</span><span class="p">,</span>
-  <span class="nt">&quot;zScore&quot;</span><span class="p">:</span> <span class="err">&lt;zscore</span> <span class="err">pos</span><span class="kc">t</span><span class="err">_aggrega</span><span class="kc">t</span><span class="err">or&gt;</span>
+  <span class="nt">&quot;zScore&quot;</span><span class="p">:</span> <span class="err">&lt;zscore</span> <span class="err">post_aggregator&gt;</span>
 <span class="p">}</span>
 </code></pre></div>
 <h2 id="example-usage">Example Usage</h2>

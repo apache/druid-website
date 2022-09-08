@@ -121,7 +121,7 @@
       
 
       
-      <p> Looking for the <a href="/docs/0.22.1/">latest stable documentation</a>?</p>
+      <p> Looking for the <a href="/docs/24.0.0/">latest stable documentation</a>?</p>
       
 
       <div class="row">
@@ -342,9 +342,9 @@ However, the Scan query type is able to return a virtually unlimited number of r
 <p>The <code>threshold</code> determines how many hits are returned, with each hit indexed by an offset. When <code>descending</code> is true, the offset will be negative value.</p>
 
 <p>The results above include:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span>    <span class="nt">&quot;pagingIdentifiers&quot;</span> <span class="p">:</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span>    <span class="s2">&quot;pagingIdentifiers&quot;</span> <span class="err">:</span> <span class="p">{</span>
       <span class="nt">&quot;wikipedia_2012-12-29T00:00:00.000Z_2013-01-10T08:00:00.000Z_2013-01-10T08:13:47.830Z_v9&quot;</span> <span class="p">:</span> <span class="mi">4</span>
-    <span class="p">},</span>
+    <span class="p">}</span><span class="err">,</span>
 </code></pre></div>
 <h3 id="result-pagination">Result Pagination</h3>
 
@@ -353,7 +353,7 @@ However, the Scan query type is able to return a virtually unlimited number of r
 <p>The <code>threshold</code> option controls how many rows are returned in each block of paginated results.</p>
 
 <p>To initiate a paginated query, the user should specify a PagingSpec with a <code>threshold</code> set and a blank <code>pagingIdentifiers</code> field, e.g.:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="nt">&quot;pagingSpec&quot;</span><span class="p">:{</span><span class="nt">&quot;pagingIdentifiers&quot;</span><span class="p">:</span> <span class="p">{},</span> <span class="nt">&quot;threshold&quot;</span><span class="p">:</span><span class="mi">5</span><span class="p">}</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;pagingSpec&quot;</span><span class="err">:</span><span class="p">{</span><span class="nt">&quot;pagingIdentifiers&quot;</span><span class="p">:</span> <span class="p">{},</span> <span class="nt">&quot;threshold&quot;</span><span class="p">:</span><span class="mi">5</span><span class="p">}</span>
 </code></pre></div>
 <p>When the query returns, the results will contain a <code>pagingIndentifers</code> field indicating the current pagination point in the result set (an identifier and an offset).</p>
 
@@ -382,9 +382,9 @@ However, the Scan query type is able to return a virtually unlimited number of r
  <span class="p">}</span>
 </code></pre></div>
 <p>The paginated query with <code>fromNext</code> set to false returns a result set with the following <code>pagingIdentifiers</code>:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span>    <span class="nt">&quot;pagingIdentifiers&quot;</span> <span class="p">:</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span>    <span class="s2">&quot;pagingIdentifiers&quot;</span> <span class="err">:</span> <span class="p">{</span>
       <span class="nt">&quot;wikipedia_2012-12-29T00:00:00.000Z_2013-01-10T08:00:00.000Z_2013-01-10T08:13:47.830Z_v9&quot;</span> <span class="p">:</span> <span class="mi">4</span>
-    <span class="p">},</span>
+    <span class="p">}</span><span class="err">,</span>
 </code></pre></div>
 <p>To retrieve the next result set, the next query must be sent with the paging offset (4) incremented by 1.</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span> <span class="p">{</span>

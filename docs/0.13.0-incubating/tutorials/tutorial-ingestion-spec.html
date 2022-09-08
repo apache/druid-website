@@ -121,7 +121,7 @@
       
 
       
-      <p> Looking for the <a href="/docs/0.22.1/">latest stable documentation</a>?</p>
+      <p> Looking for the <a href="/docs/24.0.0/">latest stable documentation</a>?</p>
       
 
       <div class="row">
@@ -194,14 +194,14 @@ the <a href="index.html">single-machine quickstart</a> and have it running on yo
 <p>Let&#39;s start with an empty <code>dataSchema</code> and add fields to it as we progress through the tutorial.</p>
 
 <p>Create a new file called <code>ingestion-tutorial-index.json</code> in <code>quickstart/</code> with the following contents:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="nt">&quot;dataSchema&quot;</span> <span class="p">:</span> <span class="p">{}</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;dataSchema&quot;</span> <span class="err">:</span> <span class="p">{}</span>
 </code></pre></div>
 <p>We will be making successive edits to this ingestion spec as we progress through the tutorial.</p>
 
 <h3 id="datasource-name">Datasource name</h3>
 
 <p>The datasource name is specified by the <code>dataSource</code> parameter in the <code>dataSchema</code>.</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="nt">&quot;dataSchema&quot;</span> <span class="p">:</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;dataSchema&quot;</span> <span class="err">:</span> <span class="p">{</span>
   <span class="nt">&quot;dataSource&quot;</span> <span class="p">:</span> <span class="s2">&quot;ingestion-tutorial&quot;</span><span class="p">,</span>
 <span class="p">}</span>
 </code></pre></div>
@@ -212,7 +212,7 @@ the <a href="index.html">single-machine quickstart</a> and have it running on yo
 <p>A <code>dataSchema</code> has a <code>parser</code> field, which defines the parser that Druid will use to interpret the input data.</p>
 
 <p>Since our input data is represented as JSON strings, we&#39;ll use a <code>string</code> parser with <code>json</code> format:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="nt">&quot;dataSchema&quot;</span> <span class="p">:</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;dataSchema&quot;</span> <span class="err">:</span> <span class="p">{</span>
   <span class="nt">&quot;dataSource&quot;</span> <span class="p">:</span> <span class="s2">&quot;ingestion-tutorial&quot;</span><span class="p">,</span>
   <span class="nt">&quot;parser&quot;</span> <span class="p">:</span> <span class="p">{</span>
     <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span>
@@ -227,7 +227,7 @@ the <a href="index.html">single-machine quickstart</a> and have it running on yo
 <p>The <code>parser</code> needs to know how to extract the main timestamp field from the input data. When using a <code>json</code> type <code>parseSpec</code>, the timestamp is defined in a <code>timestampSpec</code>. </p>
 
 <p>The timestamp column in our input data is named &quot;ts&quot;, containing ISO 8601 timestamps, so let&#39;s add a <code>timestampSpec</code> with that information to the <code>parseSpec</code>:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="nt">&quot;dataSchema&quot;</span> <span class="p">:</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;dataSchema&quot;</span> <span class="err">:</span> <span class="p">{</span>
   <span class="nt">&quot;dataSource&quot;</span> <span class="p">:</span> <span class="s2">&quot;ingestion-tutorial&quot;</span><span class="p">,</span>
   <span class="nt">&quot;parser&quot;</span> <span class="p">:</span> <span class="p">{</span>
     <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span>
@@ -261,7 +261,7 @@ the <a href="index.html">single-machine quickstart</a> and have it running on yo
 <p>For this tutorial, let&#39;s enable rollup. This is specified with a <code>granularitySpec</code> on the <code>dataSchema</code>. </p>
 
 <p>Note that the <code>granularitySpec</code> lies outside of the <code>parser</code>. We will revist the <code>parser</code> soon when we define our dimensions and metrics.</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="nt">&quot;dataSchema&quot;</span> <span class="p">:</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;dataSchema&quot;</span> <span class="err">:</span> <span class="p">{</span>
   <span class="nt">&quot;dataSource&quot;</span> <span class="p">:</span> <span class="s2">&quot;ingestion-tutorial&quot;</span><span class="p">,</span>
   <span class="nt">&quot;parser&quot;</span> <span class="p">:</span> <span class="p">{</span>
     <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span>
@@ -294,7 +294,7 @@ the <a href="index.html">single-machine quickstart</a> and have it running on yo
 <h4 id="dimensions">Dimensions</h4>
 
 <p>Dimensions are specified with a <code>dimensionsSpec</code> inside the <code>parseSpec</code>.</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="nt">&quot;dataSchema&quot;</span> <span class="p">:</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;dataSchema&quot;</span> <span class="err">:</span> <span class="p">{</span>
   <span class="nt">&quot;dataSource&quot;</span> <span class="p">:</span> <span class="s2">&quot;ingestion-tutorial&quot;</span><span class="p">,</span>
   <span class="nt">&quot;parser&quot;</span> <span class="p">:</span> <span class="p">{</span>
     <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span>
@@ -337,7 +337,7 @@ the <a href="index.html">single-machine quickstart</a> and have it running on yo
 <h4 id="metrics">Metrics</h4>
 
 <p>Metrics are specified with a <code>metricsSpec</code> inside the <code>dataSchema</code>:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="nt">&quot;dataSchema&quot;</span> <span class="p">:</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;dataSchema&quot;</span> <span class="err">:</span> <span class="p">{</span>
   <span class="nt">&quot;dataSource&quot;</span> <span class="p">:</span> <span class="s2">&quot;ingestion-tutorial&quot;</span><span class="p">,</span>
   <span class="nt">&quot;parser&quot;</span> <span class="p">:</span> <span class="p">{</span>
     <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span>
@@ -380,7 +380,7 @@ the <a href="index.html">single-machine quickstart</a> and have it running on yo
 <h3 id="no-rollup">No rollup</h3>
 
 <p>If we were not using rollup, all columns would be specified in the <code>dimensionsSpec</code>, e.g.:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span>      <span class="nt">&quot;dimensionsSpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span>      <span class="s2">&quot;dimensionsSpec&quot;</span> <span class="err">:</span> <span class="p">{</span>
         <span class="nt">&quot;dimensions&quot;</span><span class="p">:</span> <span class="p">[</span>
           <span class="s2">&quot;srcIP&quot;</span><span class="p">,</span>
           <span class="p">{</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;srcPort&quot;</span><span class="p">,</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;long&quot;</span> <span class="p">},</span>
@@ -391,7 +391,7 @@ the <a href="index.html">single-machine quickstart</a> and have it running on yo
           <span class="p">{</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;bytes&quot;</span><span class="p">,</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;long&quot;</span> <span class="p">},</span>
           <span class="p">{</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;srcPort&quot;</span><span class="p">,</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;double&quot;</span> <span class="p">}</span>
         <span class="p">]</span>
-      <span class="p">},</span>
+      <span class="p">}</span><span class="err">,</span>
 </code></pre></div>
 <h3 id="define-granularities">Define granularities</h3>
 
@@ -405,7 +405,7 @@ the <a href="index.html">single-machine quickstart</a> and have it running on yo
 <h4 id="segment-granularity">Segment granularity</h4>
 
 <p>Segment granularity is configured by the <code>segmentGranularity</code> property in the <code>granularitySpec</code>. For this tutorial, we&#39;ll create hourly segments:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="nt">&quot;dataSchema&quot;</span> <span class="p">:</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;dataSchema&quot;</span> <span class="err">:</span> <span class="p">{</span>
   <span class="nt">&quot;dataSource&quot;</span> <span class="p">:</span> <span class="s2">&quot;ingestion-tutorial&quot;</span><span class="p">,</span>
   <span class="nt">&quot;parser&quot;</span> <span class="p">:</span> <span class="p">{</span>
     <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span>
@@ -444,7 +444,7 @@ the <a href="index.html">single-machine quickstart</a> and have it running on yo
 <h4 id="query-granularity">Query granularity</h4>
 
 <p>The query granularity is configured by the <code>queryGranularity</code> property in the <code>granularitySpec</code>. For this tutorial, let&#39;s use minute granularity:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="nt">&quot;dataSchema&quot;</span> <span class="p">:</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;dataSchema&quot;</span> <span class="err">:</span> <span class="p">{</span>
   <span class="nt">&quot;dataSource&quot;</span> <span class="p">:</span> <span class="s2">&quot;ingestion-tutorial&quot;</span><span class="p">,</span>
   <span class="nt">&quot;parser&quot;</span> <span class="p">:</span> <span class="p">{</span>
     <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span>
@@ -474,8 +474,8 @@ the <a href="index.html">single-machine quickstart</a> and have it running on yo
   <span class="nt">&quot;granularitySpec&quot;</span> <span class="p">:</span> <span class="p">{</span>
     <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;uniform&quot;</span><span class="p">,</span>
     <span class="nt">&quot;segmentGranularity&quot;</span> <span class="p">:</span> <span class="s2">&quot;HOUR&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;queryGranularity&quot;</span> <span class="p">:</span> <span class="nt">&quot;MINUTE&quot;</span>
-    <span class="nt">&quot;rollup&quot;</span> <span class="p">:</span> <span class="kc">true</span>
+    <span class="nt">&quot;queryGranularity&quot;</span> <span class="p">:</span> <span class="s2">&quot;MINUTE&quot;</span>
+    <span class="s2">&quot;rollup&quot;</span> <span class="p">:</span> <span class="kc">true</span>
   <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
@@ -490,7 +490,7 @@ the <a href="index.html">single-machine quickstart</a> and have it running on yo
 <p>For batch tasks, it is necessary to define a time interval. Input rows with timestamps outside of the time interval will not be ingested.</p>
 
 <p>The interval is also specified in the <code>granularitySpec</code>:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="nt">&quot;dataSchema&quot;</span> <span class="p">:</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="s2">&quot;dataSchema&quot;</span> <span class="err">:</span> <span class="p">{</span>
   <span class="nt">&quot;dataSource&quot;</span> <span class="p">:</span> <span class="s2">&quot;ingestion-tutorial&quot;</span><span class="p">,</span>
   <span class="nt">&quot;parser&quot;</span> <span class="p">:</span> <span class="p">{</span>
     <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span>
@@ -575,7 +575,7 @@ the <a href="index.html">single-machine quickstart</a> and have it running on yo
 <h2 id="define-the-input-source">Define the input source</h2>
 
 <p>Now let&#39;s define our input source, which is specified in an <code>ioConfig</code> object. Each task type has its own type of <code>ioConfig</code>. The native batch task uses &quot;firehoses&quot; to read input data, so let&#39;s configure a &quot;local&quot; firehose to read the example netflow data we saved earlier:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span>    <span class="nt">&quot;ioConfig&quot;</span> <span class="p">:</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span>    <span class="s2">&quot;ioConfig&quot;</span> <span class="err">:</span> <span class="p">{</span>
       <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;index&quot;</span><span class="p">,</span>
       <span class="nt">&quot;firehose&quot;</span> <span class="p">:</span> <span class="p">{</span>
         <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;local&quot;</span><span class="p">,</span>
@@ -637,7 +637,7 @@ the <a href="index.html">single-machine quickstart</a> and have it running on yo
 <p>Each ingestion task has a <code>tuningConfig</code> section that allows users to tune various ingestion parameters.</p>
 
 <p>As an example, let&#39;s add a <code>tuningConfig</code> that sets a target segment size for the native batch ingestion task:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span>    <span class="nt">&quot;tuningConfig&quot;</span> <span class="p">:</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span>    <span class="s2">&quot;tuningConfig&quot;</span> <span class="err">:</span> <span class="p">{</span>
       <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;index&quot;</span><span class="p">,</span>
       <span class="nt">&quot;targetPartitionSize&quot;</span> <span class="p">:</span> <span class="mi">5000000</span>
     <span class="p">}</span>
@@ -722,7 +722,7 @@ dsql&gt; <span class="k">select</span> * from <span class="s2">&quot;ingestion-t
 │ <span class="m">2018</span>-01-01T02:33:00.000Z │ <span class="m">30000</span> │ <span class="m">56</span>.9 │     <span class="m">2</span> │ <span class="m">8</span>.8.8.8 │    <span class="m">5000</span> │     <span class="m">300</span> │ <span class="m">17</span>       │ <span class="m">7</span>.7.7.7 │    <span class="m">4000</span> │
 │ <span class="m">2018</span>-01-01T02:35:00.000Z │ <span class="m">30000</span> │ <span class="m">46</span>.3 │     <span class="m">1</span> │ <span class="m">8</span>.8.8.8 │    <span class="m">5000</span> │     <span class="m">300</span> │ <span class="m">17</span>       │ <span class="m">7</span>.7.7.7 │    <span class="m">4000</span> │
 └──────────────────────────┴───────┴──────┴───────┴─────────┴─────────┴─────────┴──────────┴─────────┴─────────┘
-Retrieved <span class="m">5</span> rows <span class="k">in</span> <span class="m">0</span>.12s.
+Retrieved <span class="m">5</span> rows in <span class="m">0</span>.12s.
 
 dsql&gt; 
 </code></pre></div>
