@@ -121,7 +121,7 @@
       
 
       
-      <p> Looking for the <a href="/docs/0.22.1/">latest stable documentation</a>?</p>
+      <p> Looking for the <a href="/docs/0.23.0/">latest stable documentation</a>?</p>
       
 
       <div class="row">
@@ -161,8 +161,8 @@
 <p>Returns dimension values as is and optionally renames the dimension.</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;default&quot;</span><span class="p">,</span>
-  <span class="nt">&quot;dimension&quot;</span> <span class="p">:</span> <span class="err">&lt;dime</span><span class="kc">ns</span><span class="err">io</span><span class="kc">n</span><span class="err">&gt;</span><span class="p">,</span>
-  <span class="nt">&quot;outputName&quot;</span><span class="p">:</span> <span class="err">&lt;ou</span><span class="kc">t</span><span class="err">pu</span><span class="kc">t</span><span class="err">_</span><span class="kc">na</span><span class="err">me&gt;</span><span class="p">,</span>
+  <span class="nt">&quot;dimension&quot;</span> <span class="p">:</span> <span class="err">&lt;dimension&gt;</span><span class="p">,</span>
+  <span class="nt">&quot;outputName&quot;</span><span class="p">:</span> <span class="err">&lt;output_name&gt;</span><span class="p">,</span>
   <span class="nt">&quot;outputType&quot;</span><span class="p">:</span> <span class="err">&lt;</span><span class="s2">&quot;STRING&quot;</span><span class="err">|</span><span class="s2">&quot;LONG&quot;</span><span class="err">|</span><span class="s2">&quot;FLOAT&quot;</span><span class="err">&gt;</span>
 <span class="p">}</span>
 </code></pre></div>
@@ -175,10 +175,10 @@
 <p>Returns dimension values transformed using the given <a href="#extraction-functions">extraction function</a>.</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;extraction&quot;</span><span class="p">,</span>
-  <span class="nt">&quot;dimension&quot;</span> <span class="p">:</span> <span class="err">&lt;dime</span><span class="kc">ns</span><span class="err">io</span><span class="kc">n</span><span class="err">&gt;</span><span class="p">,</span>
-  <span class="nt">&quot;outputName&quot;</span> <span class="p">:</span>  <span class="err">&lt;ou</span><span class="kc">t</span><span class="err">pu</span><span class="kc">t</span><span class="err">_</span><span class="kc">na</span><span class="err">me&gt;</span><span class="p">,</span>
+  <span class="nt">&quot;dimension&quot;</span> <span class="p">:</span> <span class="err">&lt;dimension&gt;</span><span class="p">,</span>
+  <span class="nt">&quot;outputName&quot;</span> <span class="p">:</span>  <span class="err">&lt;output_name&gt;</span><span class="p">,</span>
   <span class="nt">&quot;outputType&quot;</span><span class="p">:</span> <span class="err">&lt;</span><span class="s2">&quot;STRING&quot;</span><span class="err">|</span><span class="s2">&quot;LONG&quot;</span><span class="err">|</span><span class="s2">&quot;FLOAT&quot;</span><span class="err">&gt;</span><span class="p">,</span>
-  <span class="nt">&quot;extractionFn&quot;</span> <span class="p">:</span> <span class="err">&lt;ex</span><span class="kc">tra</span><span class="err">c</span><span class="kc">t</span><span class="err">io</span><span class="kc">n</span><span class="err">_</span><span class="kc">fun</span><span class="err">c</span><span class="kc">t</span><span class="err">io</span><span class="kc">n</span><span class="err">&gt;</span>
+  <span class="nt">&quot;extractionFn&quot;</span> <span class="p">:</span> <span class="err">&lt;extraction_function&gt;</span>
 <span class="p">}</span>
 </code></pre></div>
 <p><code>outputType</code> may also be specified in an ExtractionDimensionSpec to apply type conversion to results before merging. If left unspecified, the <code>outputType</code> defaults to STRING.</p>
@@ -195,13 +195,13 @@ Then groupBy/topN processing pipeline &quot;explodes&quot; all multi-value dimen
 <p>In addition to &quot;query filter&quot; which efficiently selects the rows to be processed, you can use the filtered dimension spec to filter for specific values within the values of a multi-value dimension. These dimensionSpecs take a delegate DimensionSpec and a filtering criteria. From the &quot;exploded&quot; rows, only rows matching the given filtering criteria are returned in the query result.</p>
 
 <p>The following filtered dimension spec acts as a whitelist or blacklist for values as per the &quot;isWhitelist&quot; attribute value.</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;listFiltered&quot;</span><span class="p">,</span> <span class="nt">&quot;delegate&quot;</span> <span class="p">:</span> <span class="err">&lt;dime</span><span class="kc">ns</span><span class="err">io</span><span class="kc">n</span><span class="err">Spec&gt;</span><span class="p">,</span> <span class="nt">&quot;values&quot;</span><span class="p">:</span> <span class="err">&lt;array</span> <span class="err">o</span><span class="kc">f</span> <span class="err">s</span><span class="kc">tr</span><span class="err">i</span><span class="kc">n</span><span class="err">gs&gt;</span><span class="p">,</span> <span class="nt">&quot;isWhitelist&quot;</span><span class="p">:</span> <span class="err">&lt;op</span><span class="kc">t</span><span class="err">io</span><span class="kc">nal</span> <span class="err">a</span><span class="kc">ttr</span><span class="err">ibu</span><span class="kc">te</span> <span class="kc">f</span><span class="err">or</span> <span class="kc">true</span><span class="err">/</span><span class="kc">false</span><span class="p">,</span> <span class="err">de</span><span class="kc">fault</span> <span class="err">is</span> <span class="kc">true</span><span class="err">&gt;</span> <span class="p">}</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;listFiltered&quot;</span><span class="p">,</span> <span class="nt">&quot;delegate&quot;</span> <span class="p">:</span> <span class="err">&lt;dimensionSpec&gt;</span><span class="p">,</span> <span class="nt">&quot;values&quot;</span><span class="p">:</span> <span class="err">&lt;array</span> <span class="err">of</span> <span class="err">strings&gt;</span><span class="p">,</span> <span class="nt">&quot;isWhitelist&quot;</span><span class="p">:</span> <span class="err">&lt;optional</span> <span class="err">attribute</span> <span class="err">for</span> <span class="kc">true</span><span class="err">/</span><span class="kc">false</span><span class="p">,</span> <span class="err">default</span> <span class="err">is</span> <span class="err">true&gt;</span> <span class="p">}</span>
 </code></pre></div>
 <p>Following filtered dimension spec retains only the values matching regex. Note that <code>listFiltered</code> is faster than this and one should use that for whitelist or blacklist usecase.</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;regexFiltered&quot;</span><span class="p">,</span> <span class="nt">&quot;delegate&quot;</span> <span class="p">:</span> <span class="err">&lt;dime</span><span class="kc">ns</span><span class="err">io</span><span class="kc">n</span><span class="err">Spec&gt;</span><span class="p">,</span> <span class="nt">&quot;pattern&quot;</span><span class="p">:</span> <span class="err">&lt;java</span> <span class="err">regex</span> <span class="err">pa</span><span class="kc">ttern</span><span class="err">&gt;</span> <span class="p">}</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;regexFiltered&quot;</span><span class="p">,</span> <span class="nt">&quot;delegate&quot;</span> <span class="p">:</span> <span class="err">&lt;dimensionSpec&gt;</span><span class="p">,</span> <span class="nt">&quot;pattern&quot;</span><span class="p">:</span> <span class="err">&lt;java</span> <span class="err">regex</span> <span class="err">pattern&gt;</span> <span class="p">}</span>
 </code></pre></div>
 <p>Following filtered dimension spec retains only the values starting with the same prefix.</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;prefixFiltered&quot;</span><span class="p">,</span> <span class="nt">&quot;delegate&quot;</span> <span class="p">:</span> <span class="err">&lt;dime</span><span class="kc">ns</span><span class="err">io</span><span class="kc">n</span><span class="err">Spec&gt;</span><span class="p">,</span> <span class="nt">&quot;prefix&quot;</span><span class="p">:</span> <span class="err">&lt;pre</span><span class="kc">f</span><span class="err">ix</span> <span class="err">s</span><span class="kc">tr</span><span class="err">i</span><span class="kc">n</span><span class="err">g&gt;</span> <span class="p">}</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;prefixFiltered&quot;</span><span class="p">,</span> <span class="nt">&quot;delegate&quot;</span> <span class="p">:</span> <span class="err">&lt;dimensionSpec&gt;</span><span class="p">,</span> <span class="nt">&quot;prefix&quot;</span><span class="p">:</span> <span class="err">&lt;prefix</span> <span class="err">string&gt;</span> <span class="p">}</span>
 </code></pre></div>
 <p>For more details and examples, see <a href="multi-value-dimensions.html">multi-value dimensions</a>.</p>
 
@@ -295,8 +295,8 @@ before getting passed to the extraction function.</p>
 If there is no match, it returns the dimension value as is.</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;regex&quot;</span><span class="p">,</span>
-  <span class="nt">&quot;expr&quot;</span> <span class="p">:</span> <span class="err">&lt;regular_expressio</span><span class="kc">n</span><span class="err">&gt;</span><span class="p">,</span>
-  <span class="nt">&quot;index&quot;</span> <span class="p">:</span> <span class="err">&lt;group</span> <span class="kc">t</span><span class="err">o</span> <span class="err">ex</span><span class="kc">tra</span><span class="err">c</span><span class="kc">t</span><span class="p">,</span> <span class="err">de</span><span class="kc">fault</span> <span class="mi">1</span><span class="err">&gt;</span>
+  <span class="nt">&quot;expr&quot;</span> <span class="p">:</span> <span class="err">&lt;regular_expression&gt;</span><span class="p">,</span>
+  <span class="nt">&quot;index&quot;</span> <span class="p">:</span> <span class="err">&lt;group</span> <span class="err">to</span> <span class="err">extract</span><span class="p">,</span> <span class="err">default</span> <span class="err">1&gt;</span>
   <span class="nt">&quot;replaceMissingValue&quot;</span> <span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
   <span class="nt">&quot;replaceMissingValueWith&quot;</span> <span class="p">:</span> <span class="s2">&quot;foobar&quot;</span>
 <span class="p">}</span>
@@ -316,7 +316,7 @@ entire pattern.</p>
 <h3 id="partial-extraction-function">Partial Extraction Function</h3>
 
 <p>Returns the dimension value unchanged if the regular expression matches, otherwise returns null.</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;partial&quot;</span><span class="p">,</span> <span class="nt">&quot;expr&quot;</span> <span class="p">:</span> <span class="err">&lt;regular_expressio</span><span class="kc">n</span><span class="err">&gt;</span> <span class="p">}</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;partial&quot;</span><span class="p">,</span> <span class="nt">&quot;expr&quot;</span> <span class="p">:</span> <span class="err">&lt;regular_expression&gt;</span> <span class="p">}</span>
 </code></pre></div>
 <h3 id="search-query-extraction-function">Search Query Extraction Function</h3>
 
@@ -366,11 +366,11 @@ behavior as the Java String class&#39;s &quot;length&quot; method.</p>
 <li><code>asMillis</code> : boolean value, set to true to treat input strings as millis rather than ISO8601 strings. Additionally, if <code>format</code> is null or not specified, output will be in millis rather than ISO8601.</li>
 </ul>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;timeFormat&quot;</span><span class="p">,</span>
-  <span class="nt">&quot;format&quot;</span> <span class="p">:</span> <span class="err">&lt;ou</span><span class="kc">t</span><span class="err">pu</span><span class="kc">t</span><span class="err">_</span><span class="kc">f</span><span class="err">orma</span><span class="kc">t</span><span class="err">&gt;</span> <span class="err">(op</span><span class="kc">t</span><span class="err">io</span><span class="kc">nal</span><span class="err">)</span><span class="p">,</span>
-  <span class="nt">&quot;timeZone&quot;</span> <span class="p">:</span> <span class="err">&lt;</span><span class="kc">t</span><span class="err">ime_zo</span><span class="kc">ne</span><span class="err">&gt;</span> <span class="err">(op</span><span class="kc">t</span><span class="err">io</span><span class="kc">nal</span><span class="p">,</span> <span class="err">de</span><span class="kc">fault</span> <span class="err">UTC)</span><span class="p">,</span>
-  <span class="nt">&quot;locale&quot;</span> <span class="p">:</span> <span class="err">&lt;locale&gt;</span> <span class="err">(op</span><span class="kc">t</span><span class="err">io</span><span class="kc">nal</span><span class="p">,</span> <span class="err">de</span><span class="kc">fault</span> <span class="err">curre</span><span class="kc">nt</span> <span class="err">locale)</span><span class="p">,</span>
-  <span class="nt">&quot;granularity&quot;</span> <span class="p">:</span> <span class="err">&lt;gra</span><span class="kc">nular</span><span class="err">i</span><span class="kc">t</span><span class="err">y&gt;</span> <span class="err">(op</span><span class="kc">t</span><span class="err">io</span><span class="kc">nal</span><span class="p">,</span> <span class="err">de</span><span class="kc">fault</span> <span class="kc">n</span><span class="err">o</span><span class="kc">ne</span><span class="err">)</span> <span class="p">},</span>
-  <span class="nt">&quot;asMillis&quot;</span> <span class="p">:</span> <span class="err">&lt;</span><span class="kc">true</span> <span class="err">or</span> <span class="kc">false</span><span class="err">&gt;</span> <span class="err">(op</span><span class="kc">t</span><span class="err">io</span><span class="kc">nal</span><span class="err">)</span> <span class="p">}</span>
+  <span class="nt">&quot;format&quot;</span> <span class="p">:</span> <span class="err">&lt;output_format&gt;</span> <span class="err">(optional)</span><span class="p">,</span>
+  <span class="nt">&quot;timeZone&quot;</span> <span class="p">:</span> <span class="err">&lt;time_zone&gt;</span> <span class="err">(optional</span><span class="p">,</span> <span class="err">default</span> <span class="err">UTC),</span>
+  <span class="nt">&quot;locale&quot;</span> <span class="p">:</span> <span class="err">&lt;locale&gt;</span> <span class="err">(optional</span><span class="p">,</span> <span class="err">default</span> <span class="err">current</span> <span class="err">locale),</span>
+  <span class="nt">&quot;granularity&quot;</span> <span class="p">:</span> <span class="err">&lt;granularity&gt;</span> <span class="err">(optional</span><span class="p">,</span> <span class="err">default</span> <span class="err">none)</span> <span class="p">}</span><span class="err">,</span>
+  <span class="s2">&quot;asMillis&quot;</span> <span class="err">:</span> <span class="err">&lt;</span><span class="kc">true</span> <span class="err">or</span> <span class="kc">false</span><span class="err">&gt;</span> <span class="err">(optional)</span> <span class="err">}</span>
 </code></pre></div>
 <p>For example, the following dimension spec returns the day of the week for Montréal in French:</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
@@ -401,9 +401,9 @@ the start and end of calendar years) in a more ISO8601 compliant way.</p>
 
 <p>If a value cannot be parsed using the provided timeFormat, it will be returned as-is.</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;time&quot;</span><span class="p">,</span>
-  <span class="nt">&quot;timeFormat&quot;</span> <span class="p">:</span> <span class="err">&lt;i</span><span class="kc">n</span><span class="err">pu</span><span class="kc">t</span><span class="err">_</span><span class="kc">f</span><span class="err">orma</span><span class="kc">t</span><span class="err">&gt;</span><span class="p">,</span>
-  <span class="nt">&quot;resultFormat&quot;</span> <span class="p">:</span> <span class="err">&lt;ou</span><span class="kc">t</span><span class="err">pu</span><span class="kc">t</span><span class="err">_</span><span class="kc">f</span><span class="err">orma</span><span class="kc">t</span><span class="err">&gt;</span><span class="p">,</span>
-  <span class="nt">&quot;joda&quot;</span> <span class="p">:</span> <span class="err">&lt;</span><span class="kc">true</span><span class="p">,</span> <span class="kc">false</span><span class="err">&gt;</span> <span class="p">}</span>
+  <span class="nt">&quot;timeFormat&quot;</span> <span class="p">:</span> <span class="err">&lt;input_format&gt;</span><span class="p">,</span>
+  <span class="nt">&quot;resultFormat&quot;</span> <span class="p">:</span> <span class="err">&lt;output_format&gt;</span><span class="p">,</span>
+  <span class="nt">&quot;joda&quot;</span> <span class="p">:</span> <span class="err">&lt;</span><span class="kc">true</span><span class="p">,</span> <span class="err">false&gt;</span> <span class="p">}</span>
 </code></pre></div>
 <h3 id="javascript-extraction-function">Javascript Extraction Function</h3>
 
@@ -574,7 +574,7 @@ For example, <code>&#39;/druid/prod/historical&#39;</code> is transformed to <co
 <h3 id="string-format-extraction-function">String Format Extraction Function</h3>
 
 <p>Returns the dimension value formatted according to the given format string.</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;stringFormat&quot;</span><span class="p">,</span> <span class="nt">&quot;format&quot;</span> <span class="p">:</span> <span class="err">&lt;spri</span><span class="kc">ntf</span><span class="err">_expressio</span><span class="kc">n</span><span class="err">&gt;</span><span class="p">,</span> <span class="nt">&quot;nullHandling&quot;</span> <span class="p">:</span> <span class="err">&lt;op</span><span class="kc">t</span><span class="err">io</span><span class="kc">nal</span> <span class="err">a</span><span class="kc">ttr</span><span class="err">ibu</span><span class="kc">te</span> <span class="kc">f</span><span class="err">or</span> <span class="err">ha</span><span class="kc">n</span><span class="err">dli</span><span class="kc">n</span><span class="err">g</span> <span class="kc">null</span> <span class="err">value&gt;</span> <span class="p">}</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;stringFormat&quot;</span><span class="p">,</span> <span class="nt">&quot;format&quot;</span> <span class="p">:</span> <span class="err">&lt;sprintf_expression&gt;</span><span class="p">,</span> <span class="nt">&quot;nullHandling&quot;</span> <span class="p">:</span> <span class="err">&lt;optional</span> <span class="err">attribute</span> <span class="err">for</span> <span class="err">handling</span> <span class="kc">null</span> <span class="err">value&gt;</span> <span class="p">}</span>
 </code></pre></div>
 <p>For example if you want to concat &quot;[&quot; and &quot;]&quot; before and after the actual dimension value, you need to specify &quot;[%s]&quot; as format string. &quot;nullHandling&quot; can be one of <code>nullString</code>, <code>emptyString</code> or <code>returnNull</code>. With &quot;[%s]&quot; format, each configuration will result <code>[null]</code>, <code>[]</code>, <code>null</code>. Default is <code>nullString</code>.</p>
 

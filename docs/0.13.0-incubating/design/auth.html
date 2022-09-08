@@ -121,7 +121,7 @@
       
 
       
-      <p> Looking for the <a href="/docs/0.22.1/">latest stable documentation</a>?</p>
+      <p> Looking for the <a href="/docs/0.23.0/">latest stable documentation</a>?</p>
       
 
       <div class="row">
@@ -313,11 +313,11 @@ druid.auth.authenticator.anonymous.authorizerName=myBasicAuthorizer
 <p>An Authenticator implementation that is intended to support internal Druid communications must recognize credentials for the &quot;internal system user&quot;, as provided by a corresponding Escalator implementation.</p>
 
 <p>An Escalator must implement three methods related to the internal system user:</p>
-<div class="highlight"><pre><code class="language-java" data-lang="java"><span></span>  <span class="kd">public</span> <span class="n">HttpClient</span> <span class="nf">createEscalatedClient</span><span class="p">(</span><span class="n">HttpClient</span> <span class="n">baseClient</span><span class="p">);</span>
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span></span>  <span class="kd">public</span> <span class="n">HttpClient</span> <span class="nf">createEscalatedClient</span><span class="o">(</span><span class="n">HttpClient</span> <span class="n">baseClient</span><span class="o">);</span>
 
-  <span class="kd">public</span> <span class="n">org</span><span class="p">.</span><span class="na">eclipse</span><span class="p">.</span><span class="na">jetty</span><span class="p">.</span><span class="na">client</span><span class="p">.</span><span class="na">HttpClient</span> <span class="nf">createEscalatedJettyClient</span><span class="p">(</span><span class="n">org</span><span class="p">.</span><span class="na">eclipse</span><span class="p">.</span><span class="na">jetty</span><span class="p">.</span><span class="na">client</span><span class="p">.</span><span class="na">HttpClient</span> <span class="n">baseClient</span><span class="p">);</span>
+  <span class="kd">public</span> <span class="n">org</span><span class="o">.</span><span class="na">eclipse</span><span class="o">.</span><span class="na">jetty</span><span class="o">.</span><span class="na">client</span><span class="o">.</span><span class="na">HttpClient</span> <span class="nf">createEscalatedJettyClient</span><span class="o">(</span><span class="n">org</span><span class="o">.</span><span class="na">eclipse</span><span class="o">.</span><span class="na">jetty</span><span class="o">.</span><span class="na">client</span><span class="o">.</span><span class="na">HttpClient</span> <span class="n">baseClient</span><span class="o">);</span>
 
-  <span class="kd">public</span> <span class="n">AuthenticationResult</span> <span class="nf">createEscalatedAuthenticationResult</span><span class="p">();</span>
+  <span class="kd">public</span> <span class="n">AuthenticationResult</span> <span class="nf">createEscalatedAuthenticationResult</span><span class="o">();</span>
 </code></pre></div>
 <p><code>createEscalatedClient</code> returns an wrapped HttpClient that attaches the credentials of the &quot;internal system user&quot; to requests.</p>
 

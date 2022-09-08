@@ -121,7 +121,7 @@
       
 
       
-      <p> Looking for the <a href="/docs/0.22.1/">latest stable documentation</a>?</p>
+      <p> Looking for the <a href="/docs/0.23.0/">latest stable documentation</a>?</p>
       
 
       <div class="row">
@@ -947,22 +947,22 @@ you&#39;ve downloaded the Avatica client jar, add it to your classpath and use t
 
 <p>Example code:</p>
 <div class="highlight"><pre><code class="language-java" data-lang="java"><span></span><span class="c1">// Connect to /druid/v2/sql/avatica/ on your broker.</span>
-<span class="n">String</span> <span class="n">url</span> <span class="o">=</span> <span class="s">&quot;jdbc:avatica:remote:url=http://localhost:8082/druid/v2/sql/avatica/&quot;</span><span class="p">;</span>
+<span class="n">String</span> <span class="n">url</span> <span class="o">=</span> <span class="s">&quot;jdbc:avatica:remote:url=http://localhost:8082/druid/v2/sql/avatica/&quot;</span><span class="o">;</span>
 
 <span class="c1">// Set any connection context parameters you need here (see &quot;Connection context&quot; below).</span>
 <span class="c1">// Or leave empty for default behavior.</span>
-<span class="n">Properties</span> <span class="n">connectionProperties</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Properties</span><span class="p">();</span>
+<span class="n">Properties</span> <span class="n">connectionProperties</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Properties</span><span class="o">();</span>
 
-<span class="k">try</span> <span class="p">(</span><span class="n">Connection</span> <span class="n">connection</span> <span class="o">=</span> <span class="n">DriverManager</span><span class="p">.</span><span class="na">getConnection</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">connectionProperties</span><span class="p">))</span> <span class="p">{</span>
-  <span class="k">try</span> <span class="p">(</span>
-      <span class="kd">final</span> <span class="n">Statement</span> <span class="n">statement</span> <span class="o">=</span> <span class="n">connection</span><span class="p">.</span><span class="na">createStatement</span><span class="p">();</span>
-      <span class="kd">final</span> <span class="n">ResultSet</span> <span class="n">resultSet</span> <span class="o">=</span> <span class="n">statement</span><span class="p">.</span><span class="na">executeQuery</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
-  <span class="p">)</span> <span class="p">{</span>
-    <span class="k">while</span> <span class="p">(</span><span class="n">resultSet</span><span class="p">.</span><span class="na">next</span><span class="p">())</span> <span class="p">{</span>
+<span class="k">try</span> <span class="o">(</span><span class="n">Connection</span> <span class="n">connection</span> <span class="o">=</span> <span class="n">DriverManager</span><span class="o">.</span><span class="na">getConnection</span><span class="o">(</span><span class="n">url</span><span class="o">,</span> <span class="n">connectionProperties</span><span class="o">))</span> <span class="o">{</span>
+  <span class="k">try</span> <span class="o">(</span>
+      <span class="kd">final</span> <span class="n">Statement</span> <span class="n">statement</span> <span class="o">=</span> <span class="n">connection</span><span class="o">.</span><span class="na">createStatement</span><span class="o">();</span>
+      <span class="kd">final</span> <span class="n">ResultSet</span> <span class="n">resultSet</span> <span class="o">=</span> <span class="n">statement</span><span class="o">.</span><span class="na">executeQuery</span><span class="o">(</span><span class="n">query</span><span class="o">)</span>
+  <span class="o">)</span> <span class="o">{</span>
+    <span class="k">while</span> <span class="o">(</span><span class="n">resultSet</span><span class="o">.</span><span class="na">next</span><span class="o">())</span> <span class="o">{</span>
       <span class="c1">// Do something</span>
-    <span class="p">}</span>
-  <span class="p">}</span>
-<span class="p">}</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+<span class="o">}</span>
 </code></pre></div>
 <p>Table metadata is available over JDBC using <code>connection.getMetaData()</code> or by querying the
 <a href="#retrieving-metadata">&quot;INFORMATION_SCHEMA&quot; tables</a>. Parameterized queries (using <code>?</code> or other placeholders) don&#39;t work properly,

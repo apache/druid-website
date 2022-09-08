@@ -121,7 +121,7 @@
       
 
       
-      <p> Looking for the <a href="/docs/0.22.1/">latest stable documentation</a>?</p>
+      <p> Looking for the <a href="/docs/0.23.0/">latest stable documentation</a>?</p>
       
 
       <div class="row">
@@ -155,10 +155,10 @@
 <p>These tasks start, sleep for a time and are used only for testing. The available grammar is:</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
     <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;noop&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="err">&lt;op</span><span class="kc">t</span><span class="err">io</span><span class="kc">nal</span><span class="err">_</span><span class="kc">tas</span><span class="err">k_id&gt;</span><span class="p">,</span>
-    <span class="nt">&quot;interval&quot;</span> <span class="p">:</span> <span class="err">&lt;op</span><span class="kc">t</span><span class="err">io</span><span class="kc">nal</span><span class="err">_segme</span><span class="kc">nt</span><span class="err">_i</span><span class="kc">nter</span><span class="err">val&gt;</span><span class="p">,</span>
-    <span class="nt">&quot;runTime&quot;</span> <span class="p">:</span> <span class="err">&lt;op</span><span class="kc">t</span><span class="err">io</span><span class="kc">nal</span><span class="err">_millis_</span><span class="kc">t</span><span class="err">o_sleep&gt;</span><span class="p">,</span>
-    <span class="nt">&quot;firehose&quot;</span><span class="p">:</span> <span class="err">&lt;op</span><span class="kc">t</span><span class="err">io</span><span class="kc">nal</span><span class="err">_</span><span class="kc">f</span><span class="err">irehose_</span><span class="kc">t</span><span class="err">o_</span><span class="kc">test</span><span class="err">_co</span><span class="kc">nne</span><span class="err">c</span><span class="kc">t</span><span class="err">&gt;</span>
+    <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="err">&lt;optional_task_id&gt;</span><span class="p">,</span>
+    <span class="nt">&quot;interval&quot;</span> <span class="p">:</span> <span class="err">&lt;optional_segment_interval&gt;</span><span class="p">,</span>
+    <span class="nt">&quot;runTime&quot;</span> <span class="p">:</span> <span class="err">&lt;optional_millis_to_sleep&gt;</span><span class="p">,</span>
+    <span class="nt">&quot;firehose&quot;</span><span class="p">:</span> <span class="err">&lt;optional_firehose_to_test_connect&gt;</span>
 <span class="p">}</span>
 </code></pre></div>
 <h2 id="segment-merging-tasks-deprecated">Segment Merging Tasks (Deprecated)</h2>
@@ -168,11 +168,11 @@
 <p>Append tasks append a list of segments together into a single segment (one after the other). The grammar is:</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
     <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;append&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="err">&lt;</span><span class="kc">tas</span><span class="err">k_id&gt;</span><span class="p">,</span>
-    <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="err">&lt;</span><span class="kc">tas</span><span class="err">k_da</span><span class="kc">tas</span><span class="err">ource&gt;</span><span class="p">,</span>
-    <span class="nt">&quot;segments&quot;</span><span class="p">:</span> <span class="err">&lt;JSON</span> <span class="err">lis</span><span class="kc">t</span> <span class="err">o</span><span class="kc">f</span> <span class="err">Da</span><span class="kc">ta</span><span class="err">Segme</span><span class="kc">nt</span> <span class="err">objec</span><span class="kc">ts</span> <span class="kc">t</span><span class="err">o</span> <span class="err">appe</span><span class="kc">n</span><span class="err">d&gt;</span><span class="p">,</span>
-    <span class="nt">&quot;aggregations&quot;</span><span class="p">:</span> <span class="err">&lt;op</span><span class="kc">t</span><span class="err">io</span><span class="kc">nal</span> <span class="err">lis</span><span class="kc">t</span> <span class="err">o</span><span class="kc">f</span> <span class="err">aggrega</span><span class="kc">t</span><span class="err">ors&gt;</span><span class="p">,</span>
-    <span class="nt">&quot;context&quot;</span><span class="p">:</span> <span class="err">&lt;</span><span class="kc">tas</span><span class="err">k</span> <span class="err">co</span><span class="kc">nte</span><span class="err">x</span><span class="kc">t</span><span class="err">&gt;</span>
+    <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="err">&lt;task_id&gt;</span><span class="p">,</span>
+    <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="err">&lt;task_datasource&gt;</span><span class="p">,</span>
+    <span class="nt">&quot;segments&quot;</span><span class="p">:</span> <span class="err">&lt;JSON</span> <span class="err">list</span> <span class="err">of</span> <span class="err">DataSegment</span> <span class="err">objects</span> <span class="err">to</span> <span class="err">append&gt;</span><span class="p">,</span>
+    <span class="nt">&quot;aggregations&quot;</span><span class="p">:</span> <span class="err">&lt;optional</span> <span class="err">list</span> <span class="err">of</span> <span class="err">aggregators&gt;</span><span class="p">,</span>
+    <span class="nt">&quot;context&quot;</span><span class="p">:</span> <span class="err">&lt;task</span> <span class="err">context&gt;</span>
 <span class="p">}</span>
 </code></pre></div>
 <h3 id="merge-task">Merge Task</h3>
@@ -183,12 +183,12 @@ If rollup is disabled as part of ingestion, common timestamps are not merged and
 <p>The grammar is:</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
     <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;merge&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="err">&lt;</span><span class="kc">tas</span><span class="err">k_id&gt;</span><span class="p">,</span>
-    <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="err">&lt;</span><span class="kc">tas</span><span class="err">k_da</span><span class="kc">tas</span><span class="err">ource&gt;</span><span class="p">,</span>
-    <span class="nt">&quot;aggregations&quot;</span><span class="p">:</span> <span class="err">&lt;lis</span><span class="kc">t</span> <span class="err">o</span><span class="kc">f</span> <span class="err">aggrega</span><span class="kc">t</span><span class="err">ors&gt;</span><span class="p">,</span>
-    <span class="nt">&quot;rollup&quot;</span><span class="p">:</span> <span class="err">&lt;whe</span><span class="kc">t</span><span class="err">her</span> <span class="err">or</span> <span class="kc">n</span><span class="err">o</span><span class="kc">t</span> <span class="kc">t</span><span class="err">o</span> <span class="err">rollup</span> <span class="err">da</span><span class="kc">ta</span> <span class="err">duri</span><span class="kc">n</span><span class="err">g</span> <span class="err">a</span> <span class="err">merge&gt;</span><span class="p">,</span>
-    <span class="nt">&quot;segments&quot;</span><span class="p">:</span> <span class="err">&lt;JSON</span> <span class="err">lis</span><span class="kc">t</span> <span class="err">o</span><span class="kc">f</span> <span class="err">Da</span><span class="kc">ta</span><span class="err">Segme</span><span class="kc">nt</span> <span class="err">objec</span><span class="kc">ts</span> <span class="kc">t</span><span class="err">o</span> <span class="err">merge&gt;</span><span class="p">,</span>
-    <span class="nt">&quot;context&quot;</span><span class="p">:</span> <span class="err">&lt;</span><span class="kc">tas</span><span class="err">k</span> <span class="err">co</span><span class="kc">nte</span><span class="err">x</span><span class="kc">t</span><span class="err">&gt;</span>
+    <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="err">&lt;task_id&gt;</span><span class="p">,</span>
+    <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="err">&lt;task_datasource&gt;</span><span class="p">,</span>
+    <span class="nt">&quot;aggregations&quot;</span><span class="p">:</span> <span class="err">&lt;list</span> <span class="err">of</span> <span class="err">aggregators&gt;</span><span class="p">,</span>
+    <span class="nt">&quot;rollup&quot;</span><span class="p">:</span> <span class="err">&lt;whether</span> <span class="err">or</span> <span class="err">not</span> <span class="err">to</span> <span class="err">rollup</span> <span class="err">data</span> <span class="err">during</span> <span class="err">a</span> <span class="err">merge&gt;</span><span class="p">,</span>
+    <span class="nt">&quot;segments&quot;</span><span class="p">:</span> <span class="err">&lt;JSON</span> <span class="err">list</span> <span class="err">of</span> <span class="err">DataSegment</span> <span class="err">objects</span> <span class="err">to</span> <span class="err">merge&gt;</span><span class="p">,</span>
+    <span class="nt">&quot;context&quot;</span><span class="p">:</span> <span class="err">&lt;task</span> <span class="err">context&gt;</span>
 <span class="p">}</span>
 </code></pre></div>
 <h3 id="same-interval-merge-task">Same Interval Merge Task</h3>
@@ -198,12 +198,12 @@ If rollup is disabled as part of ingestion, common timestamps are not merged and
 <p>The grammar is:</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
     <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;same_interval_merge&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="err">&lt;</span><span class="kc">tas</span><span class="err">k_id&gt;</span><span class="p">,</span>
-    <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="err">&lt;</span><span class="kc">tas</span><span class="err">k_da</span><span class="kc">tas</span><span class="err">ource&gt;</span><span class="p">,</span>
-    <span class="nt">&quot;aggregations&quot;</span><span class="p">:</span> <span class="err">&lt;lis</span><span class="kc">t</span> <span class="err">o</span><span class="kc">f</span> <span class="err">aggrega</span><span class="kc">t</span><span class="err">ors&gt;</span><span class="p">,</span>
-    <span class="nt">&quot;rollup&quot;</span><span class="p">:</span> <span class="err">&lt;whe</span><span class="kc">t</span><span class="err">her</span> <span class="err">or</span> <span class="kc">n</span><span class="err">o</span><span class="kc">t</span> <span class="kc">t</span><span class="err">o</span> <span class="err">rollup</span> <span class="err">da</span><span class="kc">ta</span> <span class="err">duri</span><span class="kc">n</span><span class="err">g</span> <span class="err">a</span> <span class="err">merge&gt;</span><span class="p">,</span>
-    <span class="nt">&quot;interval&quot;</span><span class="p">:</span> <span class="err">&lt;Da</span><span class="kc">ta</span><span class="err">Segme</span><span class="kc">nt</span> <span class="err">objec</span><span class="kc">ts</span> <span class="err">i</span><span class="kc">n</span> <span class="kc">t</span><span class="err">his</span> <span class="err">i</span><span class="kc">nter</span><span class="err">val</span> <span class="err">are</span> <span class="err">goi</span><span class="kc">n</span><span class="err">g</span> <span class="kc">t</span><span class="err">o</span> <span class="err">be</span> <span class="err">merged&gt;</span><span class="p">,</span>
-    <span class="nt">&quot;context&quot;</span><span class="p">:</span> <span class="err">&lt;</span><span class="kc">tas</span><span class="err">k</span> <span class="err">co</span><span class="kc">nte</span><span class="err">x</span><span class="kc">t</span><span class="err">&gt;</span>
+    <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="err">&lt;task_id&gt;</span><span class="p">,</span>
+    <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="err">&lt;task_datasource&gt;</span><span class="p">,</span>
+    <span class="nt">&quot;aggregations&quot;</span><span class="p">:</span> <span class="err">&lt;list</span> <span class="err">of</span> <span class="err">aggregators&gt;</span><span class="p">,</span>
+    <span class="nt">&quot;rollup&quot;</span><span class="p">:</span> <span class="err">&lt;whether</span> <span class="err">or</span> <span class="err">not</span> <span class="err">to</span> <span class="err">rollup</span> <span class="err">data</span> <span class="err">during</span> <span class="err">a</span> <span class="err">merge&gt;</span><span class="p">,</span>
+    <span class="nt">&quot;interval&quot;</span><span class="p">:</span> <span class="err">&lt;DataSegment</span> <span class="err">objects</span> <span class="err">in</span> <span class="err">this</span> <span class="err">interval</span> <span class="err">are</span> <span class="err">going</span> <span class="err">to</span> <span class="err">be</span> <span class="err">merged&gt;</span><span class="p">,</span>
+    <span class="nt">&quot;context&quot;</span><span class="p">:</span> <span class="err">&lt;task</span> <span class="err">context&gt;</span>
 <span class="p">}</span>
 </code></pre></div>
         </div>

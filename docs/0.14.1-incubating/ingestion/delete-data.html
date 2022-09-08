@@ -121,7 +121,7 @@
       
 
       
-      <p> Looking for the <a href="/docs/0.22.1/">latest stable documentation</a>?</p>
+      <p> Looking for the <a href="/docs/0.23.0/">latest stable documentation</a>?</p>
       
 
       <div class="row">
@@ -168,10 +168,10 @@
 <p>Kill tasks delete all information about a segment and removes it from deep storage. Killable segments must be disabled (used==0) in the Druid segment table. The available grammar is:</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
     <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;kill&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="err">&lt;</span><span class="kc">tas</span><span class="err">k_id&gt;</span><span class="p">,</span>
-    <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="err">&lt;</span><span class="kc">tas</span><span class="err">k_da</span><span class="kc">tas</span><span class="err">ource&gt;</span><span class="p">,</span>
-    <span class="nt">&quot;interval&quot;</span> <span class="p">:</span> <span class="err">&lt;all_segme</span><span class="kc">nts</span><span class="err">_i</span><span class="kc">n</span><span class="err">_</span><span class="kc">t</span><span class="err">his_i</span><span class="kc">nter</span><span class="err">val_will_die!&gt;</span><span class="p">,</span>
-    <span class="nt">&quot;context&quot;</span><span class="p">:</span> <span class="err">&lt;</span><span class="kc">tas</span><span class="err">k</span> <span class="err">co</span><span class="kc">nte</span><span class="err">x</span><span class="kc">t</span><span class="err">&gt;</span>
+    <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="err">&lt;task_id&gt;</span><span class="p">,</span>
+    <span class="nt">&quot;dataSource&quot;</span><span class="p">:</span> <span class="err">&lt;task_datasource&gt;</span><span class="p">,</span>
+    <span class="nt">&quot;interval&quot;</span> <span class="p">:</span> <span class="err">&lt;all_segments_in_this_interval_will_die!&gt;</span><span class="p">,</span>
+    <span class="nt">&quot;context&quot;</span><span class="p">:</span> <span class="err">&lt;task</span> <span class="err">context&gt;</span>
 <span class="p">}</span>
 </code></pre></div>
         </div>

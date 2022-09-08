@@ -121,7 +121,7 @@
       
 
       
-      <p> Looking for the <a href="/docs/0.22.1/">latest stable documentation</a>?</p>
+      <p> Looking for the <a href="/docs/0.23.0/">latest stable documentation</a>?</p>
       
 
       <div class="row">
@@ -177,12 +177,12 @@ of resulting values when sorting results (this can be useful for topN queries fo
 </ul>
 
 <p>The grammar for an arithmetic post aggregation is:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="err">pos</span><span class="kc">t</span><span class="err">Aggrega</span><span class="kc">t</span><span class="err">io</span><span class="kc">n</span> <span class="p">:</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="err">postAggregation</span> <span class="err">:</span> <span class="p">{</span>
   <span class="nt">&quot;type&quot;</span>  <span class="p">:</span> <span class="s2">&quot;arithmetic&quot;</span><span class="p">,</span>
-  <span class="nt">&quot;name&quot;</span>  <span class="p">:</span> <span class="err">&lt;ou</span><span class="kc">t</span><span class="err">pu</span><span class="kc">t</span><span class="err">_</span><span class="kc">na</span><span class="err">me&gt;</span><span class="p">,</span>
-  <span class="nt">&quot;fn&quot;</span>    <span class="p">:</span> <span class="err">&lt;ari</span><span class="kc">t</span><span class="err">hme</span><span class="kc">t</span><span class="err">ic_</span><span class="kc">fun</span><span class="err">c</span><span class="kc">t</span><span class="err">io</span><span class="kc">n</span><span class="err">&gt;</span><span class="p">,</span>
-  <span class="nt">&quot;fields&quot;</span><span class="p">:</span> <span class="p">[</span><span class="err">&lt;pos</span><span class="kc">t</span><span class="err">_aggrega</span><span class="kc">t</span><span class="err">or&gt;</span><span class="p">,</span> <span class="err">&lt;pos</span><span class="kc">t</span><span class="err">_aggrega</span><span class="kc">t</span><span class="err">or&gt;</span><span class="p">,</span> <span class="err">...</span><span class="p">],</span>
-  <span class="nt">&quot;ordering&quot;</span> <span class="p">:</span> <span class="err">&lt;</span><span class="kc">null</span> <span class="err">(de</span><span class="kc">fault</span><span class="err">)</span><span class="p">,</span> <span class="err">or</span> <span class="s2">&quot;numericFirst&quot;</span><span class="err">&gt;</span>
+  <span class="nt">&quot;name&quot;</span>  <span class="p">:</span> <span class="err">&lt;output_name&gt;</span><span class="p">,</span>
+  <span class="nt">&quot;fn&quot;</span>    <span class="p">:</span> <span class="err">&lt;arithmetic_function&gt;</span><span class="p">,</span>
+  <span class="nt">&quot;fields&quot;</span><span class="p">:</span> <span class="p">[</span><span class="err">&lt;post_aggregator&gt;</span><span class="p">,</span> <span class="err">&lt;post_aggregator&gt;</span><span class="p">,</span> <span class="err">...</span><span class="p">],</span>
+  <span class="nt">&quot;ordering&quot;</span> <span class="p">:</span> <span class="err">&lt;</span><span class="kc">null</span> <span class="err">(default)</span><span class="p">,</span> <span class="err">or</span> <span class="nt">&quot;numericFirst&quot;</span><span class="err">&gt;</span>
 <span class="p">}</span>
 </code></pre></div>
 <h3 id="field-accessor-post-aggregators">Field accessor post-aggregators</h3>
@@ -193,15 +193,15 @@ of resulting values when sorting results (this can be useful for topN queries fo
 For complex aggregators, like &quot;cardinality&quot; and &quot;hyperUnique&quot;, the <code>type</code> of the post-aggregator determines what
 the post-aggregator will return. Use type &quot;fieldAccess&quot; to return the raw aggregation object, or use type
 &quot;finalizingFieldAccess&quot; to return a finalized value, such as an estimated cardinality.</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;fieldAccess&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="err">&lt;ou</span><span class="kc">t</span><span class="err">pu</span><span class="kc">t</span><span class="err">_</span><span class="kc">na</span><span class="err">me&gt;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="err">&lt;aggrega</span><span class="kc">t</span><span class="err">or_</span><span class="kc">na</span><span class="err">me&gt;</span> <span class="p">}</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;fieldAccess&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="err">&lt;output_name&gt;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="err">&lt;aggregator_name&gt;</span> <span class="p">}</span>
 </code></pre></div>
 <p>or</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;finalizingFieldAccess&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="err">&lt;ou</span><span class="kc">t</span><span class="err">pu</span><span class="kc">t</span><span class="err">_</span><span class="kc">na</span><span class="err">me&gt;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="err">&lt;aggrega</span><span class="kc">t</span><span class="err">or_</span><span class="kc">na</span><span class="err">me&gt;</span> <span class="p">}</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span> <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;finalizingFieldAccess&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="err">&lt;output_name&gt;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="err">&lt;aggregator_name&gt;</span> <span class="p">}</span>
 </code></pre></div>
 <h3 id="constant-post-aggregator">Constant post-aggregator</h3>
 
 <p>The constant post-aggregator always returns the specified value.</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span> <span class="nt">&quot;type&quot;</span>  <span class="p">:</span> <span class="s2">&quot;constant&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span>  <span class="p">:</span> <span class="err">&lt;ou</span><span class="kc">t</span><span class="err">pu</span><span class="kc">t</span><span class="err">_</span><span class="kc">na</span><span class="err">me&gt;</span><span class="p">,</span> <span class="nt">&quot;value&quot;</span> <span class="p">:</span> <span class="err">&lt;</span><span class="kc">nu</span><span class="err">merical_value&gt;</span> <span class="p">}</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span> <span class="nt">&quot;type&quot;</span>  <span class="p">:</span> <span class="s2">&quot;constant&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span>  <span class="p">:</span> <span class="err">&lt;output_name&gt;</span><span class="p">,</span> <span class="nt">&quot;value&quot;</span> <span class="p">:</span> <span class="err">&lt;numerical_value&gt;</span> <span class="p">}</span>
 </code></pre></div>
 <h3 id="greatest-least-post-aggregators">Greatest / Least post-aggregators</h3>
 
@@ -216,18 +216,18 @@ SQL <a href="https://dev.mysql.com/doc/refman/5.7/en/group-by-functions.html#fun
 <p>Example:</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;type&quot;</span>  <span class="p">:</span> <span class="s2">&quot;doubleGreatest&quot;</span><span class="p">,</span>
-  <span class="nt">&quot;name&quot;</span>  <span class="p">:</span> <span class="err">&lt;ou</span><span class="kc">t</span><span class="err">pu</span><span class="kc">t</span><span class="err">_</span><span class="kc">na</span><span class="err">me&gt;</span><span class="p">,</span>
-  <span class="nt">&quot;fields&quot;</span><span class="p">:</span> <span class="p">[</span><span class="err">&lt;pos</span><span class="kc">t</span><span class="err">_aggrega</span><span class="kc">t</span><span class="err">or&gt;</span><span class="p">,</span> <span class="err">&lt;pos</span><span class="kc">t</span><span class="err">_aggrega</span><span class="kc">t</span><span class="err">or&gt;</span><span class="p">,</span> <span class="err">...</span><span class="p">]</span>
+  <span class="nt">&quot;name&quot;</span>  <span class="p">:</span> <span class="err">&lt;output_name&gt;</span><span class="p">,</span>
+  <span class="nt">&quot;fields&quot;</span><span class="p">:</span> <span class="p">[</span><span class="err">&lt;post_aggregator&gt;</span><span class="p">,</span> <span class="err">&lt;post_aggregator&gt;</span><span class="p">,</span> <span class="err">...</span><span class="p">]</span>
 <span class="p">}</span>
 </code></pre></div>
 <h3 id="javascript-post-aggregator">JavaScript post-aggregator</h3>
 
 <p>Applies the provided JavaScript function to the given fields. Fields are passed as arguments to the JavaScript function in the given order.</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="err">pos</span><span class="kc">t</span><span class="err">Aggrega</span><span class="kc">t</span><span class="err">io</span><span class="kc">n</span> <span class="p">:</span> <span class="p">{</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="err">postAggregation</span> <span class="err">:</span> <span class="p">{</span>
   <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;javascript&quot;</span><span class="p">,</span>
-  <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="err">&lt;ou</span><span class="kc">t</span><span class="err">pu</span><span class="kc">t</span><span class="err">_</span><span class="kc">na</span><span class="err">me&gt;</span><span class="p">,</span>
-  <span class="nt">&quot;fieldNames&quot;</span> <span class="p">:</span> <span class="p">[</span><span class="err">&lt;aggrega</span><span class="kc">t</span><span class="err">or_</span><span class="kc">na</span><span class="err">me&gt;</span><span class="p">,</span> <span class="err">&lt;aggrega</span><span class="kc">t</span><span class="err">or_</span><span class="kc">na</span><span class="err">me&gt;</span><span class="p">,</span> <span class="err">...</span><span class="p">],</span>
-  <span class="nt">&quot;function&quot;</span><span class="p">:</span> <span class="err">&lt;javascrip</span><span class="kc">t</span> <span class="kc">fun</span><span class="err">c</span><span class="kc">t</span><span class="err">io</span><span class="kc">n</span><span class="err">&gt;</span>
+  <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="err">&lt;output_name&gt;</span><span class="p">,</span>
+  <span class="nt">&quot;fieldNames&quot;</span> <span class="p">:</span> <span class="p">[</span><span class="err">&lt;aggregator_name&gt;</span><span class="p">,</span> <span class="err">&lt;aggregator_name&gt;</span><span class="p">,</span> <span class="err">...</span><span class="p">],</span>
+  <span class="nt">&quot;function&quot;</span><span class="p">:</span> <span class="err">&lt;javascript</span> <span class="err">function&gt;</span>
 <span class="p">}</span>
 </code></pre></div>
 <p>Example JavaScript aggregator:</p>
@@ -247,16 +247,16 @@ JavaScript-based functionality is disabled by default. Please refer to the Druid
 <p>The hyperUniqueCardinality post aggregator is used to wrap a hyperUnique object such that it can be used in post aggregations.</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
   <span class="nt">&quot;type&quot;</span>  <span class="p">:</span> <span class="s2">&quot;hyperUniqueCardinality&quot;</span><span class="p">,</span>
-  <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="err">&lt;ou</span><span class="kc">t</span><span class="err">pu</span><span class="kc">t</span> <span class="kc">na</span><span class="err">me&gt;</span><span class="p">,</span>
-  <span class="nt">&quot;fieldName&quot;</span>  <span class="p">:</span> <span class="err">&lt;</span><span class="kc">t</span><span class="err">he</span> <span class="kc">na</span><span class="err">me</span> <span class="kc">f</span><span class="err">ield</span> <span class="err">value</span> <span class="err">o</span><span class="kc">f</span> <span class="kc">t</span><span class="err">he</span> <span class="err">hyperU</span><span class="kc">n</span><span class="err">ique</span> <span class="err">aggrega</span><span class="kc">t</span><span class="err">or&gt;</span>
+  <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="err">&lt;output</span> <span class="err">name&gt;</span><span class="p">,</span>
+  <span class="nt">&quot;fieldName&quot;</span>  <span class="p">:</span> <span class="err">&lt;the</span> <span class="err">name</span> <span class="err">field</span> <span class="err">value</span> <span class="err">of</span> <span class="err">the</span> <span class="err">hyperUnique</span> <span class="err">aggregator&gt;</span>
 <span class="p">}</span>
 </code></pre></div>
 <p>It can be used in a sample calculation as so:</p>
-<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span>  <span class="nt">&quot;aggregations&quot;</span> <span class="p">:</span> <span class="p">[{</span>
-    <span class="p">{</span><span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;count&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;rows&quot;</span><span class="p">},</span>
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span></span>  <span class="s2">&quot;aggregations&quot;</span> <span class="err">:</span> <span class="p">[{</span>
+    <span class="err">{</span><span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;count&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;rows&quot;</span><span class="p">},</span>
     <span class="p">{</span><span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;hyperUnique&quot;</span><span class="p">,</span> <span class="nt">&quot;name&quot;</span> <span class="p">:</span> <span class="s2">&quot;unique_users&quot;</span><span class="p">,</span> <span class="nt">&quot;fieldName&quot;</span> <span class="p">:</span> <span class="s2">&quot;uniques&quot;</span><span class="p">}</span>
-  <span class="p">}],</span>
-  <span class="nt">&quot;postAggregations&quot;</span> <span class="p">:</span> <span class="p">[{</span>
+  <span class="err">}</span><span class="p">]</span><span class="err">,</span>
+  <span class="s2">&quot;postAggregations&quot;</span> <span class="err">:</span> <span class="p">[{</span>
     <span class="nt">&quot;type&quot;</span>   <span class="p">:</span> <span class="s2">&quot;arithmetic&quot;</span><span class="p">,</span>
     <span class="nt">&quot;name&quot;</span>   <span class="p">:</span> <span class="s2">&quot;average_users_per_row&quot;</span><span class="p">,</span>
     <span class="nt">&quot;fn&quot;</span>     <span class="p">:</span> <span class="s2">&quot;/&quot;</span><span class="p">,</span>

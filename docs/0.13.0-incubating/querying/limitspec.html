@@ -121,7 +121,7 @@
       
 
       
-      <p> Looking for the <a href="/docs/0.22.1/">latest stable documentation</a>?</p>
+      <p> Looking for the <a href="/docs/0.23.0/">latest stable documentation</a>?</p>
       
 
       <div class="row">
@@ -157,8 +157,8 @@
 <p>The default limit spec takes a limit and the list of columns to do an orderBy operation over. The grammar is:</p>
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
     <span class="nt">&quot;type&quot;</span>    <span class="p">:</span> <span class="s2">&quot;default&quot;</span><span class="p">,</span>
-    <span class="nt">&quot;limit&quot;</span>   <span class="p">:</span> <span class="err">&lt;i</span><span class="kc">nte</span><span class="err">ger_value&gt;</span><span class="p">,</span>
-    <span class="nt">&quot;columns&quot;</span> <span class="p">:</span> <span class="p">[</span><span class="err">lis</span><span class="kc">t</span> <span class="err">o</span><span class="kc">f</span> <span class="err">OrderByColum</span><span class="kc">n</span><span class="err">Spec</span><span class="p">],</span>
+    <span class="nt">&quot;limit&quot;</span>   <span class="p">:</span> <span class="err">&lt;integer_value&gt;</span><span class="p">,</span>
+    <span class="nt">&quot;columns&quot;</span> <span class="p">:</span> <span class="p">[</span><span class="err">list</span> <span class="err">of</span> <span class="err">OrderByColumnSpec</span><span class="p">],</span>
 <span class="p">}</span>
 </code></pre></div>
 <h4 id="orderbycolumnspec">OrderByColumnSpec</h4>
@@ -167,7 +167,7 @@
 <div class="highlight"><pre><code class="language-json" data-lang="json"><span></span><span class="p">{</span>
     <span class="nt">&quot;dimension&quot;</span> <span class="p">:</span> <span class="s2">&quot;&lt;Any dimension or metric name&gt;&quot;</span><span class="p">,</span>
     <span class="nt">&quot;direction&quot;</span> <span class="p">:</span> <span class="err">&lt;</span><span class="s2">&quot;ascending&quot;</span><span class="err">|</span><span class="s2">&quot;descending&quot;</span><span class="err">&gt;</span><span class="p">,</span>
-    <span class="nt">&quot;dimensionOrder&quot;</span> <span class="p">:</span> <span class="err">&lt;</span><span class="s2">&quot;lexicographic&quot;</span><span class="err">(de</span><span class="kc">fault</span><span class="err">)|</span><span class="s2">&quot;alphanumeric&quot;</span><span class="err">|</span><span class="s2">&quot;strlen&quot;</span><span class="err">|</span><span class="s2">&quot;numeric&quot;</span><span class="err">&gt;</span>
+    <span class="nt">&quot;dimensionOrder&quot;</span> <span class="p">:</span> <span class="err">&lt;</span><span class="s2">&quot;lexicographic&quot;</span><span class="err">(default)|</span><span class="s2">&quot;alphanumeric&quot;</span><span class="err">|</span><span class="s2">&quot;strlen&quot;</span><span class="err">|</span><span class="s2">&quot;numeric&quot;</span><span class="err">&gt;</span>
 <span class="p">}</span>
 </code></pre></div>
 <p>If only the dimension is provided (as a JSON string), the default order-by is ascending with lexicographic sorting.</p>
