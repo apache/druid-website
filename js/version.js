@@ -28,18 +28,17 @@ Used by
 
 const Releases = [
   {
+    version: "27.0.0",
+    date: "Aug 10 2023",
+  },
+  {
     version: "26.0.0",
     date: "May 23 2023",
   },
   {
     version: "25.0.0",
     date: "Jan 4 2023",
-  },
-  {
-    version: "24.0.2",
-    date: "Dec 21 2022",
   }
-
   ]
 
   module.exports.Releases = Releases;
