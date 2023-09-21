@@ -36,9 +36,10 @@ const Releases = [
     date: "May 23 2023",
   },
   {
-    version: "25.0.0",
+    version: "25.0.2",
     date: "Jan 4 2023",
   }
+
   ]
 
   module.exports.Releases = Releases;
