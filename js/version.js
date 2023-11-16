@@ -24,7 +24,6 @@ Used by
  * limitations under the License.
  */
 
- 
 
 const Releases = [
   {
@@ -38,12 +37,7 @@ const Releases = [
   {
     version: "26.0.0",
     date: "May 23 2023",
-  },
-  {
-    version: "25.0.2",
-    date: "Jan 4 2023",
   }
+]
 
-  ]
-
-  module.exports.Releases = Releases;
+module.exports.Releases = Releases;
