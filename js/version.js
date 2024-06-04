@@ -28,7 +28,7 @@ Used by
 const Releases = [
   {
     version: "30.0.0",
-    date: "May 28 2023",
+    date: "June 4 2023",
   },
   {
     version: "29.0.1",
