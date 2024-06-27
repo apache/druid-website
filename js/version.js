@@ -28,7 +28,7 @@ Used by
 const Releases = [
   {
     version: "30.0.0",
-    date: "June 6 2023",
+    date: "Jun 17 2024",
   },
   {
     version: "29.0.1",
@@ -37,7 +37,7 @@ const Releases = [
   {
     version: "28.0.1",
     date: "Dec 20 2023",
-  },
+  }
 ]
 
 module.exports.Releases = Releases;
