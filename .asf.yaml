@@ -1,8 +1,0 @@
-# Staging and publishing profile for druid-website.git:
-
-staging:
-  profile: ~
-  whoami:  asf-staging
-
-publish:
-  whoami:  asf-site
