@@ -27,17 +27,17 @@ Used by
 
 const Releases = [
   {
-    version: "30.0.0",
-    date: "June 4 2023",
+    version: "32.0.0",
+    date: "Jan 29 2025",
   },
   {
-    version: "29.0.1",
-    date: "Apr 3 2024",
+    version: "31.0.1",
+    date: "Dec 24 2024",
   },
   {
-    version: "28.0.1",
-    date: "Dec 20 2023",
-  },
+    version: "30.0.1",
+    date: "Sep 17 2024",
+  }
 ]
 
 module.exports.Releases = Releases;

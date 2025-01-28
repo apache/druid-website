@@ -23,6 +23,41 @@ Used by ContentWidget.js in index.js to display the first 5 entries from the top
  
 
 export const Content = [
+   {
+    "date": "2024-09-04",
+    "title": "APIs, Analytics, and Apache Druid: How Kong Delivers API Observability and Insights",
+    "name": "Reena Leone",
+    "link": "https://imply.io/podcast/apis-analytics-apache-druid-kong-api-observability-insights-hiroshi-fukada/",
+    "company": "Imply"
+  },
+ {
+    "date": "2024-09-22",
+    "title": "Druid Data Cookbook: Flattening Arrays of Complex Objects",
+    "name": "Hellmar Becker",
+    "link": "https://blog.hellmar-becker.de/2024/09/22/druid-data-cookbook-flattening-arrays-of-complex-objects/",
+    "company": "Imply"
+  },
+  {
+    "date": "2024-06-17",
+    "title": "Using Spectator Histogram and DDSketch for Advanced Statistical Analysis",
+    "name": "Reena Leone",
+    "link": "https://imply.io/blog/community-spotlight-using-netflix-spectator-histogram-kongs-ddsketch-apache-druid-advanced-statistical-analysis/",
+    "company": "Imply"
+  },
+  {
+    "date": "2024-04-29",
+    "title": "Monitoring Apache Druid in Grafana",
+    "name": "Beata Zawiślak",
+    "link": "https://www.deep.bi/blog/monitoring-apache-druid-in-grafana",
+    "company": "Deep.BI"
+  },
+  {
+    "date": "2024-03-29",
+    "title": "Getting up to Speed on Druid’s Performance, Ecosystem, and SQL Compliance",
+    "name": "Reena Leone",
+    "link": "https://imply.io/podcast/apache-druid-29-getting-up-to-speed-performance-ecosystem-sql-compliance-sergio-ferragut/",
+    "company": "Imply"
+  },
   {
     "date": "2023-11-25",
     "title": "Druid Data Cookbook: Upserts in Druid SQL",
